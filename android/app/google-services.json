@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "245946510584",
+    "project_id": "honorsapp-c4fe2",
+    "storage_bucket": "honorsapp-c4fe2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245946510584:android:c5842ceec7b0d7b4d11f0d",
+        "android_client_info": {
+          "package_name": "com.example.honors_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245946510584-8ldj83r06a3taemcudsv8m0q6s0va4sk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.honors_app",
+            "certificate_hash": "725518611200b74cc36113e69a0124e5694f8fd4"
+          }
+        },
+        {
+          "client_id": "245946510584-lvhuk89l9gl33lis48g892asv4621rcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOyW3buT7yM3fQBdXd86rBu7WmjqncyJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245946510584-lvhuk89l9gl33lis48g892asv4621rcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
