@@ -27,4 +27,8 @@ class AppText {
   static const String btUpdate = 'CẬP NHẬT';
   static const String deleteCoreValue =
       'Bạn có chắc chắn xóa giá trị cốt lõi này?';
+  static const String selectCoreValue = 'Giá trị cốt lõi';
+  static const String contentHornors = 'Nội dung vinh danh';
+  static const String coreHornors = 'Điểm vinh danh';
+  static const String workspaces = 'Workspaces';
 }

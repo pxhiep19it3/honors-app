@@ -10,8 +10,10 @@ class SentEmailScreen extends StatelessWidget {
   const SentEmailScreen({
     super.key,
     required this.users,
+    required this.isFirst
   });
   final List<String> users;
+  final bool isFirst;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -60,13 +62,13 @@ class SentEmailScreen extends StatelessWidget {
                   }),
             ),
             const Spacer(),
-            BacsicButton(
+         isFirst ?   BacsicButton(
                 onPressed: () {
                   continute(context);
                 },
                 label: AppText.btContinute,
                 width: width * 0.85,
-                primary: false),
+                primary: false) : Container(),
             const SizedBox(
               height: 50,
             )

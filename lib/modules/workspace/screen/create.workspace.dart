@@ -104,6 +104,6 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
 
   void continute(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const AddUserScreen()));
+        context, MaterialPageRoute(builder: (_) => const AddUserScreen(isFirst: true,)));
   }
 }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 
+import '../get.hornors/screen/get.hornors.screen.dart';
+import '../home/screen/home.screen.dart';
+import '../profile/screen/profile.screen.dart';
+import '../set.hornors/screen/set.hornors.screen.dart';
+
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 
@@ -18,27 +23,34 @@ class _BottomNavigationState extends State<BottomNavigation> {
           icon: Icon(Icons.favorite), label: 'Được vinh danh'),
       BottomNavigationBarItem(
           icon: Icon(Icons.insert_emoticon_sharp), label: 'Đã vinh danh'),
+      BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Thống kê'),
       BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle), label: 'Cá nhân'),
+          icon: Icon(Icons.account_circle), label: 'Thông tin'),
     ];
 
     getPage() {
       switch (_selectedIndex) {
         case 0:
           {
-            return const Text('1');
+            return const HomeScreen();
           }
         case 1:
           {
-            return const Text('2');
+            return const GetHornorsScreen();
           }
         case 2:
           {
-            return const Text('3');
+            return const SetHornorsScreen();
           }
         case 3:
           {
-            return const Text('4');
+            return const Center(
+              child: Text('Thống kê'),
+            );
+          }
+        case 4:
+          {
+            return const ProfileScreen();
           }
       }
     }
