@@ -9,8 +9,8 @@ import 'package:honors_app/modules/workspace/widget/area.user.dart';
 import '../widget/text.input.dart';
 
 class AddUserScreen extends StatefulWidget {
-  const AddUserScreen({super.key});
-
+  const AddUserScreen({super.key,  required this.isFirst});
+    final bool isFirst;
   @override
   State<AddUserScreen> createState() => _AddUserScreenState();
 }
@@ -86,6 +86,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
         MaterialPageRoute(
             builder: (_) => SentEmailScreen(
                   users: users,
+                  isFirst: widget.isFirst,
                 )));
   }
 }

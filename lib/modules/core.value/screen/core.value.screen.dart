@@ -7,6 +7,7 @@ import 'package:honors_app/modules/core.value/widget/add.core.value.dart';
 import 'package:honors_app/modules/core.value/widget/delete.core.value.dart';
 
 import '../../../common/widgets/basic.button.dart';
+import '../widget/core.value.item.dart';
 import '../widget/score.setting.dart';
 
 class CoreValueScreen extends StatelessWidget {
@@ -45,26 +46,11 @@ class CoreValueScreen extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColor.gray,
-                          ),
-                          child: ListTile(
-                              onTap: () {
-                                onTap(context, 'Tiêu đề');
-                              },
-                              leading: const Text('Lorem ipsum dolor sit amet'),
-                              trailing: IconButton(
-                                  onPressed: () {
-                                    delete(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.remove_circle,
-                                    color: Colors.red,
-                                  )))),
+                      child: CoreValueItem(
+                        onTap: () {
+                          onTap(context, 'Giá trị cối lõi');
+                        },
+                      ),
                     );
                   }),
             ),
@@ -109,7 +95,14 @@ class CoreValueScreen extends StatelessWidget {
   }
 
   void onTap(BuildContext context, String title) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (_) => DetailCoreValue(title: title)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => DetailCoreValue(
+                  title: title,
+                  delete: () {
+                    delete(context);
+                  },
+                )));
   }
 }
