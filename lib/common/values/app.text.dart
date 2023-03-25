@@ -7,9 +7,7 @@ class AppText {
   static const String btCreateNew = 'TẠO MỚI';
   static const String btJoin = 'Tham gia';
   static const String titleCreateWorkspace = 'Tạo workspace';
-  static const String titleWorkspace = 'Tên công ty hoặc nhóm của bạn?';
-  static const String desWorkspace =
-      'Đây sẽ là tên không gian làm việc của bạn';
+  static const String titleWorkspace = 'Thông tin cơ bản doanh nghiệp của bạn';
   static const String btContinute = 'TIẾP TỤC';
   static const String titleAddUser = 'Thêm người dùng';
   static const String btSendEmail = 'GỬI EMAIL';

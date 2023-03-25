@@ -21,7 +21,7 @@ class TextInput extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return value;
