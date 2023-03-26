@@ -1,4 +1,4 @@
-package com.example.honors_app
+package vn.doitsolutions.honors_app
 
 import io.flutter.embedding.android.FlutterActivity
 
