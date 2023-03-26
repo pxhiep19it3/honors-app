@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "245946510584",
-    "project_id": "honorsapp-c4fe2",
-    "storage_bucket": "honorsapp-c4fe2.appspot.com"
+    "project_number": "825852441532",
+    "project_id": "app-vinh-danh",
+    "storage_bucket": "app-vinh-danh.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:245946510584:android:c5842ceec7b0d7b4d11f0d",
+        "mobilesdk_app_id": "1:825852441532:android:d058b6f05554b5f3c471b9",
         "android_client_info": {
-          "package_name": "com.example.honors_app"
+          "package_name": "vn.doitsolutions.honors_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "245946510584-8ldj83r06a3taemcudsv8m0q6s0va4sk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.honors_app",
-            "certificate_hash": "725518611200b74cc36113e69a0124e5694f8fd4"
-          }
-        },
-        {
-          "client_id": "245946510584-lvhuk89l9gl33lis48g892asv4621rcl.apps.googleusercontent.com",
+          "client_id": "825852441532-rrmnma7smn3id4tcjsmikv3c7r50a3ue.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDOyW3buT7yM3fQBdXd86rBu7WmjqncyJ4"
+          "current_key": "AIzaSyDGJ9tBi-Xa7lyReZKN0KmlAc91JGaKeck"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "245946510584-lvhuk89l9gl33lis48g892asv4621rcl.apps.googleusercontent.com",
+              "client_id": "825852441532-rrmnma7smn3id4tcjsmikv3c7r50a3ue.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

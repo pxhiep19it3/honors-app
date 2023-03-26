@@ -1,9 +1,9 @@
 class AppText {
-  static const String nameApp = 'Honors App';
+  static const String nameApp = 'VINH DANH';
   static const String desApp =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum dictum tempus, interdum at dignissim metus. Ultricies sed nunc.';
+      'Vinh danh là một hình thức tôn vinh, kính trọng một người hoặc một sự kiện, thường được thực hiện để giữ lại kỷ niệm và tôn vinh những thành tựu, phẩm chất, đóng góp hoặc nỗ lực đặc biệt';
   static const String btStart = 'BẮT ĐẦU';
-  static const String btLogin = 'Sign in with Google';
+  static const String btLogin = 'Đăng nhập với Google';
   static const String btCreateNew = 'TẠO MỚI';
   static const String btJoin = 'Tham gia';
   static const String titleCreateWorkspace = 'Tạo workspace';
