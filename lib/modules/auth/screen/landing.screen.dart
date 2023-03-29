@@ -32,13 +32,16 @@ class LandingScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              AppText.desApp,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: AppColor.secondary,
-                  fontWeight: FontWeight.w100),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                AppText.desApp,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: AppColor.secondary,
+                    fontWeight: FontWeight.w100),
+              ),
             ),
             const Spacer(),
             BacsicButton(

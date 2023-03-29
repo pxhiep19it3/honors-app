@@ -35,9 +35,13 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                Image.asset(AppImage.testLogo),
+                Image.asset(
+                  AppImage.testLogo,
+                  width: 100,
+                  height: 100,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -48,9 +52,6 @@ class ProfileScreen extends StatelessWidget {
                       color: AppColor.secondary,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 const Text(
                   'hiepphan197420@gmail.com',
                   textAlign: TextAlign.center,
@@ -59,14 +60,10 @@ class ProfileScreen extends StatelessWidget {
                       color: AppColor.secondary,
                       fontWeight: FontWeight.w100),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
               ],
             ),
           ),
-          const ProfileItem(),
-          const Text('Phiên bản: 1.0.0')
+          const Expanded(child: ProfileItem()),
         ],
       ),
     );

@@ -13,7 +13,12 @@ class JobDropButton extends StatefulWidget {
 
 class _JobDropButtonState extends State<JobDropButton> {
   String dropdownValue = '';
-  List<String> list = ['Công nhệ thông tin', 'Maketing', 'Kinh doanh'];
+  List<String> list = [
+    'Chọn lĩnh vực hoạt động',
+    'Công nhệ thông tin',
+    'Maketing',
+    'Kinh doanh'
+  ];
   @override
   void initState() {
     super.initState();
