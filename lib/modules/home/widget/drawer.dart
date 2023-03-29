@@ -18,7 +18,7 @@ class DrawerHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: height * 0.55,
+            height: height * 0.5,
             child: Column(
               children: const [
                 SizedBox(

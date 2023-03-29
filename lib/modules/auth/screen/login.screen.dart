@@ -33,13 +33,16 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              AppText.desApp,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: AppColor.secondary,
-                  fontWeight: FontWeight.w100),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                AppText.desApp,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: AppColor.secondary,
+                    fontWeight: FontWeight.w100),
+              ),
             ),
             const Spacer(),
             LoginButton(
@@ -47,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                   start(context);
                 },
                 label: AppText.btLogin,
-                width: width * 0.85),
+                width: width),
             const SizedBox(
               height: 50,
             )

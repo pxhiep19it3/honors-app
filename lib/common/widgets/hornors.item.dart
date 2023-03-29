@@ -73,9 +73,6 @@ class HonorsItems extends StatelessWidget {
           height: 2,
           color: Colors.black,
         ),
-        const SizedBox(
-          height: 10,
-        ),
       ],
     );
   }
