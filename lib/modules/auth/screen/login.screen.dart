@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
             return Scaffold(
               backgroundColor: AppColor.primary,
-              body: Center(
+              body: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
