@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/common/values/app.images.dart';
@@ -6,7 +7,8 @@ import 'package:honors_app/common/widgets/basic.button.dart';
 import 'package:honors_app/modules/workspace/screen/create.workspace.dart';
 
 class LoginedScreen extends StatelessWidget {
-  const LoginedScreen({super.key});
+  const LoginedScreen({super.key, required this.user});
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,11 @@ class LoginedScreen extends StatelessWidget {
             const SizedBox(
               height: 150,
             ),
-            Image.asset(AppImage.testLogo),
+            Image.asset(user.photoURL ?? ''),
             const SizedBox(height: 20),
-            const Text(
-              'Phan Xuân Hiệp',
-              style: TextStyle(
+            Text(
+              user.displayName ?? '',
+              style: const TextStyle(
                   fontSize: 25,
                   color: AppColor.secondary,
                   fontWeight: FontWeight.bold),
@@ -32,10 +34,10 @@ class LoginedScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'hiepphan197420@gmail.com',
+            Text(
+              user.email ?? '',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 16,
                   color: AppColor.secondary,
                   fontWeight: FontWeight.w100),
