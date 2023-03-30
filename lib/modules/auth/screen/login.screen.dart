@@ -4,8 +4,6 @@ import 'package:honors_app/common/values/app.images.dart';
 import 'package:honors_app/common/values/app.text.dart';
 import 'package:honors_app/modules/auth/widget/button.login.dart';
 import 'package:provider/provider.dart';
-
-import '../../../service/auth/auth.service.dart';
 import '../provider/auth.provider.dart';
 import 'logineds.screen.dart';
 
@@ -31,62 +29,58 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const LoginedScreen()),
+                      builder: (context) =>  LoginedScreen(user: _authModel.user!,)),
                   (Route<dynamic> route) => false,
                 );
               }
             });
             return Scaffold(
               backgroundColor: AppColor.primary,
-              body: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 150,
-                    ),
-                    Image.asset(AppImage.logo),
-                    const SizedBox(height: 40),
-                    const Text(
-                      AppText.nameApp,
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 150,
+                  ),
+                  Image.asset(AppImage.logo),
+                  const SizedBox(height: 40),
+                  const Text(
+                    AppText.nameApp,
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: AppColor.secondary,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      AppText.desApp,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 16,
                           color: AppColor.secondary,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w100),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Text(
-                        AppText.desApp,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: AppColor.secondary,
-                            fontWeight: FontWeight.w100),
-                      ),
-                    ),
-                    const Spacer(),
-                    LoginButton(
-                        onPressed: () {
-                          login(context);
-                        },
-                        label: AppText.btLogin,
-                        width: width),
-                    const SizedBox(
-                      height: 50,
-                    )
-                  ],
-                ),
+                  ),
+                  const Spacer(),
+                  LoginButton(
+                      onPressed: login,
+                      label: AppText.btLogin,
+                      width: width),
+                  const SizedBox(
+                    height: 50,
+                  )
+                ],
               ),
             );
           })),
     );
   }
 
-  void login(BuildContext context) {
-    Authentication.signInWithGoogle(context: context);
+  void login() {
+    _authModel.signInWithGoogle();
   }
 }
