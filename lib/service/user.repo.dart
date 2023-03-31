@@ -22,12 +22,11 @@ class UserRepo {
   }
 
   Future<void> addUser(
-      String displayName, String email, String photoUrl, String id) async {
+      String displayName, String email, String photoUrl) async {
     userFisebase.add(({
       'displayName': displayName,
       'email': email,
       'photoUrl': photoUrl,
-      'uID': id
     }));
   }
 }

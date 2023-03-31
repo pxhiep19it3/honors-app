@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:honors_app/common/values/app.colors.dart';
-import 'package:honors_app/common/values/app.images.dart';
 import 'package:honors_app/common/values/app.text.dart';
 import 'package:honors_app/common/widgets/basic.button.dart';
+import 'package:honors_app/modules/auth/screen/login.screen.dart';
 import 'package:honors_app/modules/workspace/screen/create.workspace.dart';
+
+import '../../workspace/screen/group.joined.screen.dart';
 
 class LoginedScreen extends StatelessWidget {
   const LoginedScreen({super.key, required this.user});
@@ -48,7 +51,7 @@ class LoginedScreen extends StatelessWidget {
             const Spacer(),
             BacsicButton(
                 onPressed: () {
-                  create(context);
+                  create(context, user.email ?? '');
                 },
                 label: AppText.btCreateNew,
                 width: width * 0.85,
@@ -57,13 +60,26 @@ class LoginedScreen extends StatelessWidget {
               height: 10,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  join(context, user.email ?? '');
+                },
                 child: const Text(
                   AppText.btJoin,
                   style: TextStyle(
                       color: AppColor.secondary,
-                      fontSize: 18,
+                      fontSize: 20,
                       decoration: TextDecoration.underline),
+                )),
+            TextButton(
+                onPressed: () {
+                  logout(context);
+                },
+                child: const Text(
+                  'Chọn tài khoản khác',
+                  style: TextStyle(
+                    color: AppColor.secondary,
+                    fontSize: 15,
+                  ),
                 )),
             const SizedBox(
               height: 80,
@@ -74,8 +90,33 @@ class LoginedScreen extends StatelessWidget {
     );
   }
 
-  void create(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const CreateWorkspaceScreen()));
+  void join(BuildContext context, String emailMember) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const  GroupJoined()));
+  }
+
+  void create(BuildContext context, String admin) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CreateWorkspaceScreen(
+                admin: admin,
+                user: user,
+              )),
+      (Route<dynamic> route) => false,
+    );
+  }
+
+  void logout(BuildContext context) async {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (Route<dynamic> route) => false,
+    );
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
+    await FirebaseAuth.instance.signOut();
   }
 }

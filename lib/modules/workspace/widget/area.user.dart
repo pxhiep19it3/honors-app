@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 
 class AreaUser extends StatelessWidget {
-  const AreaUser({
-    super.key,
-    required this.width,
-    required this.users,
-  });
+  const AreaUser(
+      {super.key,
+      required this.width,
+      required this.users,
+      required this.provider});
   final double width;
   final List<String> users;
+  final WorkspaceProvider provider;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,11 @@ class AreaUser extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  InkWell(onTap: () {}, child: const Icon(Icons.remove_circle))
+                  InkWell(
+                      onTap: () {
+                        provider.removeMember(index);
+                      },
+                      child: const Icon(Icons.remove_circle))
                 ],
               ),
             );

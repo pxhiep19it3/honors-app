@@ -7,11 +7,8 @@ import 'package:honors_app/modules/core.value/screen/core.value.screen.dart';
 import '../../../common/widgets/basic.button.dart';
 
 class SentEmailScreen extends StatelessWidget {
-  const SentEmailScreen({
-    super.key,
-    required this.users,
-    required this.isFirst
-  });
+  const SentEmailScreen(
+      {super.key, required this.users, required this.isFirst});
   final List<String> users;
   final bool isFirst;
   @override
@@ -21,6 +18,7 @@ class SentEmailScreen extends StatelessWidget {
       backgroundColor: AppColor.secondary,
       appBar: AppBar(
         backgroundColor: AppColor.primary,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
@@ -40,7 +38,7 @@ class SentEmailScreen extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.2),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.1),
               child: ListView.builder(
                   itemCount: users.length,
                   shrinkWrap: true,
@@ -51,10 +49,12 @@ class SentEmailScreen extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          users[index],
-                          style: const TextStyle(
-                            fontSize: 18,
+                        Expanded(
+                          child: Text(
+                            users[index],
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ],
@@ -62,13 +62,15 @@ class SentEmailScreen extends StatelessWidget {
                   }),
             ),
             const Spacer(),
-         isFirst ?   BacsicButton(
-                onPressed: () {
-                  continute(context);
-                },
-                label: AppText.btContinute,
-                width: width * 0.85,
-                primary: false) : Container(),
+            isFirst
+                ? BacsicButton(
+                    onPressed: () {
+                      continute(context);
+                    },
+                    label: AppText.btContinute,
+                    width: width * 0.85,
+                    primary: false)
+                : Container(),
             const SizedBox(
               height: 50,
             )
@@ -83,7 +85,6 @@ class SentEmailScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
-                  isFirst: true,
-                )));
+                isFirst: true, automaticallyImplyLeading: false)));
   }
 }

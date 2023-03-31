@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../workspace/screen/add.user.screen.dart';
 
 class GroupScreen extends StatelessWidget {
   const GroupScreen({super.key, required this.title});
@@ -58,12 +57,12 @@ class GroupScreen extends StatelessWidget {
   }
 
   void addUser(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const AddUserScreen(
-                  isFirst: false,
-                )));
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (_) => const AddUserScreen(
+    //               isFirst: false,
+    //             )));
   }
 
   void trailing(BuildContext context) {

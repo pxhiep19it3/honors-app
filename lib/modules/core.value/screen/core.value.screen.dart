@@ -11,8 +11,9 @@ import '../widget/core.value.item.dart';
 import '../widget/score.setting.dart';
 
 class CoreValueScreen extends StatelessWidget {
-  const CoreValueScreen({super.key, required this.isFirst});
+  const CoreValueScreen({super.key, required this.isFirst, required this.automaticallyImplyLeading});
   final bool isFirst;
+  final bool automaticallyImplyLeading;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -20,6 +21,7 @@ class CoreValueScreen extends StatelessWidget {
       backgroundColor: AppColor.secondary,
       appBar: AppBar(
         backgroundColor: AppColor.primary,
+        automaticallyImplyLeading: automaticallyImplyLeading,
         centerTitle: true,
         title: const Text(AppText.titleCoreValue),
         actions: [
