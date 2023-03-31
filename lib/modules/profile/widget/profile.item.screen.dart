@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
+import '../../workspace/screen/group.joined.screen.dart';
 import '../screen/group.screen.dart';
-import '../screen/group.joined.screen.dart';
 
 class ProfileItem extends StatelessWidget {
   const ProfileItem({super.key});
@@ -75,8 +75,7 @@ class ProfileItem extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
-                  isFirst: false,
-                )));
+                isFirst: false, automaticallyImplyLeading: true)));
   }
 
   void groupJoined(BuildContext context) {

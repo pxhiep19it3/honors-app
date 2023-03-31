@@ -26,12 +26,11 @@ class _LoginScreenState extends State<LoginScreen> {
           Consumer<AuthModel>(builder: (context, model, child) {
             Future.delayed(Duration.zero, () {
               if (_authModel.user != null) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>  LoginedScreen(user: _authModel.user!,)),
-                  (Route<dynamic> route) => false,
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            LoginedScreen(user: _authModel.user!)));
               }
             });
             return Scaffold(
@@ -67,9 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const Spacer(),
                   LoginButton(
-                      onPressed: login,
-                      label: AppText.btLogin,
-                      width: width),
+                      onPressed: login, label: AppText.btLogin, width: width),
                   const SizedBox(
                     height: 50,
                   )
@@ -80,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login() {
+  void login() async {
     _authModel.signInWithGoogle();
   }
 }

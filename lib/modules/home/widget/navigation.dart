@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/modules/core.value/screen/core.value.screen.dart';
-import 'package:honors_app/modules/profile/screen/group.screen.dart';
 
 import '../../auth/screen/login.screen.dart';
+import '../../profile/screen/group.screen.dart';
+
 
 class NavigationItems extends StatelessWidget {
   const NavigationItems({super.key});
@@ -66,8 +67,7 @@ class NavigationItems extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
-                  isFirst: false,
-                )));
+                isFirst: false, automaticallyImplyLeading: true)));
   }
 
   void logout(BuildContext context) {

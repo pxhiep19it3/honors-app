@@ -1,113 +1,150 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:honors_app/modules/workspace/screen/add.user.screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 import '../../../common/widgets/basic.button.dart';
+import '../../auth/screen/logineds.screen.dart';
 import '../widget/check.box.dart';
 import '../widget/inline.text.button.dart';
 import '../widget/select.job.dart';
 import '../widget/text.input.dart';
 
 class CreateWorkspaceScreen extends StatefulWidget {
-  const CreateWorkspaceScreen({super.key});
-
+  const CreateWorkspaceScreen({super.key, required this.admin, this.user});
+  final String admin;
+  final User? user;
   @override
   State<CreateWorkspaceScreen> createState() => _CreateWorkspaceScreenState();
 }
 
 class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
-  TextEditingController controller = TextEditingController();
   bool isCheck = false;
+  final WorkspaceProvider _workspaceProvider = WorkspaceProvider();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: AppColor.secondary,
-      appBar: AppBar(
-        title: const Text(AppText.titleCreateWorkspace),
-        centerTitle: true,
-        backgroundColor: AppColor.primary,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  AppText.titleWorkspace,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: AppColor.black,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextInput(
-                  controller: controller,
-                  width: width,
-                  label: 'Tên doanh nghiệp',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextInput(
-                  controller: controller,
-                  width: width,
-                  label: 'Địa chỉ',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                JobDropButton(width: width),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    CheckBox(
-                      isCheck: isCheck,
-                      onpress: setCheck,
+    return ChangeNotifierProvider<WorkspaceProvider>(
+      create: ((context) => _workspaceProvider),
+      builder: ((context, child) =>
+          Consumer<WorkspaceProvider>(builder: (context, model, child) {
+            return Scaffold(
+              backgroundColor: AppColor.secondary,
+              appBar: AppBar(
+                title: const Text(AppText.titleCreateWorkspace),
+                centerTitle: true,
+                backgroundColor: AppColor.primary,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginedScreen(
+                                  user: widget.user!,
+                                )),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back)),
+              ),
+              body: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            AppText.titleWorkspace,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: AppColor.black,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          TextInput(
+                            controller: model.nameWorkspaceCtl,
+                            width: width,
+                            label: 'Tên doanh nghiệp',
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextInput(
+                            controller: model.addressCtl,
+                            width: width,
+                            label: 'Địa chỉ',
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          JobDropButton(
+                            width: width,
+                            provider: model,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              CheckBox(
+                                isCheck: isCheck,
+                                onpress: setCheck,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                'Đồng ý',
+                                style: TextStyle(
+                                    fontSize: 15, color: AppColor.black),
+                              ),
+                              InlineTextButton(
+                                  text: ' Chính sách', function: () {}),
+                              const Text(
+                                ' và ',
+                                style: TextStyle(
+                                    fontSize: 15, color: AppColor.black),
+                              ),
+                              InlineTextButton(
+                                  text: 'Quyền riêng tư', function: () {}),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          BacsicButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate() &&
+                                  isCheck) {
+                                continute(model, widget.admin);
+                              } else {
+                                showErro();
+                              }
+                            },
+                            label: AppText.btContinute,
+                            width: width * 0.85,
+                            primary: false,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      'Đồng ý',
-                      style: TextStyle(fontSize: 15, color: AppColor.black),
-                    ),
-                    InlineTextButton(text: ' Chính sách', function: () {}),
-                    const Text(
-                      ' và ',
-                      style: TextStyle(fontSize: 15, color: AppColor.black),
-                    ),
-                    InlineTextButton(text: 'Quyền riêng tư', function: () {}),
-                  ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                BacsicButton(
-                  onPressed: () {
-                    continute(context);
-                  },
-                  label: AppText.btContinute,
-                  width: width * 0.85,
-                  primary: false,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          })),
     );
   }
 
@@ -117,12 +154,25 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
     });
   }
 
-  void continute(BuildContext context) {
+  void continute(WorkspaceProvider model, String admin) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => const AddUserScreen(
+            builder: (_) => AddUserScreen(
                   isFirst: true,
+                  admin: admin,
+                  provider: model,
                 )));
+  }
+
+  void showErro() {
+    final snackBar = SnackBar(
+      content: const Text('Đồng ý Chính sách và Quyền riêng tư!'),
+      action: SnackBarAction(
+        label: '',
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
