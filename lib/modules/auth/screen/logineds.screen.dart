@@ -22,7 +22,10 @@ class LoginedScreen extends StatelessWidget {
             const SizedBox(
               height: 150,
             ),
-            Image.asset(user.photoURL ?? ''),
+            CircleAvatar(
+              radius: 110,
+              backgroundImage: NetworkImage(user.photoURL ?? ''),
+            ),
             const SizedBox(height: 20),
             Text(
               user.displayName ?? '',
