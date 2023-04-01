@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/widgets/basic.text.dart';
+import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 
 class AddCoreValue extends StatelessWidget {
-  const AddCoreValue({super.key});
-
+  const AddCoreValue({super.key, required this.provider});
+  final CoreValueProvider provider;
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
     return AlertDialog(
       backgroundColor: AppColor.gray,
       title: const Center(
@@ -33,7 +33,7 @@ class AddCoreValue extends StatelessWidget {
                 height: 10,
               ),
               BasicText(
-                controller: controller,
+                controller: provider.titleCtl,
                 isContent: false,
               ),
               const SizedBox(
@@ -46,7 +46,7 @@ class AddCoreValue extends StatelessWidget {
                 height: 10,
               ),
               BasicText(
-                controller: controller,
+                controller: provider.contentCtl,
                 isContent: true,
               )
             ],
@@ -62,7 +62,10 @@ class AddCoreValue extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Thêm'),
+          onPressed: () {
+            provider.addCoreValue();
+            Navigator.pop(context, 'Thêm');
+          },
           child: const Text(
             'Thêm',
             style: TextStyle(color: AppColor.primary),

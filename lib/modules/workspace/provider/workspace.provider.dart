@@ -35,12 +35,6 @@ class WorkspaceProvider extends ChangeNotifier {
   String? _emailLogin;
   String? get emailLogin => _emailLogin;
 
-  List<String> _listMemberOut = [];
-  List<String> get listMemberOut => _listMemberOut;
-
-  String? _newAdmin;
-  String? get newAdmin => _newAdmin;
-
   setCareer(String? value) {
     if (value == 'Chọn lĩnh vực hoạt động') {
       _career = 'Khác';
@@ -61,7 +55,9 @@ class WorkspaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createWorkspace(String admin, WorkspaceProvider workspace) {
+  createWorkspace(String admin, WorkspaceProvider workspace) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('workspace', workspace.nameWorkspaceCtl.text);
     _workspaceRepo.createWorkspace(admin, workspace, listMember);
     notifyListeners();
   }

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 
 import '../../../common/values/app.text.dart';
+import '../../../models/core.value.dart';
 
 class DeleteCoreValue extends StatelessWidget {
-  const DeleteCoreValue({super.key, required this.title});
-  final String title;
+  const DeleteCoreValue({
+    super.key,
+    required this.item,
+    required this.model,
+  });
+  final CoreValue item;
+  final CoreValueProvider model;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -20,7 +27,7 @@ class DeleteCoreValue extends StatelessWidget {
         height: 100,
         child: Center(
             child: Text(
-          title,
+          item.title ?? '',
           textAlign: TextAlign.center,
           style: const TextStyle(color: AppColor.primary),
         )),
@@ -34,7 +41,10 @@ class DeleteCoreValue extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Xóa'),
+          onPressed: () {
+            model.deleteCoreValue(item.id ?? '');
+            Navigator.pop(context, 'Xóa');
+          },
           child: const Text(
             'Xóa',
             style: TextStyle(color: AppColor.primary),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/models/core.value.dart';
 
 class CoreValueItem extends StatelessWidget {
-  const CoreValueItem({super.key, required this.onTap});
+  const CoreValueItem({super.key, required this.onTap, required this.item});
   final VoidCallback onTap;
+  final CoreValue item;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -12,21 +14,20 @@ class CoreValueItem extends StatelessWidget {
         InkWell(
           onTap: onTap,
           child: RichText(
-            text: const TextSpan(
+            text: TextSpan(
               text: 'Nhóm giá trị: ',
-              style: TextStyle(fontSize: 20, color: Colors.pink),
+              style: const TextStyle(fontSize: 20, color: Colors.pink),
               children: <TextSpan>[
                 TextSpan(
-                    text: 'Chủ động',
-                    style: TextStyle(
+                    text: item.title,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.green)),
-                TextSpan(text: '\nNội dung: '),
+                const TextSpan(text: '\nNội dung: '),
                 TextSpan(
-                    text:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry',
-                    style: TextStyle(
+                    text: item.content,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         letterSpacing: 2,

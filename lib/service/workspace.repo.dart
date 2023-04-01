@@ -40,7 +40,6 @@ class WorkspaceRepo {
       }
     });
     return getWorkspace;
-    ;
   }
 
   Future<void> createWorkspace(String admin, WorkspaceProvider workspace,
