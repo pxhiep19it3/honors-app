@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 
 import '../../../common/values/app.text.dart';
 
 class ScoreSetting extends StatefulWidget {
-  const ScoreSetting({super.key});
+  const ScoreSetting({super.key, required this.model});
+  final CoreValueProvider model;
 
   @override
   State<ScoreSetting> createState() => _ScoreSettingState();
 }
 
 class _ScoreSettingState extends State<ScoreSetting> {
-  RangeValues _currentRangeValues = const RangeValues(1, 10);
+  double? end = 10;
+  RangeValues? _currentRangeValues;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      end = widget.model.listCore[0].score!.toDouble();
+      _currentRangeValues = RangeValues(1, end!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -24,13 +37,13 @@ class _ScoreSettingState extends State<ScoreSetting> {
         child: RangeSlider(
           activeColor: Colors.red,
           inactiveColor: AppColor.primary,
-          values: _currentRangeValues,
+          values: _currentRangeValues!,
           min: 1,
           max: 10,
           divisions: 9,
           labels: RangeLabels(
-            _currentRangeValues.start.round().toString(),
-            _currentRangeValues.end.round().toString(),
+            _currentRangeValues!.start.round().toString(),
+            _currentRangeValues!.end.round().toString(),
           ),
           onChanged: (RangeValues values) {
             setState(() {
@@ -45,7 +58,11 @@ class _ScoreSettingState extends State<ScoreSetting> {
           child: const Text('Thoát', style: TextStyle(color: AppColor.primary)),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Chọn'),
+          onPressed: () {
+            widget.model.updateScore(
+                int.parse(_currentRangeValues!.end.round().toString()));
+            Navigator.pop(context, 'Chọn');
+          },
           child: const Text('Chọn', style: TextStyle(color: AppColor.primary)),
         ),
       ],

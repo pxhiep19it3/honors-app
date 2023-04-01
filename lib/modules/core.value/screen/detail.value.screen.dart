@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/models/core.value.dart';
+import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 import '../../../common/widgets/basic.button.dart';
 import '../../../common/widgets/basic.text.dart';
+import '../widget/delete.core.value.dart';
 
 class DetailCoreValue extends StatelessWidget {
-  const DetailCoreValue({super.key, required this.title, required this.delete});
-  final String title;
-  final VoidCallback delete;
+  const DetailCoreValue({super.key, required this.item, required this.model});
+  final CoreValue item;
+  final CoreValueProvider model;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    TextEditingController cont = TextEditingController(text: 'Tiêu đề');
-    TextEditingController controller = TextEditingController(
-        text:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.');
     return Scaffold(
       backgroundColor: AppColor.secondary,
       appBar: AppBar(
         backgroundColor: AppColor.primary,
         centerTitle: true,
-        title: Text(title),
+        title: Text(item.title ?? ''),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.pop(context);
-                delete();
+                delete(context, model, item);
               },
               icon: const Icon(Icons.delete))
         ],
@@ -38,7 +37,7 @@ class DetailCoreValue extends StatelessWidget {
           child: Column(
             children: [
               BasicText(
-                controller: cont,
+                controller: model.titleCtl,
                 isContent: false,
                 isDetail: true,
               ),
@@ -46,7 +45,7 @@ class DetailCoreValue extends StatelessWidget {
                 height: 20,
               ),
               BasicText(
-                controller: controller,
+                controller: model.contentCtl,
                 height: height * 0.4,
                 isContent: true,
                 isDetail: true,
@@ -55,7 +54,9 @@ class DetailCoreValue extends StatelessWidget {
                 height: 50,
               ),
               BacsicButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    model.update(item.id ?? '');
+                  },
                   label: AppText.btUpdate,
                   width: width,
                   primary: false),
@@ -64,5 +65,12 @@ class DetailCoreValue extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void delete(BuildContext context, CoreValueProvider model, CoreValue item) {
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) =>
+            DeleteCoreValue(item: item, model: model));
   }
 }
