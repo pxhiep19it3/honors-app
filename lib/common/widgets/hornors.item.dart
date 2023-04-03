@@ -16,7 +16,7 @@ class HonorsItems extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: isHome!
-                ? "${hornors!.userSet} "
+                ? "${hornors!.userSet} đã tặng cho "
                 : isGet!
                     ? 'Bạn đã nhận được từ '
                     : 'Bạn đã tặng cho ',

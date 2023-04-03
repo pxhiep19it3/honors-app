@@ -16,6 +16,8 @@ class AuthModel extends ChangeNotifier {
   signInWithGoogle() async {
     _userList = await _userRepo.getUser();
     _user = await Authentication.signInWithGoogle();
+     final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userLogined', _user!.displayName ?? '');
     checkUser();
     notifyListeners();
   }
