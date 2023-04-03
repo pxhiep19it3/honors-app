@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
+import '../../../models/core.value.dart';
 
 class SelectCoreValue extends StatefulWidget {
-  const SelectCoreValue({super.key});
-
+  const SelectCoreValue(
+      {super.key, required this.coreValue, required this.setCoreValue});
+  final List<CoreValue>? coreValue;
+  final Function(String) setCoreValue;
   @override
   State<SelectCoreValue> createState() => _SelectCoreValueState();
 }
 
 class _SelectCoreValueState extends State<SelectCoreValue> {
-  List<String> list = <String>[
-    'Giá trị 1',
-    'Giá trị 2',
-    'Giá trị 3',
-    'Giá trị 4'
-  ];
+  List<String> list = <String>[];
   String dropdownValue = '';
   @override
   void initState() {
     super.initState();
+    for (int i = 0; i < widget.coreValue!.length; i++) {
+      setState(() {
+        list.add(widget.coreValue![i].content ?? '');
+      });
+    }
     setState(() {
       dropdownValue = list[0];
     });
@@ -44,6 +47,7 @@ class _SelectCoreValueState extends State<SelectCoreValue> {
             setState(() {
               dropdownValue = value!;
             });
+            widget.setCoreValue(value!);
           },
           items: list.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../common/values/app.colors.dart';
 import '../../../common/widgets/detail.hornors.dart';
 import '../../../common/widgets/hornors.item.dart';
-import '../widget/hornors.dart';
+
 import '../widget/search.field.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,13 +20,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isSearch = false;
- 
+
   final HomeProvider provider = HomeProvider();
 
   @override
   void initState() {
     super.initState();
-    provider.getHornors(widget.nameWorkspace);
+    provider.init(widget.nameWorkspace);
   }
 
   @override
@@ -66,27 +66,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _body(BuildContext context, HomeProvider model) {
     return !isSearch
-        ? Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: model.listHornors.length,
-                itemBuilder: (BuildContext context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: model.listHornors.isNotEmpty
-                        ? HonorsItems(
-                            hornors: model.listHornors[index],
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          ))),
-          )
+        ? (model.listHornors.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: model.listHornors.length,
+                    itemBuilder: (BuildContext context, index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: HonorsItems(
+                          hornors: model.listHornors[index],
+                        ))),
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ))
         : SearchItem(
-            onTap: () {
-              onSearch(context);
-            },
-            favorite: favorite,
+            onTap: onSearch,
             users: model.listUser,
+            model: model,
           );
   }
 
@@ -96,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onTap(BuildContext context) {
+  void onTap() {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -105,13 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 )));
   }
 
-  void onSearch(BuildContext context) {
+  void onSearch() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const DetailHomeScreen()));
-  }
-
-  void favorite() {
-    showDialog<String>(
-        context: context, builder: (BuildContext context) => const Hornors());
   }
 }

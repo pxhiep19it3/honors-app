@@ -43,7 +43,7 @@ class CoreValueRepo {
   }
 
   Future<void> updateScore(int score, List<String> listID) async {
-    for(int i = 0; i < listID.length; i++){
+    for (int i = 0; i < listID.length; i++) {
       await coreFisebase.doc(listID[i]).update({'score': score});
     }
   }

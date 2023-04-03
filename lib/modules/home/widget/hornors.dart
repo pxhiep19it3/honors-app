@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/widgets/basic.text.dart';
+import 'package:honors_app/models/core.value.dart';
 import 'package:honors_app/modules/home/widget/select.core.value.dart';
+import 'package:honors_app/modules/home/widget/select.score.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 
 class Hornors extends StatelessWidget {
-  const Hornors({super.key});
-
+  const Hornors(
+      {super.key,
+      this.name,
+      this.coreValue,
+      this.setScore,
+      this.setCoreValue,
+      this.controller,
+      this.createHornors});
+  final String? name;
+  final List<CoreValue>? coreValue;
+  final Function(int)? setScore;
+  final Function(String)? setCoreValue;
+  final TextEditingController? controller;
+  final Function(String)? createHornors;
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
     return AlertDialog(
       backgroundColor: AppColor.gray,
-      title: const Center(
+      title: Center(
           child: Text(
-        'Phan Xuân Hiệp',
+        name ?? '',
         textAlign: TextAlign.center,
-        style: TextStyle(color: AppColor.primary),
+        style: const TextStyle(color: AppColor.primary),
       )),
       content: SingleChildScrollView(
         child: SizedBox(
@@ -33,7 +46,8 @@ class Hornors extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const SelectCoreValue(),
+              SelectCoreValue(
+                  coreValue: coreValue, setCoreValue: setCoreValue!),
               const SizedBox(
                 height: 10,
               ),
@@ -43,10 +57,10 @@ class Hornors extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              BasicText(
-                  controller: controller,
-                  isContent: false,
-                  keyboardType: TextInputType.number),
+              SelectScore(
+                score: coreValue![0].score!.toDouble(),
+                setScore: setScore,
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -57,7 +71,7 @@ class Hornors extends StatelessWidget {
                 height: 10,
               ),
               BasicText(
-                controller: controller,
+                controller: controller!,
                 isContent: true,
               )
             ],
@@ -73,7 +87,10 @@ class Hornors extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Vinh danh'),
+          onPressed: () {
+            createHornors!(name ?? '');
+            Navigator.pop(context, 'Vinh danh');
+          },
           child: const Text(
             'Vinh danh',
             style: TextStyle(color: AppColor.primary),

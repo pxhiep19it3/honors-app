@@ -21,11 +21,27 @@ class HornorsRepo {
           workspace: doc['workspace'].toString(),
           userSet: doc['userSet'].toString(),
           userGet: doc['userGet'].toString(),
-          score: int.parse(doc['score'].toString()),
+          time: doc['time'].toString(),
+          score: int.parse(
+            doc['score'].toString(),
+          ),
         ));
       }
     });
     return getHornors;
+  }
+
+  Future<void> createHornors(String content, String coreValue, int score,
+      String userGet, String userSet, String workspace, String time) async {
+    hornorsFisebase.add(({
+      'content': content,
+      'coreValue': coreValue,
+      'score': score,
+      'userGet': userGet,
+      'userSet': userSet,
+      'workspace': workspace,
+      'time': time
+    }));
   }
 
   Future<List<Users>> getUser(String workspace) async {
