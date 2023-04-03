@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
-import '../../workspace/screen/group.joined.screen.dart';
-import '../screen/group.screen.dart';
 
 class ProfileItem extends StatelessWidget {
   const ProfileItem({super.key});
@@ -12,14 +10,12 @@ class ProfileItem extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> listTitle = [
       'Thành viên nhóm',
-      'Nhóm đã tham gia',
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
     ];
     List listIcon = const [
       Icon(Icons.group, color: AppColor.black),
-      Icon(Icons.group_work, color: AppColor.black),
       Icon(Icons.accessibility_new, color: AppColor.black),
       Icon(Icons.chrome_reader_mode, color: AppColor.black),
       Icon(Icons.security, color: AppColor.black),
@@ -56,18 +52,16 @@ class ProfileItem extends StatelessWidget {
     if (listTitle[index] == listTitle[0]) {
       myGroup(context);
     } else if (listTitle[index] == listTitle[1]) {
-      groupJoined(context);
-    } else if (listTitle[index] == listTitle[2]) {
       coreValue(context);
-    } else if (listTitle[index] == listTitle[3]) {
-    } else if (listTitle[index] == listTitle[4]) {}
+    } else if (listTitle[index] == listTitle[2]) {
+    } else if (listTitle[index] == listTitle[3]) {}
   }
 
   void myGroup(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const GroupScreen(title: 'Doit Solution')));
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (_) => const GroupScreen(nameWorkspace: 'Doit Solution', listMember: [],)));
   }
 
   void coreValue(BuildContext context) {
@@ -76,10 +70,5 @@ class ProfileItem extends StatelessWidget {
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
                 isFirst: false, automaticallyImplyLeading: true)));
-  }
-
-  void groupJoined(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const GroupJoined()));
   }
 }

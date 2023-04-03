@@ -66,6 +66,13 @@ class WorkspaceRepo {
   Future<void> outWorkspaceAdmin(String id, String newAdmin) async {
     await workspaceFisebase.doc(id).update({
       'admin': newAdmin,
+      'members': FieldValue.arrayRemove([newAdmin]),
+    });
+  }
+
+    Future<void> deleteMember(String id, String member) async {
+    await workspaceFisebase.doc(id).update({
+      'members': FieldValue.arrayRemove([member]),
     });
   }
 }

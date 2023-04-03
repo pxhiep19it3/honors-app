@@ -66,17 +66,19 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                   itemCount: model.listCore.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CoreValueItem(
-                                        onTap: () {
-                                          model.setValueOnTap(
-                                              model.listCore[index].title ?? '',
-                                              model.listCore[index].content ??
-                                                  '');
-                                          onTap(model.listCore[index], model);
-                                        },
-                                        item: model.listCore[index],
+                                    return InkWell(
+                                      onTap: () {
+                                        model.setValueOnTap(
+                                            model.listCore[index].title ?? '',
+                                            model.listCore[index].content ??
+                                                '');
+                                        onTap(model.listCore[index], model);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CoreValueItem(
+                                          item: model.listCore[index],
+                                        ),
                                       ),
                                     );
                                   }),
@@ -107,7 +109,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                           height: 50,
                                         )
                                       : Container(),
-                                  model.listCore.isEmpty
+                                  model.listCore.isEmpty && widget.isFirst
                                       ? BacsicButton(
                                           onPressed: done,
                                           label: 'BỎ QUA',
@@ -145,7 +147,11 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
 
   void done() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
+        context,
+        MaterialPageRoute(
+            builder: (_) => BottomNavigation(
+                  nameWorkspace: provider.workspace!,
+                )));
   }
 
   void create() {

@@ -3,11 +3,12 @@ import 'package:honors_app/common/values/app.colors.dart';
 
 import '../get.hornors/screen/get.hornors.screen.dart';
 import '../home/screen/home.screen.dart';
-import '../profile/screen/profile.screen.dart';
+import '../setting/screen/setting.screen.dart';
 import '../set.hornors/screen/set.hornors.screen.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+  const BottomNavigation({super.key, required this.nameWorkspace});
+  final String nameWorkspace;
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -32,7 +33,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       switch (_selectedIndex) {
         case 0:
           {
-            return const HomeScreen();
+            return  HomeScreen(nameWorkspace: widget.nameWorkspace,);
           }
         case 1:
           {

@@ -1,25 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/modules/core.value/screen/core.value.screen.dart';
 
 import '../../auth/screen/login.screen.dart';
-import '../../profile/screen/group.screen.dart';
-
 
 class NavigationItems extends StatelessWidget {
-  const NavigationItems({super.key});
-
+  const NavigationItems({super.key, required this.nameWorkspace});
+  final String nameWorkspace;
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [
-      'Thành viên nhóm',
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
       'Đăng xuất'
     ];
     List listIcon = const [
-      Icon(Icons.group, color: AppColor.secondary),
       Icon(Icons.accessibility_new, color: AppColor.secondary),
       Icon(Icons.chrome_reader_mode, color: AppColor.secondary),
       Icon(Icons.security, color: AppColor.secondary),
@@ -45,21 +43,12 @@ class NavigationItems extends StatelessWidget {
 
   void onTap(BuildContext context, List<String> listTitle, int index) {
     if (listTitle[index] == listTitle[0]) {
-      myGroup(context);
-    } else if (listTitle[index] == listTitle[1]) {
       coreValue(context);
+    } else if (listTitle[index] == listTitle[1]) {
     } else if (listTitle[index] == listTitle[2]) {
     } else if (listTitle[index] == listTitle[3]) {
-    } else if (listTitle[index] == listTitle[4]) {
       logout(context);
     }
-  }
-
-  void myGroup(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const GroupScreen(title: 'Doit Solution')));
   }
 
   void coreValue(BuildContext context) {
@@ -70,11 +59,14 @@ class NavigationItems extends StatelessWidget {
                 isFirst: false, automaticallyImplyLeading: true)));
   }
 
-  void logout(BuildContext context) {
+  void logout(BuildContext context) async {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
       (Route<dynamic> route) => false,
     );
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
+    await FirebaseAuth.instance.signOut();
   }
 }

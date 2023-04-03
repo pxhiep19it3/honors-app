@@ -1,48 +1,86 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:provider/provider.dart';
 
-import '../../profile/screen/group.screen.dart';
+import '../../../models/workspace.dart';
+import '../../bottom/bottom.navigation.dart';
+import '../../workspace/provider/workspace.provider.dart';
+import '../../workspace/widget/out.workspace.dart';
 
+class WorkspaceItem extends StatefulWidget {
+  const WorkspaceItem({super.key});
 
-class Workspace extends StatelessWidget {
-  const Workspace({super.key});
+  @override
+  State<WorkspaceItem> createState() => _WorkspaceItemState();
+}
+
+class _WorkspaceItemState extends State<WorkspaceItem> {
+  final WorkspaceProvider _provider = WorkspaceProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    _provider.getWorkspace();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = [
-      'VKU Group',
-      'Doit Solution',
-      'Danang University',
-    ];
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: list.length,
-      itemBuilder: (BuildContext context, index) {
-        return ListTile(
-          onTap: () {},
-          title: Text(
-            list[index],
-            style: const TextStyle(fontSize: 18, color: AppColor.secondary),
-          ),
-          trailing: IconButton(
-              onPressed: () {
-                trailing(context, list[index]);
-              },
-              icon: const Icon(
-                Icons.more_vert,
-                color: AppColor.secondary,
-              )),
-        );
-      },
+    return ChangeNotifierProvider<WorkspaceProvider>(
+      create: ((context) => _provider),
+      builder: (context, child) =>
+          Consumer<WorkspaceProvider>(builder: (context, model, child) {
+        return model.listWorkspace.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: model.listWorkspace.length,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    onTap: () {
+                      onTap(model, index);
+                    },
+                    title: Text(
+                      model.listWorkspace[index].name ?? '',
+                      style: const TextStyle(
+                          fontSize: 18, color: AppColor.secondary),
+                    ),
+                    trailing: IconButton(
+                        onPressed: () {
+                          trailing(model.listWorkspace[index], model);
+                        },
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: AppColor.secondary,
+                        )),
+                  );
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              );
+      }),
     );
   }
 
-  void trailing(BuildContext context, String title) {
+  void onTap(WorkspaceProvider model, int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => BottomNavigation(
+                  nameWorkspace: model.listWorkspace[index].name ?? '',
+                )));
+  }
+
+  void trailing(
+    Workspace workspace,
+    WorkspaceProvider model,
+  ) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 200,
+          height: model.emailLogin == workspace.admin ? 280 : 200,
           color: AppColor.gray,
           child: Center(
             child: Column(
@@ -52,34 +90,51 @@ class Workspace extends StatelessWidget {
                 ListTile(
                   onTap: () {},
                   title: Text(
-                    title,
-                    style: const TextStyle(fontSize: 18, color: AppColor.black),
+                    workspace.name ?? '',
+                    style:
+                        const TextStyle(fontSize: 18, color: AppColor.primary),
                   ),
                 ),
                 ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => GroupScreen(title: title)));
+                  onTap: () async {
+                    await out(workspace, model);
+                    Navigator.pop(context);
                   },
-                  leading: const Icon(Icons.group_add),
-                  title: const Text(
-                    'Thêm thành viên',
-                    style: TextStyle(fontSize: 18, color: AppColor.black),
-                  ),
-                ),
-                ListTile(
-                  onTap: () {},
                   leading: const Icon(Icons.logout),
                   title: const Text(
                     'Rời khỏi',
                     style: TextStyle(fontSize: 18, color: AppColor.black),
                   ),
                 ),
+                model.emailLogin == workspace.admin
+                    ? ListTile(
+                        onTap: () async {
+                          await model.deleteWorkspace(workspace.id ?? '');
+                          Navigator.pop(context);
+                        },
+                        leading: const Icon(Icons.delete),
+                        title: const Text(
+                          'Xóa nhóm',
+                          style: TextStyle(fontSize: 18, color: AppColor.black),
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Future out(Workspace workspace, WorkspaceProvider model) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return OutWorkspace(
+          workspace: workspace,
+          model: model,
+          isAdmin: model.emailLogin == workspace.admin,
         );
       },
     );

@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:honors_app/models/workspace.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../profile/screen/group.screen.dart';
+import '../../bottom/bottom.navigation.dart';
 import '../widget/out.workspace.dart';
 
 class GroupJoined extends StatefulWidget {
@@ -42,7 +44,9 @@ class _GroupJoinedState extends State<GroupJoined> {
                     itemCount: model.listWorkspace.length,
                     itemBuilder: (BuildContext context, index) {
                       return ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          onTap(model, index);
+                        },
                         title: Text(
                           model.listWorkspace[index].name ?? '',
                           style: const TextStyle(
@@ -66,12 +70,24 @@ class _GroupJoinedState extends State<GroupJoined> {
     );
   }
 
-  void trailing(Workspace workspace, WorkspaceProvider model) {
+  void onTap(WorkspaceProvider model, int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => BottomNavigation(
+                  nameWorkspace: model.listWorkspace[index].name ?? '',
+                )));
+  }
+
+  void trailing(
+    Workspace workspace,
+    WorkspaceProvider model,
+  ) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: model.emailLogin == workspace.admin ? 280 : 200,
+          height: model.emailLogin == workspace.admin ? 280 : 150,
           color: AppColor.gray,
           child: Center(
             child: Column(
@@ -79,33 +95,22 @@ class _GroupJoinedState extends State<GroupJoined> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => BottomNavigation(
+                                  nameWorkspace: workspace.name ?? '',
+                                )));
+                  },
                   title: Text(
                     workspace.name ?? '',
                     style: const TextStyle(fontSize: 18, color: AppColor.black),
                   ),
                 ),
                 ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) =>
-                                GroupScreen(title: workspace.name ?? '')));
-                  },
-                  leading: const Icon(Icons.group_add),
-                  title: const Text(
-                    'Thêm thành viên',
-                    style: TextStyle(fontSize: 18, color: AppColor.black),
-                  ),
-                ),
-                ListTile(
                   onTap: () async {
-                    // if (model.emailLogin == workspace.admin) {
-                    //   model.setListMemberOut(workspace.members!);
-                    // }
                     await out(workspace, model);
-                    // ignore: use_build_context_synchronously
                     Navigator.pop(context);
                   },
                   leading: const Icon(Icons.logout),
@@ -117,8 +122,7 @@ class _GroupJoinedState extends State<GroupJoined> {
                 model.emailLogin == workspace.admin
                     ? ListTile(
                         onTap: () async {
-                          await out(workspace, model);
-                          // ignore: use_build_context_synchronously
+                          await model.deleteWorkspace(workspace.id ?? '');
                           Navigator.pop(context);
                         },
                         leading: const Icon(Icons.delete),
