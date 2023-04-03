@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:honors_app/models/workspace.dart';
 import '../../../common/values/app.colors.dart';
 
 class GroupScreen extends StatelessWidget {
-  const GroupScreen({super.key, required this.title});
-  final String title;
+  const GroupScreen({super.key, required this.workspace});
+  final Workspace workspace;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +12,7 @@ class GroupScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColor.primary,
         centerTitle: true,
-        title: Text(title),
+        title: Text(workspace.name ?? ''),
         actions: [
           IconButton(
               onPressed: () {
@@ -25,16 +25,16 @@ class GroupScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 3,
+            itemCount: workspace.members!.length,
             itemBuilder: (BuildContext context, int index) {
               return Column(
                 children: [
                   ListTile(
-                    title: const Text(
-                      'Phan Xuân Hiệp',
-                      style: TextStyle(color: AppColor.black, fontSize: 20),
+                    title: Text(
+                      workspace.members![index],
+                      style:
+                          const TextStyle(color: AppColor.black, fontSize: 18),
                     ),
-                    subtitle: const Text('hiepphan197420@gmail.com'),
                     trailing: IconButton(
                       icon: const Icon(Icons.more_vert),
                       onPressed: () {
@@ -70,7 +70,7 @@ class GroupScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 200,
+          height: 150,
           color: AppColor.gray,
           child: Center(
             child: Column(
@@ -78,12 +78,7 @@ class GroupScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => GroupScreen(title: title)));
-                  },
+                  onTap: () {},
                   leading: const Icon(Icons.compare_arrows_rounded),
                   title: const Text(
                     'Chuyển quyền',

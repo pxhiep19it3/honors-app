@@ -6,8 +6,8 @@ import '../../../common/values/app.text.dart';
 import 'navigation.dart';
 
 class DrawerHome extends StatelessWidget {
-  const DrawerHome({super.key});
-
+  const DrawerHome({super.key, required this.nameWorkspace});
+  final String nameWorkspace;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -18,7 +18,7 @@ class DrawerHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: height * 0.5,
+            height: height * 0.6,
             child: Column(
               children: const [
                 SizedBox(
@@ -31,7 +31,7 @@ class DrawerHome extends StatelessWidget {
                       color: AppColor.secondary,
                       fontWeight: FontWeight.bold),
                 ),
-                Expanded(child: Workspace()),
+                Expanded(child: WorkspaceItem()),
               ],
             ),
           ),
@@ -43,7 +43,9 @@ class DrawerHome extends StatelessWidget {
             thickness: 1,
             color: AppColor.secondary,
           ),
-          const NavigationItems()
+          NavigationItems(
+            nameWorkspace: nameWorkspace,
+          )
         ],
       ),
     );
