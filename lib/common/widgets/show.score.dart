@@ -3,28 +3,29 @@ import 'package:flutter/material.dart';
 import '../values/app.colors.dart';
 
 class ShowScore extends StatelessWidget {
-  const ShowScore({super.key});
-
+  const ShowScore({super.key, this.score, this.number});
+  final int? score;
+  final int? number;
   @override
   Widget build(BuildContext context) {
     return RichText(
-      text: const TextSpan(
+      text:  TextSpan(
           text: '',
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 20,
               color: AppColor.secondary,
               fontWeight: FontWeight.w300),
           children: [
             TextSpan(
-              text: '100',
-              style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold),
+              text: '$score',
+              style:const TextStyle(color: Colors.pink, fontWeight: FontWeight.bold),
             ),
-            TextSpan(text: ' điểm từ '),
+        const    TextSpan(text: ' điểm từ '),
             TextSpan(
-              text: '10',
-              style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold),
+              text: '$number',
+              style: const TextStyle(color: Colors.pink, fontWeight: FontWeight.bold),
             ),
-            TextSpan(text: ' bạn vinh danh'),
+        const    TextSpan(text: ' lượt vinh danh'),
           ]),
     );
   }
