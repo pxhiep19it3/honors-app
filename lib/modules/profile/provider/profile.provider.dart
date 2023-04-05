@@ -1,61 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/models/user.dart';
 import 'package:honors_app/service/get.hornors.repo.dart';
+import 'package:honors_app/service/hornors.repo.dart';
+import 'package:honors_app/service/profile.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../models/core.value.dart';
 import '../../../models/hornors.dart';
 import '../../../service/core.value.repo.dart';
-import '../../../service/hornors.repo.dart';
 
-class GetHornorsProvider extends ChangeNotifier {
-  final GetHornorsRepo _setHornorsRepo = GetHornorsRepo();
-
+class ProfileProvider extends ChangeNotifier {
+  ProfileRepo repo = ProfileRepo();
+  final HornorsRepo _hornorsRepo = HornorsRepo();
+  final GetHornorsRepo _hornors = GetHornorsRepo();
+  final CoreValueRepo _coreValueRepo = CoreValueRepo();
   List<Hornors> _listHornors = [];
   List<Hornors> get listHornors => _listHornors;
-
-  String? _userLogined;
-  String? get userLogined => _userLogined;
-
-  String? _emailLogin;
-  String? get emailLogin => _emailLogin;
-
-  String? _photoURL;
-  String? get photoURL => _photoURL;
-
-  int _score = 0;
-  int get score => _score;
-
-  int? _scoreHornors;
-
   List<CoreValue> _listCoreValue = [];
   List<CoreValue> get listCoreValue => _listCoreValue;
-
-  final CoreValueRepo _coreValueRepo = CoreValueRepo();
-
-  final HornorsRepo _hornorsRepo = HornorsRepo();
+  int? _scoreHornors;
+  int _score = 0;
+  int get score => _score;
+  String? coreValue;
+  String nameWorkspace = '';
+  String? _userLogined;
 
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
-  String? coreValue;
-  String workspace = '';
-
-  getSetHornors(String nameWorkspace) async {
-    final prefs = await SharedPreferences.getInstance();
+  init(Users user, String workspace) async {
     List listScore = [];
-    workspace = nameWorkspace;
-    _userLogined = prefs.getString('userLogined');
-    _emailLogin = prefs.getString('emailLogin');
-    _photoURL = prefs.getString('photoURL');
-    _listHornors =
-        await _setHornorsRepo.getHornors(nameWorkspace, _userLogined ?? '');
+    _listHornors = await _hornors.getHornors(workspace, user.displayName ?? '');
     if (_listHornors.isNotEmpty) {
-      _listCoreValue = await _coreValueRepo.getCoreValue(nameWorkspace);
+      _listCoreValue = await _coreValueRepo.getCoreValue(workspace);
       for (int i = 0; i < _listHornors.length; i++) {
         listScore.add(_listHornors[i].score);
       }
       _score = listScore.reduce((a, b) => a + b);
     }
-
+    nameWorkspace = workspace;
+    _listCoreValue = await _coreValueRepo.getCoreValue(workspace);
     _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
   }
@@ -71,17 +55,18 @@ class GetHornorsProvider extends ChangeNotifier {
   }
 
   createHornors(String userGet) async {
+    final prefs = await SharedPreferences.getInstance();
+    _userLogined = prefs.getString('userLogined');
     DateTime time = DateTime.now();
     await _hornorsRepo.createHornors(
         _contentHornors.text,
         coreValue ?? _listCoreValue[0].title!,
         _scoreHornors ?? _listCoreValue[0].score!,
-        _userLogined ?? '',
         userGet,
-        workspace,
+        _userLogined ?? '',
+        nameWorkspace,
         time.toString());
-    _listHornors =
-        await _setHornorsRepo.getHornors(workspace, _userLogined ?? '');
+    _listHornors = await _hornors.getHornors(nameWorkspace, userGet);
     _contentHornors.clear();
     notifyListeners();
   }

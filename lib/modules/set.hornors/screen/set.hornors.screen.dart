@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
-import '../../home/screen/detail.home.screen.dart';
 import '../../home/widget/hornors.dart';
+import '../../profile/screen/profile.screen.dart';
 import 'detail.Set.hornors.dart';
 
 class SetHornorsScreen extends StatelessWidget {
@@ -45,6 +45,6 @@ class SetHornorsScreen extends StatelessWidget {
 
   void preview(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const DetailHomeScreen()));
+        context, MaterialPageRoute(builder: (_) => const Profile()));
   }
 }

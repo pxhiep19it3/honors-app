@@ -92,23 +92,26 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: model.listHornors.length,
-                      itemBuilder: (BuildContext context, index) => InkWell(
-                            onTap: () {
-                              onTap(model.listHornors[index].userSet ?? '');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: HonorsItems(
-                                isHome: false,
-                                isGet: true,
-                                hornors: model.listHornors[index],
-                              ),
-                            ),
-                          )),
-                ),
+                    child: model.listHornors.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: model.listHornors.length,
+                            itemBuilder: (BuildContext context, index) =>
+                                InkWell(
+                                  onTap: () {
+                                    onTap(
+                                        model.listHornors[index].userSet ?? '');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: HonorsItems(
+                                      isHome: false,
+                                      isGet: true,
+                                      hornors: model.listHornors[index],
+                                    ),
+                                  ),
+                                ))
+                        : Container()),
               ],
             ),
           );

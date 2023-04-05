@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../models/core.value.dart';
 import '../../../models/user.dart';
+import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
 import 'hornors.dart';
 
 class SearchItem extends StatelessWidget {
   const SearchItem(
       {super.key,
-      required this.onTap,
       required this.users,
-      required this.model});
-  final VoidCallback onTap;
+      required this.model,
+      required this.workspace});
   final List<Users> users;
   final HomeProvider model;
+  final String workspace;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -22,12 +22,13 @@ class SearchItem extends StatelessWidget {
           return Column(
             children: [
               ListTile(
-                onTap: onTap,
+                onTap: () {
+                  onTap(context, users[index], workspace);
+                },
                 title: Text(users[index].displayName ?? ''),
                 trailing: IconButton(
                   onPressed: () {
-                    favorite(context, model.listCoreValue,
-                        users[index].displayName ?? '', model);
+                    favorite(context, users[index].displayName ?? '', model);
                   },
                   icon: const Icon(
                     Icons.favorite,
@@ -45,17 +46,22 @@ class SearchItem extends StatelessWidget {
         });
   }
 
-  void favorite(BuildContext context, List<CoreValue> coreValue, String name,
-      HomeProvider model) {
+  void favorite(BuildContext context, String name, HomeProvider model) {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) => Hornors(
-              name: name,
-              coreValue: coreValue,
-              setScore: model.setScore,
-              setCoreValue: model.setCoreValue,
-              controller: model.contentHornors,
-              createHornors: model.createHornors
-            ));
+            name: name,
+            coreValue: model.listCoreValue,
+            setScore: model.setScore,
+            setCoreValue: model.setCoreValue,
+            controller: model.contentHornors,
+            createHornors: model.createHornors));
+  }
+
+  void onTap(BuildContext context, Users user, String workspace) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => Profile(user: user, workspace: workspace)));
   }
 }

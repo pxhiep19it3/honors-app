@@ -20,7 +20,7 @@ class _SelectCoreValueState extends State<SelectCoreValue> {
     super.initState();
     for (int i = 0; i < widget.coreValue!.length; i++) {
       setState(() {
-        list.add(widget.coreValue![i].content ?? '');
+        list.add(widget.coreValue![i].title ?? '');
       });
     }
     setState(() {

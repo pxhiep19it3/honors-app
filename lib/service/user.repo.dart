@@ -11,7 +11,6 @@ class UserRepo {
     await userFisebase.get().then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
         getUser.add(Users(
-          id: doc.id,
           displayName: doc['displayName'].toString(),
           email: doc['email'].toString(),
           photoURL: doc['photoUrl'].toString(),

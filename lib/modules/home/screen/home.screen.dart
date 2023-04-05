@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
-import 'package:honors_app/modules/home/screen/detail.home.screen.dart';
 import 'package:honors_app/modules/home/widget/drawer.dart';
 import 'package:honors_app/modules/home/widget/search.item.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../../common/widgets/detail.hornors.dart';
 import '../../../common/widgets/hornors.item.dart';
 
 import '../widget/search.field.dart';
@@ -68,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return !isSearch
         ? (model.listHornors.isNotEmpty
             ? Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(15.0),
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: model.listHornors.length,
@@ -82,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(),
               ))
         : SearchItem(
-            onTap: onSearch,
             users: model.listUser,
             model: model,
+            workspace: widget.nameWorkspace,
           );
   }
 
@@ -92,19 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isSearch = !isSearch;
     });
-  }
-
-  void onTap() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const DetailHornorsScreen(
-                  title: '',
-                )));
-  }
-
-  void onSearch() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const DetailHomeScreen()));
+    provider.init(widget.nameWorkspace);
   }
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/hornors.dart';
 
-class SetHornorsRepo {
+class GetHornorsRepo {
     final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
 

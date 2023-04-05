@@ -74,4 +74,33 @@ class HornorsRepo {
     }
     return getUser;
   }
+
+  Future<Users> getAdmin(String workspace) async {
+    String? admin;
+    Users getAdmin = Users();
+    await FirebaseFirestore.instance
+        .collection('Workspace')
+        .where("name", isEqualTo: workspace)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        admin = doc['admin'];
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('User')
+        .where('email', isEqualTo: admin)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+     getAdmin =   Users(
+          id: doc.id,
+          displayName: doc['displayName'].toString(),
+          email: doc['email'].toString(),
+          photoURL: doc['photoUrl'].toString(),
+        );
+      }
+    });
+    return getAdmin;
+  }
 }
