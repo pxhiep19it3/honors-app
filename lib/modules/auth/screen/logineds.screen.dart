@@ -94,7 +94,7 @@ class LoginedScreen extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => const  GroupJoined()));
+            builder: (BuildContext context) => const GroupJoined()));
   }
 
   void create(BuildContext context, String admin) {

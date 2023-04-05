@@ -23,7 +23,8 @@ class HonorsItems extends StatelessWidget {
             style: const TextStyle(color: AppColor.black, fontSize: 20),
             children: <TextSpan>[
               TextSpan(
-                  text: hornors!.userGet ?? '',
+                  text:
+                      isGet! ? hornors!.userSet ?? '' : hornors!.userGet ?? '',
                   style: const TextStyle(
                     fontSize: 22,
                     letterSpacing: 2,

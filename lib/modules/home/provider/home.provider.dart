@@ -27,12 +27,29 @@ class HomeProvider extends ChangeNotifier {
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
+  String? _userLogined;
+  String? get userLogined => _userLogined;
+
+  String? _emailLogin;
+  String? get emailLogin => _emailLogin;
+
+  String? _photoURL;
+  String? get photoURL => _photoURL;
+
   int? _score;
   String? coreValue;
   String workspace = '';
+
+  Users _admin = Users();
+
   init(String nameWorkspace) async {
+    final prefs = await SharedPreferences.getInstance();
+    _userLogined = prefs.getString('userLogined');
     _listHornors = await _hornorsRepo.getHornors(nameWorkspace);
+    _admin = await _hornorsRepo.getAdmin(nameWorkspace);
     _userTmp = await _hornorsRepo.getUser(nameWorkspace);
+    _userLogined != _admin.displayName ? _userTmp.add(_admin) : null;
+    _userTmp.removeWhere((element) => element.displayName == _userLogined);
     _listUser = _userTmp;
     _listCoreValue = await _coreValueRepo.getCoreValue(nameWorkspace);
     workspace = nameWorkspace;
@@ -60,19 +77,16 @@ class HomeProvider extends ChangeNotifier {
   }
 
   createHornors(String userGet) async {
-    final prefs = await SharedPreferences.getInstance();
-    String userSet = prefs.getString('userLogined')!;
     DateTime time = DateTime.now();
     await _hornorsRepo.createHornors(
         _contentHornors.text,
         coreValue ?? _listCoreValue[0].title!,
         _score ?? _listCoreValue[0].score!,
-        userSet,
         userGet,
+        _userLogined ?? '',
         workspace,
         time.toString());
     _listHornors = await _hornorsRepo.getHornors(workspace);
-    _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     notifyListeners();
   }
