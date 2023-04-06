@@ -76,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           hornors: model.listHornors[index],
                         ))),
               )
-            : Center(
-                child: Container(),
+            : const Center(
+                child: CircularProgressIndicator(),
               ))
         : SearchItem(
             users: model.listUser,

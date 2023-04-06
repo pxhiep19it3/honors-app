@@ -3,15 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/hornors.dart';
 
 class GetHornorsRepo {
-    final CollectionReference hornorsFisebase =
+  final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
 
   Future<List<Hornors>> getHornors(String workspace, String userGet) async {
     List<Hornors> getHornors = [];
-
     await hornorsFisebase
         .where("workspace", isEqualTo: workspace)
-          .where("userGet", isEqualTo: userGet)
+        .where("userGet", isEqualTo: userGet)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {

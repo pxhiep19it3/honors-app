@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/user.dart';
 import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
-import 'hornors.dart';
+import '../../../common/widgets/hornors.dart';
 
 class SearchItem extends StatelessWidget {
   const SearchItem(

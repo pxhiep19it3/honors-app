@@ -4,7 +4,7 @@ import 'package:honors_app/models/hornors.dart';
 
 class HonorsItems extends StatelessWidget {
   const HonorsItems(
-      {super.key, this.isHome = true, this.isGet = false, this.hornors});
+      {super.key, this.isHome = true, this.isGet = false, required this.hornors});
   final bool? isHome;
   final bool? isGet;
   final Hornors? hornors;
