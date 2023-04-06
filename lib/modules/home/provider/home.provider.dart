@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:honors_app/models/core.value.dart';
 import 'package:honors_app/models/user.dart';
@@ -54,6 +56,17 @@ class HomeProvider extends ChangeNotifier {
     _listCoreValue = await _coreValueRepo.getCoreValue(nameWorkspace);
     workspace = nameWorkspace;
     _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
+    setUser();
+    notifyListeners();
+  }
+
+  setUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> listTMP = [];
+    for (int i = 0; i < _listUser.length; i++) {
+      listTMP.add(jsonEncode(_listUser[i]));
+    }
+    await prefs.setString('listUser', listTMP.toString());
     notifyListeners();
   }
 

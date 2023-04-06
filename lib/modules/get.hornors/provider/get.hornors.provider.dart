@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:honors_app/service/get.hornors.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/core.value.dart';
 import '../../../models/hornors.dart';
+import '../../../models/user.dart';
 import '../../../service/core.value.repo.dart';
-import '../../../service/hornors.repo.dart';
 
 class GetHornorsProvider extends ChangeNotifier {
-  final GetHornorsRepo _setHornorsRepo = GetHornorsRepo();
+  final GetHornorsRepo _getHornorsRepo = GetHornorsRepo();
 
   List<Hornors> _listHornors = [];
   List<Hornors> get listHornors => _listHornors;
@@ -24,30 +26,22 @@ class GetHornorsProvider extends ChangeNotifier {
   int _score = 0;
   int get score => _score;
 
-  int? _scoreHornors;
-
   List<CoreValue> _listCoreValue = [];
   List<CoreValue> get listCoreValue => _listCoreValue;
 
   final CoreValueRepo _coreValueRepo = CoreValueRepo();
 
-  final HornorsRepo _hornorsRepo = HornorsRepo();
-
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
-  String? coreValue;
-  String workspace = '';
-
-  getSetHornors(String nameWorkspace) async {
+  init(String nameWorkspace) async {
     final prefs = await SharedPreferences.getInstance();
     List listScore = [];
-    workspace = nameWorkspace;
     _userLogined = prefs.getString('userLogined');
     _emailLogin = prefs.getString('emailLogin');
     _photoURL = prefs.getString('photoURL');
     _listHornors =
-        await _setHornorsRepo.getHornors(nameWorkspace, _userLogined ?? '');
+        await _getHornorsRepo.getHornors(nameWorkspace, _userLogined ?? '');
     if (_listHornors.isNotEmpty) {
       _listCoreValue = await _coreValueRepo.getCoreValue(nameWorkspace);
       for (int i = 0; i < _listHornors.length; i++) {
@@ -55,34 +49,19 @@ class GetHornorsProvider extends ChangeNotifier {
       }
       _score = listScore.reduce((a, b) => a + b);
     }
-
     _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
   }
 
-  setScore(int value) {
-    _scoreHornors = value;
+  Future<Users> getUser(String userSet) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? list = prefs.getString('listUser');
+    List<dynamic> body = jsonDecode(list!);
+    List<Users> listUser = body.map((e) => Users.fromJson(e)).toList();
+    List<Users> tmp = listUser
+        .where((element) => element.displayName!.contains(userSet))
+        .toList();
     notifyListeners();
-  }
-
-  setCoreValue(String value) {
-    coreValue = value;
-    notifyListeners();
-  }
-
-  createHornors(String userGet) async {
-    DateTime time = DateTime.now();
-    await _hornorsRepo.createHornors(
-        _contentHornors.text,
-        coreValue ?? _listCoreValue[0].title!,
-        _scoreHornors ?? _listCoreValue[0].score!,
-        _userLogined ?? '',
-        userGet,
-        workspace,
-        time.toString());
-    _listHornors =
-        await _setHornorsRepo.getHornors(workspace, _userLogined ?? '');
-    _contentHornors.clear();
-    notifyListeners();
+    return tmp[0];
   }
 }

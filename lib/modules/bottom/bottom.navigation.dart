@@ -41,7 +41,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           }
         case 2:
           {
-            return const SetHornorsScreen();
+            return  SetHornorsScreen(nameWorkspace: widget.nameWorkspace);
           }
         case 3:
           {

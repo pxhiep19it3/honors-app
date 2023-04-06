@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/show.score.dart';
 import '../../../models/user.dart';
-import '../../home/widget/hornors.dart';
+import '../../../common/widgets/hornors.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key, this.user, this.workspace});
+  const Profile({super.key, required this.user, required this.workspace});
   final Users? user;
   final String? workspace;
   @override

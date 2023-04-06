@@ -55,73 +55,69 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                   ],
                 ),
                 body: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Column(
-                    children: [
-                      model.listCore.isNotEmpty
-                          ? Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: model.listCore.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        model.setValueOnTap(
-                                            model.listCore[index].title ?? '',
-                                            model.listCore[index].content ??
-                                                '');
-                                        onTap(model.listCore[index], model);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CoreValueItem(
-                                          item: model.listCore[index],
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            )
-                          : Center(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 200,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: model.listCore.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: model.listCore.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  model.setValueOnTap(
+                                      model.listCore[index].title ?? '',
+                                      model.listCore[index].content ?? '');
+                                  onTap(model.listCore[index], model);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CoreValueItem(
+                                    item: model.listCore[index],
                                   ),
-                                  const Text(
-                                    'Chưa có giá trị cốt lõi nào!',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  TextButton(
-                                      onPressed: create,
-                                      child: const Text(
-                                        'THÊM NGAY',
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          color: AppColor.primary,
-                                          decoration: TextDecoration.underline,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
-                                  model.listCore.isEmpty && widget.isFirst
-                                      ? const SizedBox(
-                                          height: 50,
-                                        )
-                                      : Container(),
-                                  model.listCore.isEmpty && widget.isFirst
-                                      ? BacsicButton(
-                                          onPressed: done,
-                                          label: 'BỎ QUA',
-                                          width: width * 0.85,
-                                          primary: false)
-                                      : Container()
-                                ],
-                              ),
-                            ),
-                    ],
-                  ),
-                ),
+                                ),
+                              );
+                            })
+                        : model.listCore.isEmpty && widget.isFirst
+                            ? Center(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 200,
+                                    ),
+                                    const Text(
+                                      'Chưa có giá trị cốt lõi nào!',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    TextButton(
+                                        onPressed: create,
+                                        child: const Text(
+                                          'THÊM NGAY',
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            color: AppColor.primary,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    model.listCore.isEmpty && widget.isFirst
+                                        ? const SizedBox(
+                                            height: 50,
+                                          )
+                                        : Container(),
+                                    model.listCore.isEmpty && widget.isFirst
+                                        ? BacsicButton(
+                                            onPressed: done,
+                                            label: 'BỎ QUA',
+                                            width: width * 0.85,
+                                            primary: false)
+                                        : Container()
+                                  ],
+                                ),
+                              )
+                            : const Center(
+                                child: CircularProgressIndicator(),
+                              )),
                 floatingActionButton:
                     widget.isFirst && model.listCore.isNotEmpty
                         ? FloatingActionButton(

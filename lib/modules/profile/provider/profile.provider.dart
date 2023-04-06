@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:honors_app/models/user.dart';
 import 'package:honors_app/service/get.hornors.repo.dart';
 import 'package:honors_app/service/hornors.repo.dart';
-import 'package:honors_app/service/profile.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/core.value.dart';
@@ -10,7 +9,6 @@ import '../../../models/hornors.dart';
 import '../../../service/core.value.repo.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  ProfileRepo repo = ProfileRepo();
   final HornorsRepo _hornorsRepo = HornorsRepo();
   final GetHornorsRepo _hornors = GetHornorsRepo();
   final CoreValueRepo _coreValueRepo = CoreValueRepo();

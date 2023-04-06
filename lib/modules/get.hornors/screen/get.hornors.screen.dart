@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../../common/widgets/show.score.dart';
-import '../../home/widget/hornors.dart';
+import '../../../models/user.dart';
+import '../../profile/screen/profile.screen.dart';
 
 class GetHornorsScreen extends StatefulWidget {
   const GetHornorsScreen({super.key, required this.nameWorkspace});
@@ -20,7 +21,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
   @override
   void initState() {
     super.initState();
-    model.getSetHornors(widget.nameWorkspace);
+    model.init(widget.nameWorkspace);
   }
 
   @override
@@ -84,10 +85,12 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      ShowScore(
-                        score: model.score,
-                        number: model.listHornors.length,
-                      ),
+                      model.photoURL != null
+                          ? ShowScore(
+                              score: model.score,
+                              number: model.listHornors.length,
+                            )
+                          : Container()
                     ],
                   ),
                 ),
@@ -98,9 +101,10 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                             itemCount: model.listHornors.length,
                             itemBuilder: (BuildContext context, index) =>
                                 InkWell(
-                                  onTap: () {
-                                    onTap(
+                                  onTap: () async {
+                                    Users u = await model.getUser(
                                         model.listHornors[index].userSet ?? '');
+                                    onTap(u, model);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
@@ -120,15 +124,10 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
     );
   }
 
-  void onTap(String userGet) {
-    showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => Hornors(
-            name: userGet,
-            coreValue: model.listCoreValue,
-            setScore: model.setScore,
-            setCoreValue: model.setCoreValue,
-            controller: model.contentHornors,
-            createHornors: model.createHornors));
+  void onTap(Users u, GetHornorsProvider model) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => Profile(user: u, workspace: widget.nameWorkspace)));
   }
 }

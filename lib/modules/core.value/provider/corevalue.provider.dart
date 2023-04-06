@@ -9,6 +9,7 @@ class CoreValueProvider extends ChangeNotifier {
 
   List<CoreValue> _listCore = [];
   List<CoreValue> get listCore => _listCore;
+
   String? workspace;
 
   TextEditingController _titleCtl = TextEditingController();
@@ -21,7 +22,6 @@ class CoreValueProvider extends ChangeNotifier {
   int get score => _score;
 
   getCoreValue() async {
-    _listCore = [];
     final prefs = await SharedPreferences.getInstance();
     workspace = prefs.getString('workspace');
     _listCore = await _coreValueRepo.getCoreValue(workspace!);
@@ -73,6 +73,7 @@ class CoreValueProvider extends ChangeNotifier {
 
   updateScore(int score) async {
     await _coreValueRepo.updateScore(score, getListID());
+    _listCore = [];
     getCoreValue();
     notifyListeners();
   }

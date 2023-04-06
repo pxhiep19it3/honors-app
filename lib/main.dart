@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/auth/screen/landing.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -14,6 +15,9 @@ void main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => WorkspaceProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => HomeProvider(),
       ),
     ],
     child: const MyApp(),
