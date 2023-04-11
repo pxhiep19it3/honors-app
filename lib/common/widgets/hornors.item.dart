@@ -4,7 +4,10 @@ import 'package:honors_app/models/hornors.dart';
 
 class HonorsItems extends StatelessWidget {
   const HonorsItems(
-      {super.key, this.isHome = true, this.isGet = false, required this.hornors});
+      {super.key,
+      this.isHome = true,
+      this.isGet = false,
+      required this.hornors});
   final bool? isHome;
   final bool? isGet;
   final Hornors? hornors;
@@ -15,13 +18,24 @@ class HonorsItems extends StatelessWidget {
       children: [
         RichText(
           text: TextSpan(
-            text: isHome!
-                ? "${hornors!.userSet} đã tặng cho "
-                : isGet!
-                    ? 'Bạn đã nhận được từ '
-                    : 'Bạn đã tặng cho ',
-            style: const TextStyle(color: AppColor.black, fontSize: 20),
+            text:
+                '${hornors!.time.toString().substring(11, 16)} ${hornors!.time.toString().substring(0, 10)}\n',
+            style: const TextStyle(
+                color: AppColor.secondary,
+                backgroundColor: Colors.blue,
+                fontSize: 12),
             children: <TextSpan>[
+              TextSpan(
+                  text: isHome!
+                      ? "${hornors!.userSet} đã tặng cho "
+                      : isGet!
+                          ? 'Bạn đã nhận được từ '
+                          : 'Bạn đã tặng cho ',
+                  style: const TextStyle(
+                    color: AppColor.black,
+                    fontSize: 20,
+                    backgroundColor: Colors.transparent,
+                  )),
               TextSpan(
                   text:
                       isGet! ? hornors!.userSet ?? '' : hornors!.userGet ?? '',
@@ -36,6 +50,7 @@ class HonorsItems extends StatelessWidget {
                   text: '  ',
                   style: TextStyle(
                     fontSize: 22,
+                    backgroundColor: Colors.transparent,
                   )),
               TextSpan(
                   text: ' ${hornors!.score} điểm vinh danh ',
@@ -49,15 +64,22 @@ class HonorsItems extends StatelessWidget {
                   text: ' - nhóm giá trị ',
                   style: TextStyle(
                     fontSize: 20,
+                    color: AppColor.black,
+                    backgroundColor: Colors.transparent,
                   )),
               TextSpan(
                   text: ' ${hornors!.coreValue}, ',
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+                      backgroundColor: Colors.transparent,
+                      fontSize: 20,
+                      color: AppColor.black,
+                      fontWeight: FontWeight.bold)),
               const TextSpan(
                   text: '\nvới nội dung:  ',
                   style: TextStyle(
                     fontSize: 20,
+                    color: AppColor.black,
+                    backgroundColor: Colors.transparent,
                   )),
               TextSpan(
                   text: '\n${hornors!.content}  ',
@@ -66,6 +88,7 @@ class HonorsItems extends StatelessWidget {
                     color: AppColor.primary,
                     letterSpacing: 2,
                     wordSpacing: 2,
+                    backgroundColor: Colors.transparent,
                   )),
             ],
           ),
