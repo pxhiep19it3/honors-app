@@ -57,7 +57,7 @@ class WorkspaceProvider extends ChangeNotifier {
 
   createWorkspace(String admin, WorkspaceProvider workspace) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('workspace', workspace.nameWorkspaceCtl.text);
+    await prefs.setString('nameWorkspace', workspace.nameWorkspaceCtl.text);
     _workspaceRepo.createWorkspace(admin, workspace, listMember);
     notifyListeners();
   }
@@ -65,7 +65,7 @@ class WorkspaceProvider extends ChangeNotifier {
   getWorkspace() async {
     final prefs = await SharedPreferences.getInstance();
     _emailLogin = prefs.getString('emailLogin');
-    _listWorkspace = await _workspaceRepo.getWorkspace(_emailLogin!);
+    _listWorkspace = await _workspaceRepo.getWorkspaces(_emailLogin!);
     notifyListeners();
   }
 

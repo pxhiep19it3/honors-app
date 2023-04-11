@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:honors_app/models/workspace.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../bottom/bottom.navigation.dart';
@@ -70,13 +71,12 @@ class _GroupJoinedState extends State<GroupJoined> {
     );
   }
 
-  void onTap(WorkspaceProvider model, int index) {
+  void onTap(WorkspaceProvider model, int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        'nameWorkspace', model.listWorkspace[index].name ?? '');
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => BottomNavigation(
-                  nameWorkspace: model.listWorkspace[index].name ?? '',
-                )));
+        context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
   }
 
   void trailing(
@@ -99,9 +99,7 @@ class _GroupJoinedState extends State<GroupJoined> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => BottomNavigation(
-                                  nameWorkspace: workspace.name ?? '',
-                                )));
+                            builder: (_) => const BottomNavigation()));
                   },
                   title: Text(
                     workspace.name ?? '',

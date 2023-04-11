@@ -5,6 +5,7 @@ import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'modules/information/provider/management.provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => HomeProvider(),
       ),
+      ChangeNotifierProvider(create: (context) => ManagementProvider()),
     ],
     child: const MyApp(),
   ));

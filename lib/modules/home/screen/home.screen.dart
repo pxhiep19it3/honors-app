@@ -3,28 +3,36 @@ import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/home/widget/drawer.dart';
 import 'package:honors_app/modules/home/widget/search.item.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 
-import '../widget/search.field.dart';
+import '../../../common/widgets/search.field.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.nameWorkspace});
-  final String nameWorkspace;
+  const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isSearch = false;
-
+  String? nameWorkspace;
   final HomeProvider provider = HomeProvider();
 
   @override
   void initState() {
     super.initState();
-    provider.init(widget.nameWorkspace);
+    init();
+  }
+
+  void init() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameWorkspace = prefs.getString('nameWorkspace');
+    });
+    provider.init(nameWorkspace!);
   }
 
   @override
@@ -44,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         label: 'Tìm kiếm',
                         onChange: model.onSearch,
                       )
-                    : Text(widget.nameWorkspace),
+                    : Text(nameWorkspace ?? ''),
                 actions: [
                   IconButton(
                       onPressed: showSearch,
@@ -54,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               drawer: DrawerHome(
-                nameWorkspace: widget.nameWorkspace,
+                nameWorkspace: nameWorkspace ?? '',
               ),
               body: _body(context, model));
         });
@@ -76,13 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           hornors: model.listHornors[index],
                         ))),
               )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ))
+            : Container())
         : SearchItem(
             users: model.listUser,
             model: model,
-            workspace: widget.nameWorkspace,
+            workspace: nameWorkspace ?? '',
           );
   }
 
@@ -90,6 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isSearch = !isSearch;
     });
-    provider.init(widget.nameWorkspace);
+    provider.init(nameWorkspace ?? '');
   }
 }

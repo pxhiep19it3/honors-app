@@ -31,7 +31,7 @@ class BasicText extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       decoration: InputDecoration(
-          enabled: true,
+          enabled: enabled ?? true,
           label: Text(label ?? ''),
           filled: true,
           fillColor: isDetail != null ? AppColor.gray : AppColor.secondary,

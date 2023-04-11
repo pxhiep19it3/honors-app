@@ -93,7 +93,7 @@ class HornorsRepo {
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
-     getAdmin =   Users(
+        getAdmin = Users(
           id: doc.id,
           displayName: doc['displayName'].toString(),
           email: doc['email'].toString(),
@@ -102,5 +102,29 @@ class HornorsRepo {
       }
     });
     return getAdmin;
+  }
+
+  Future<void> setWorkspace(String workspaceOLD, String workspaceNEW) async {
+    await hornorsFisebase
+        .where("workspace", isEqualTo: workspaceOLD)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await hornorsFisebase.doc(doc.id).update({
+          'workspace': workspaceNEW,
+        });
+      }
+    });
+  }
+
+  Future<void> deleteHornors(String nameWorkspace) async {
+    await hornorsFisebase
+        .where("workspace", isEqualTo: nameWorkspace)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await hornorsFisebase.doc(doc.id).delete();
+      }
+    });
   }
 }

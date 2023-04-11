@@ -7,7 +7,7 @@ class WorkspaceRepo {
   final CollectionReference workspaceFisebase =
       FirebaseFirestore.instance.collection('Workspace');
 
-  Future<List<Workspace>> getWorkspace(String emailLogin) async {
+  Future<List<Workspace>> getWorkspaces(String emailLogin) async {
     List<Workspace> getWorkspace = [];
 
     await workspaceFisebase
@@ -42,6 +42,25 @@ class WorkspaceRepo {
     return getWorkspace;
   }
 
+  Future<Workspace> getWorkspace(String workspace) async {
+    Workspace getWorkspace = Workspace();
+    await workspaceFisebase
+        .where("name", isEqualTo: workspace)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        getWorkspace = Workspace(
+            id: doc.id,
+            name: doc['name'].toString(),
+            address: doc['address'].toString(),
+            career: doc['career'].toString(),
+            admin: doc['admin'].toString(),
+            members: doc['members']);
+      }
+    });
+    return getWorkspace;
+  }
+
   Future<void> createWorkspace(String admin, WorkspaceProvider workspace,
       List<String> listMember) async {
     workspaceFisebase.add(({
@@ -70,9 +89,26 @@ class WorkspaceRepo {
     });
   }
 
-    Future<void> deleteMember(String id, String member) async {
+  Future<void> deleteMember(String id, String member) async {
     await workspaceFisebase.doc(id).update({
       'members': FieldValue.arrayRemove([member]),
+    });
+  }
+
+  Future<void> updateWorkspace(
+      String id, String address, String career, String name) async {
+    await workspaceFisebase
+        .doc(id)
+        .update({'address': address, 'career': career, 'name': name});
+  }
+
+  Future<void> transfeAdmin(String id, String newAdmin, String oldAdmin) async {
+    await workspaceFisebase.doc(id).update({
+      'admin': newAdmin,
+      'members': FieldValue.arrayRemove([newAdmin]),
+    });
+    await workspaceFisebase.doc(id).update({
+      'members': FieldValue.arrayUnion([oldAdmin]),
     });
   }
 }

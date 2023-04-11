@@ -2,24 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:honors_app/models/user.dart';
 import 'package:honors_app/modules/set.hornors/provider/set.hornors.provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../profile/screen/profile.screen.dart';
 
 class SetHornorsScreen extends StatefulWidget {
-  const SetHornorsScreen({super.key, required this.nameWorkspace});
-  final String nameWorkspace;
+  const SetHornorsScreen({super.key});
+
   @override
   State<SetHornorsScreen> createState() => _SetHornorsScreenState();
 }
 
 class _SetHornorsScreenState extends State<SetHornorsScreen> {
   SetHornorsProvider provider = SetHornorsProvider();
+   String? nameWorkspace;
+
   @override
   void initState() {
     super.initState();
-    provider.init(widget.nameWorkspace);
+    init();
   }
+
+  void init() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameWorkspace = prefs.getString('nameWorkspace');
+    });
+    provider.init(nameWorkspace!);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +77,6 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => Profile(user: u, workspace: widget.nameWorkspace)));
+            builder: (_) => ProfileScreen(user: u, workspace: nameWorkspace ?? '')));
   }
 }

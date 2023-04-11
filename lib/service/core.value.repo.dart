@@ -47,4 +47,28 @@ class CoreValueRepo {
       await coreFisebase.doc(listID[i]).update({'score': score});
     }
   }
+
+  Future<void> setWorkspace(String workspaceOLD, String workspaceNEW) async {
+    await coreFisebase
+        .where("workspace", isEqualTo: workspaceOLD)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await coreFisebase.doc(doc.id).update({
+          'workspace': workspaceNEW,
+        });
+      }
+    });
+  }
+
+  Future<void> deleteAllCoreValue(String nameWorkspace) async {
+    await coreFisebase
+        .where("workspace", isEqualTo: nameWorkspace)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await coreFisebase.doc(doc.id).delete();
+      }
+    });
+  }
 }
