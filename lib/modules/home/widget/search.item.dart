@@ -23,7 +23,8 @@ class SearchItem extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () {
-                  onTap(context, users[index], workspace);
+                  // onTap(context, users[index], workspace);
+                  favorite(context, users[index].displayName ?? '', model);
                 },
                 title: Text(users[index].displayName ?? ''),
                 trailing: IconButton(
@@ -58,10 +59,10 @@ class SearchItem extends StatelessWidget {
             createHornors: model.createHornors));
   }
 
-  void onTap(BuildContext context, Users user, String workspace) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => Profile(user: user, workspace: workspace)));
-  }
+  // void onTap(BuildContext context, Users user, String workspace) {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (_) => Profile(user: user, workspace: workspace)));
+  // }
 }
