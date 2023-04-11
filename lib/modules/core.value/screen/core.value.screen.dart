@@ -7,7 +7,6 @@ import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 import 'package:honors_app/modules/core.value/screen/detail.value.screen.dart';
 import 'package:honors_app/modules/core.value/widget/add.core.value.dart';
 import 'package:provider/provider.dart';
-
 import '../../../common/widgets/basic.button.dart';
 import '../widget/core.value.item.dart';
 import '../widget/score.setting.dart';
@@ -26,6 +25,7 @@ class CoreValueScreen extends StatefulWidget {
 
 class _CoreValueScreenState extends State<CoreValueScreen> {
   final CoreValueProvider provider = CoreValueProvider();
+
   @override
   void initState() {
     super.initState();
@@ -143,11 +143,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
 
   void done() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => BottomNavigation(
-                  nameWorkspace: provider.workspace!,
-                )));
+        context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
   }
 
   void create() {

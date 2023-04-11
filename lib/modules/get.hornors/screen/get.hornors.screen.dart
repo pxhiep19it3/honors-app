@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/get.hornors/provider/get.hornors.provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
@@ -9,19 +10,27 @@ import '../../../models/user.dart';
 import '../../profile/screen/profile.screen.dart';
 
 class GetHornorsScreen extends StatefulWidget {
-  const GetHornorsScreen({super.key, required this.nameWorkspace});
-  final String nameWorkspace;
+  const GetHornorsScreen({super.key});
+
   @override
   State<GetHornorsScreen> createState() => _GetHornorsScreenState();
 }
 
 class _GetHornorsScreenState extends State<GetHornorsScreen> {
   GetHornorsProvider model = GetHornorsProvider();
-
+  String? nameWorkspace;
   @override
   void initState() {
     super.initState();
-    model.init(widget.nameWorkspace);
+    init();
+  }
+
+  void init() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameWorkspace = prefs.getString('nameWorkspace');
+    });
+    model.init(nameWorkspace!);
   }
 
   @override
@@ -128,6 +137,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => Profile(user: u, workspace: widget.nameWorkspace)));
+            builder: (_) =>
+                ProfileScreen(user: u, workspace: nameWorkspace ?? '')));
   }
 }

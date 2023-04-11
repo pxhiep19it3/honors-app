@@ -1,12 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../../common/values/app.images.dart';
 import '../../auth/screen/login.screen.dart';
 import '../widget/profile.item.screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class InformationScreen extends StatefulWidget {
+  const InformationScreen({super.key});
+
+  @override
+  State<InformationScreen> createState() => _InformationScreenState();
+}
+
+class _InformationScreenState extends State<InformationScreen> {
+  String? _userLogined = '';
+  String? _emailLogin = '';
+  String? _photoURL;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userLogined = prefs.getString('userLogined');
+      _emailLogin = prefs.getString('emailLogin');
+      _photoURL = prefs.getString('photoURL');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +63,30 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Image.asset(
-                  AppImage.testLogo,
-                  width: 100,
-                  height: 100,
-                ),
+                _photoURL != null
+                    ? SizedBox(
+                        height: 120,
+                        width: 120,
+                        child: CircleAvatar(
+                          radius: 110,
+                          backgroundImage: NetworkImage(_photoURL!),
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  'Phan Xuân Hiệp',
-                  style: TextStyle(
+                Text(
+                  _userLogined!,
+                  style: const TextStyle(
                       fontSize: 25,
                       color: AppColor.secondary,
                       fontWeight: FontWeight.bold),
                 ),
-                const Text(
-                  'hiepphan197420@gmail.com',
+                Text(
+                  _emailLogin!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       color: AppColor.secondary,
                       fontWeight: FontWeight.w100),
@@ -63,17 +94,23 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Expanded(child: ProfileItem()),
+          Expanded(
+              child: InformationItem(
+            emailLogin: _emailLogin ?? '',
+          )),
         ],
       ),
     );
   }
 
-  void logout(BuildContext context) {
+  void logout(BuildContext context) async {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
       (Route<dynamic> route) => false,
     );
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
+    await FirebaseAuth.instance.signOut();
   }
 }

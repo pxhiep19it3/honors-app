@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
+import '../screen/management.group.screen.dart';
 
-class ProfileItem extends StatelessWidget {
-  const ProfileItem({super.key});
-
+class InformationItem extends StatelessWidget {
+  const InformationItem({super.key, required this.emailLogin});
+final String emailLogin;
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [
-      'Thành viên nhóm',
+      'Quản lý nhóm',
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
     ];
     List listIcon = const [
-      Icon(Icons.group, color: AppColor.black),
+      Icon(Icons.manage_accounts, color: AppColor.black),
       Icon(Icons.accessibility_new, color: AppColor.black),
       Icon(Icons.chrome_reader_mode, color: AppColor.black),
       Icon(Icons.security, color: AppColor.black),
@@ -50,18 +51,16 @@ class ProfileItem extends StatelessWidget {
 
   void onTap(BuildContext context, List<String> listTitle, int index) {
     if (listTitle[index] == listTitle[0]) {
-      myGroup(context);
+      managerGroup(context);
     } else if (listTitle[index] == listTitle[1]) {
       coreValue(context);
     } else if (listTitle[index] == listTitle[2]) {
     } else if (listTitle[index] == listTitle[3]) {}
   }
 
-  void myGroup(BuildContext context) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (_) => const GroupScreen(nameWorkspace: 'Doit Solution', listMember: [],)));
+  void managerGroup(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const ManagementGroupScreen()));
   }
 
   void coreValue(BuildContext context) {

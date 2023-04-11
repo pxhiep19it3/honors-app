@@ -7,15 +7,15 @@ import '../../../common/widgets/show.score.dart';
 import '../../../models/user.dart';
 import '../../../common/widgets/hornors.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key, required this.user, required this.workspace});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key, required this.user, required this.workspace});
   final Users? user;
   final String? workspace;
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileScreenState extends State<ProfileScreen> {
   ProfileProvider provider = ProfileProvider();
 
   @override

@@ -23,7 +23,7 @@ class CoreValueProvider extends ChangeNotifier {
 
   getCoreValue() async {
     final prefs = await SharedPreferences.getInstance();
-    workspace = prefs.getString('workspace');
+    workspace = prefs.getString('nameWorkspace');
     _listCore = await _coreValueRepo.getCoreValue(workspace!);
     notifyListeners();
   }

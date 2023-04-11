@@ -67,8 +67,8 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => BottomNavigation(
-                  nameWorkspace: model.listWorkspace[index].name ?? '',
+            builder: (_) => const BottomNavigation(
+                 
                 )));
   }
 

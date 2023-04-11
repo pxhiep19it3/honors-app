@@ -3,12 +3,12 @@ import 'package:honors_app/common/values/app.colors.dart';
 
 import '../get.hornors/screen/get.hornors.screen.dart';
 import '../home/screen/home.screen.dart';
-import '../setting/screen/setting.screen.dart';
+import '../information/screen/information.screen.dart';
 import '../set.hornors/screen/set.hornors.screen.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key, required this.nameWorkspace});
-  final String nameWorkspace;
+  const BottomNavigation({super.key});
+ 
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -33,15 +33,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
       switch (_selectedIndex) {
         case 0:
           {
-            return  HomeScreen(nameWorkspace: widget.nameWorkspace,);
+            return const HomeScreen();
           }
         case 1:
           {
-            return  GetHornorsScreen(nameWorkspace: widget.nameWorkspace);
+            return const GetHornorsScreen();
           }
         case 2:
           {
-            return  SetHornorsScreen(nameWorkspace: widget.nameWorkspace);
+            return const SetHornorsScreen();
           }
         case 3:
           {
@@ -51,7 +51,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           }
         case 4:
           {
-            return const ProfileScreen();
+            return const InformationScreen();
           }
       }
     }
