@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.icons.dart';
 import '../provider/management.provider.dart';
+import '../widget/add.user.dart';
 import '../widget/delete.workspace.dart';
 import '../widget/member.item.dart';
 
@@ -39,7 +40,7 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                 model.isAdmin
                     ? IconButton(
                         onPressed: () {
-                          deleteWorkspace(context, model.nameCtl!.text, model);
+                          deleteWorkspace(model.nameCtl!.text, model);
                         },
                         icon: const Icon(Icons.delete))
                     : Container(),
@@ -140,7 +141,9 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                                 fontSize: 15),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              addUser(model);
+                            },
                             child: Image.asset(
                               AppIcon.addMember,
                               width: 70,
@@ -164,8 +167,7 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
     );
   }
 
-  Future deleteWorkspace(BuildContext context, String nameWorkspace,
-      ManagementProvider model) async {
+  Future deleteWorkspace(String nameWorkspace, ManagementProvider model) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -177,5 +179,15 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
         );
       },
     );
+  }
+
+  void addUser(ManagementProvider model) async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddUser(
+            model: model,
+          ),
+        ));
   }
 }

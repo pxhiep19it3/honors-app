@@ -25,11 +25,15 @@ class LoginedScreen extends StatelessWidget {
             const SizedBox(
               height: 150,
             ),
-            CircleAvatar(
-              radius: 110,
-              backgroundImage: NetworkImage(user.photoURL ?? ''),
+            SizedBox(
+              height: 180,
+              width: 180,
+              child: CircleAvatar(
+                radius: 110,
+                backgroundImage: NetworkImage(user.photoURL ?? ''),
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             Text(
               user.displayName ?? '',
               style: const TextStyle(
@@ -57,7 +61,7 @@ class LoginedScreen extends StatelessWidget {
                 width: width * 0.85,
                 primary: true),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             TextButton(
                 onPressed: () {
@@ -82,7 +86,7 @@ class LoginedScreen extends StatelessWidget {
                   ),
                 )),
             const SizedBox(
-              height: 80,
+              height: 100,
             )
           ],
         ),

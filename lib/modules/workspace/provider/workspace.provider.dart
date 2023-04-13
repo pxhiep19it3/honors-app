@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/service/workspace.repo.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/workspace.dart';
@@ -23,7 +25,7 @@ class WorkspaceProvider extends ChangeNotifier {
   String _career = 'Chọn lĩnh vực hoạt động';
   String get career => _career;
 
-  final List<String> _listMember = [];
+  List<String> _listMember = [];
   List<String> get listMember => _listMember;
 
   final TextEditingController _member = TextEditingController();
@@ -59,6 +61,7 @@ class WorkspaceProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nameWorkspace', workspace.nameWorkspaceCtl.text);
     _workspaceRepo.createWorkspace(admin, workspace, listMember);
+    sendEmail(workspace.nameWorkspaceCtl.text);
     notifyListeners();
   }
 
@@ -79,6 +82,27 @@ class WorkspaceProvider extends ChangeNotifier {
   deleteWorkspace(String id) async {
     _listWorkspace.removeWhere((item) => item.id == id);
     _workspaceRepo.deleteWorkspace(id);
+    notifyListeners();
+  }
+
+  sendEmail(String name) async {
+    if (_listMember.isNotEmpty) {
+      for (int i = 0; i < _listMember.length; i++) {
+        String username = 'hiepphan197420@gmail.com';
+        String password = 'vwlpdapwoknvkdxg';
+        final smtpServer = gmail(username, password);
+        final message = Message()
+          ..from = Address(username, 'Phan Xuân Hiệp')
+          ..recipients.add(_listMember[i])
+          ..subject = 'Mời bạn tham gia vào $name cùng chúng tôi!'
+          ..text = ''
+          ..html = r""" 
+                    <center><a href="https://play.google.com/store/apps/details?id=com.facebook.katana"><img height="250px" width="400px" src="https://cdn.wikimobi.vn/2018/07/cuoc-chien-cua-hai-cho-ung-dung-lon-nhat-google-play-store-appstore.jpeg"></a><center/>
+                    """;
+        await send(message, smtpServer);
+      }
+    }
+    _listMember = [];
     notifyListeners();
   }
 }

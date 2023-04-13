@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:honors_app/models/workspace.dart';
 import 'package:honors_app/service/core.value.repo.dart';
 import 'package:honors_app/service/hornors.repo.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../service/workspace.repo.dart';
@@ -73,6 +75,28 @@ class ManagementProvider extends ChangeNotifier {
 
   transfeAdmin(String newAdmin) async {
     await _workspaceRepo.transfeAdmin(id!, newAdmin, emailLogin!);
+    init();
+    notifyListeners();
+  }
+
+  sendEmail(List<String> listMember) async {
+    if (listMember.isNotEmpty) {
+      for (int i = 0; i < listMember.length; i++) {
+        String username = 'hiepphan197420@gmail.com';
+        String password = 'vwlpdapwoknvkdxg';
+        final smtpServer = gmail(username, password);
+        final message = Message()
+          ..from = Address(username, 'Phan Xuân Hiệp')
+          ..recipients.add(listMember[i])
+          ..subject = 'Mời bạn tham gia vào ${nameWorkspace!} cùng chúng tôi!'
+          ..text = ''
+          ..html = r""" 
+                    <center><a href="https://play.google.com/store/apps/details?id=com.facebook.katana"><img height="250px" width="400px" src="https://cdn.wikimobi.vn/2018/07/cuoc-chien-cua-hai-cho-ung-dung-lon-nhat-google-play-store-appstore.jpeg"></a><center/>
+                    """;
+        await send(message, smtpServer);
+      }
+      await _workspaceRepo.addUser(id!, listMember);
+    }
     init();
     notifyListeners();
   }
