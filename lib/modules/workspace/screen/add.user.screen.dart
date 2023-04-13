@@ -71,7 +71,7 @@ class AddUserScreen extends StatelessWidget {
                     onPressed: () {
                       model.createWorkspace(admin, provider);
                       model.listMember.isNotEmpty
-                          ? sendEmail(context, model)
+                          ? sentEmail(context, model)
                           : skip(context);
                     },
                     label: model.listMember.isEmpty
@@ -87,7 +87,7 @@ class AddUserScreen extends StatelessWidget {
     });
   }
 
-  void sendEmail(BuildContext context, WorkspaceProvider model) {
+  void sentEmail(BuildContext context, WorkspaceProvider model) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -102,8 +102,6 @@ class AddUserScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
-                  isFirst: true,
-                  automaticallyImplyLeading: false
-                )));
+                isFirst: true, automaticallyImplyLeading: false)));
   }
 }

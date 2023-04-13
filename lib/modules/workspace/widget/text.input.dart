@@ -21,6 +21,7 @@ class TextInput extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
+        
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Bạn chưa điền vào đây!';

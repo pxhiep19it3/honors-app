@@ -14,7 +14,7 @@ class DeleteWorkspace extends StatelessWidget {
       backgroundColor: AppColor.gray,
       title: const Center(
           child: Text(
-        'Bạn chắc chắn xóa nhóm này!',
+        'Bạn chắc chắn xóa nhóm này?',
         textAlign: TextAlign.center,
         style: TextStyle(color: AppColor.primary),
       )),

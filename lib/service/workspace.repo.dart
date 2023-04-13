@@ -111,4 +111,12 @@ class WorkspaceRepo {
       'members': FieldValue.arrayUnion([oldAdmin]),
     });
   }
+
+  Future<void> addUser(String id, List user) async {
+    for (int i = 0; i < user.length; i++) {
+      await workspaceFisebase.doc(id).update({
+        'members': FieldValue.arrayUnion([user[i]]),
+      });
+    }
+  }
 }

@@ -96,10 +96,12 @@ class _GroupJoinedState extends State<GroupJoined> {
               children: [
                 ListTile(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const BottomNavigation()));
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavigation()),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   title: Text(
                     workspace.name ?? '',

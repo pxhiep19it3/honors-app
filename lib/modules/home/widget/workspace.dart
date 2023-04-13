@@ -64,12 +64,11 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
   }
 
   void onTap(WorkspaceProvider model, int index) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const BottomNavigation(
-                 
-                )));
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void trailing(

@@ -142,8 +142,11 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   }
 
   void done() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void create() {
