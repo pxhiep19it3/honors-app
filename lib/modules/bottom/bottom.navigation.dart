@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:honors_app/modules/chart/screen/chart.screen.dart';
 
 import '../get.hornors/screen/get.hornors.screen.dart';
 import '../home/screen/home.screen.dart';
@@ -8,7 +9,6 @@ import '../set.hornors/screen/set.hornors.screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
- 
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -45,9 +45,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           }
         case 3:
           {
-            return const Center(
-              child: Text('Thống kê'),
-            );
+            return const ChartScreen();
           }
         case 4:
           {

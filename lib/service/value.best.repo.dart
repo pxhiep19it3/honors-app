@@ -1,0 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../models/hornors.dart';
+
+class ValueBestRepo {
+  final CollectionReference hornorsFisebase =
+      FirebaseFirestore.instance.collection('Hornors');
+
+  Future<List<Hornors>> getHornors(String workspace, int start, int end) async {
+    List<Hornors> getHornors = [];
+    await hornorsFisebase
+        .where("workspace", isEqualTo: workspace)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        getHornors.add(Hornors(
+          coreValue: doc['coreValue'].toString(),
+          t: int.parse(
+            doc['t'].toString(),
+          ),
+        ));
+      }
+    });
+
+    return getHornors
+        .where((element) => element.t! >= start && element.t! <= end)
+        .toList();
+  }
+}

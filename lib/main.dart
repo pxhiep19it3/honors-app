@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/auth/screen/landing.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:honors_app/modules/chart/provider/value.best.provider.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ void main() async {
         create: (context) => HomeProvider(),
       ),
       ChangeNotifierProvider(create: (context) => ManagementProvider()),
+      ChangeNotifierProvider(create: (context) => ValueBestProvider()),
     ],
     child: const MyApp(),
   ));
