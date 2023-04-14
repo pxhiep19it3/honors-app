@@ -22,6 +22,9 @@ class HornorsRepo {
           userSet: doc['userSet'].toString(),
           userGet: doc['userGet'].toString(),
           time: doc['time'].toString(),
+          t: int.parse(
+            doc['t'].toString(),
+          ),
           score: int.parse(
             doc['score'].toString(),
           ),
@@ -40,7 +43,9 @@ class HornorsRepo {
       'userGet': userGet,
       'userSet': userSet,
       'workspace': workspace,
-      'time': time
+      'time': time,
+      't': int.parse(
+          '${time.substring(0, 4)}${time.substring(5, 7)}${time.substring(8, 10)}')
     }));
   }
 

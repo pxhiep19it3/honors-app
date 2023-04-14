@@ -7,6 +7,7 @@ class Hornors {
   String? userGet;
   int? score;
   String? time;
+  int? t;
   Hornors(
       {this.id,
       this.coreValue,
@@ -15,5 +16,5 @@ class Hornors {
       this.userGet,
       this.score,
       this.userSet,
-      this.time});
+      this.time, this.t});
 }
