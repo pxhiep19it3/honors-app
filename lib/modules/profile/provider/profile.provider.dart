@@ -65,6 +65,7 @@ class ProfileProvider extends ChangeNotifier {
         nameWorkspace,
         time.toString());
     _listHornors = await _hornors.getHornors(nameWorkspace, userGet);
+    _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     notifyListeners();
   }
