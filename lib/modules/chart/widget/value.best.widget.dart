@@ -39,34 +39,42 @@ class _ValueBestWidgetState extends State<ValueBestWidget> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: widget.height * 0.7,
-              child: SfCircularChart(
-                  title: ChartTitle(
-                      text:
-                          'Giá trị được sử dụng nhiều nhất\n(${widget.range})',
-                      textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.black)),
-                  tooltipBehavior: _tooltip,
-                  legend: Legend(
-                    textStyle: const TextStyle(fontSize: 20),
-                    orientation: LegendItemOrientation.vertical,
-                    position: LegendPosition.bottom,
-                    shouldAlwaysShowScrollbar: false,
-                    padding: 20,
-                    isVisible: true,
-                    alignment: ChartAlignment.center,
-                  ),
-                  series: <CircularSeries>[
-                    PieSeries<ValueBest, String>(
-                        dataSource: model.valueBest,
-                        pointColorMapper: (ValueBest data, _) => data.color,
-                        xValueMapper: (ValueBest data, _) => data.title,
-                        yValueMapper: (ValueBest data, _) => data.total,
-                        dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            textStyle: TextStyle(fontSize: 20)))
-                  ]),
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  model.valueBest.isEmpty
+                      ? const Text('Chưa có dữ liệu!')
+                      : Container(),
+                  SfCircularChart(
+                      title: ChartTitle(
+                          text:
+                              'Giá trị được sử dụng nhiều nhất\n(${widget.range})',
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.black)),
+                      tooltipBehavior: _tooltip,
+                      legend: Legend(
+                        textStyle: const TextStyle(fontSize: 20),
+                        orientation: LegendItemOrientation.vertical,
+                        position: LegendPosition.bottom,
+                        shouldAlwaysShowScrollbar: false,
+                        padding: 20,
+                        isVisible: true,
+                        alignment: ChartAlignment.center,
+                      ),
+                      series: <CircularSeries>[
+                        PieSeries<ValueBest, String>(
+                            dataSource: model.valueBest,
+                            pointColorMapper: (ValueBest data, _) => data.color,
+                            xValueMapper: (ValueBest data, _) => data.title,
+                            yValueMapper: (ValueBest data, _) => data.total,
+                            dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                textStyle: TextStyle(fontSize: 20)))
+                      ]),
+                ],
+              ),
             ),
           );
         });

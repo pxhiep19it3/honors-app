@@ -38,28 +38,37 @@ class _GetBestWidgetState extends State<GetBestWidget> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: widget.height * 0.7,
-              child: SfPyramidChart(
-                  title: ChartTitle(
-                      text: 'Người được vinh danh nhiều nhất\n(${widget.range})',
-                      textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.black)),
-                  tooltipBehavior: _tooltip,
-                  legend: Legend(
-                    textStyle: const TextStyle(fontSize: 20),
-                    orientation: LegendItemOrientation.vertical,
-                    position: LegendPosition.bottom,
-                    shouldAlwaysShowScrollbar: false,
-                    padding: 20,
-                    isVisible: true,
-                    alignment: ChartAlignment.center,
-                  ),
-                  series: PyramidSeries<GetBest, String>(
-                    dataSource: model.getBest,
-                    xValueMapper: (GetBest data, _) => data.name,
-                    yValueMapper: (GetBest data, _) => data.total,
-                  )),
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  model.getBest.isEmpty
+                      ? const Text('Chưa có dữ liệu!')
+                      : Container(),
+                  SfPyramidChart(
+                      title: ChartTitle(
+                          text:
+                              'Người được vinh danh nhiều nhất\n(${widget.range})',
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.black)),
+                      tooltipBehavior: _tooltip,
+                      legend: Legend(
+                        textStyle: const TextStyle(fontSize: 20),
+                        orientation: LegendItemOrientation.vertical,
+                        position: LegendPosition.bottom,
+                        shouldAlwaysShowScrollbar: false,
+                        padding: 20,
+                        isVisible: true,
+                        alignment: ChartAlignment.center,
+                      ),
+                      series: PyramidSeries<GetBest, String>(
+                        dataSource: model.getBest,
+                        xValueMapper: (GetBest data, _) => data.name,
+                        yValueMapper: (GetBest data, _) => data.total,
+                      )),
+                ],
+              ),
             ),
           );
         });

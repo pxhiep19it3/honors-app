@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/workspace.dart';
 import '../../bottom/bottom.navigation.dart';
@@ -63,7 +64,10 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
     );
   }
 
-  void onTap(WorkspaceProvider model, int index) {
+  void onTap(WorkspaceProvider model, int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        'nameWorkspace', model.listWorkspace[index].name ?? '');
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const BottomNavigation()),

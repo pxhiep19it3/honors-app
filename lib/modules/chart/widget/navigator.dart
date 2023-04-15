@@ -16,7 +16,7 @@ class NavigationItem extends StatelessWidget {
     List listIcon = const [
       Icon(Icons.chrome_reader_mode, color: AppColor.secondary),
       Icon(Icons.accessibility_new, color: AppColor.secondary),
-      Icon(Icons.security, color: AppColor.secondary),
+      Icon(Icons.insert_emoticon_sharp, color: AppColor.secondary),
     ];
     return Column(
       children: [

@@ -124,7 +124,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                                     ),
                                   ),
                                 ))
-                        : Container()),
+                        : const Center(child: Text('Chưa có dữ liệu!'),)),
               ],
             ),
           );
