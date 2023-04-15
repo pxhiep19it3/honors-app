@@ -9,13 +9,13 @@ class NavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [
+      'Giá trị vinh danh nhiều nhất',
       'Vinh danh nhiều nhất',
       'Được vinh danh nhiều nhất',
-      'Gía trị vinh danh nhiều nhất',
     ];
     List listIcon = const [
-      Icon(Icons.accessibility_new, color: AppColor.secondary),
       Icon(Icons.chrome_reader_mode, color: AppColor.secondary),
+      Icon(Icons.accessibility_new, color: AppColor.secondary),
       Icon(Icons.security, color: AppColor.secondary),
     ];
     return Column(
