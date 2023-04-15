@@ -29,8 +29,16 @@ class CoreValueProvider extends ChangeNotifier {
   }
 
   addCoreValue() async {
-    await _coreValueRepo.createCoreValue(
-        workspace!, _titleCtl.text, _contentCtl.text, _score);
+    bool check = true;
+    for (int i = 0; i < _listCore.length; i++) {
+      if (_titleCtl.text == _listCore[i].title) {
+        check = false;
+      }
+    }
+    check
+        ? await _coreValueRepo.createCoreValue(
+            workspace!, _titleCtl.text, _contentCtl.text, _score)
+        : null;
     getCoreValue();
     clearCtl();
     notifyListeners();

@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           hornors: model.listHornors[index],
                         ))),
               )
-            : Container())
+            : const Center(child: Text('Chưa có dữ liệu!'),))
         : SearchItem(
             users: model.listUser,
             model: model,

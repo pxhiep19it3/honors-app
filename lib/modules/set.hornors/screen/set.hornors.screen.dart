@@ -67,7 +67,7 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
                                     )),
                               )),
                     )
-                  : Container());
+                  : const Center(child: Text('Chưa có dữ liệu!'),));
         });
       },
     );

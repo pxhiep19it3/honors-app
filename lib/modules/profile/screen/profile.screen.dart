@@ -103,8 +103,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       hornors: model.listHornors[index],
                                     ),
                                   ))
-                          : Center(
-                              child: Container(),
+                          : const Center(
+                              child: Text('Chưa có dữ liệu'),
                             )),
                 ],
               ),
