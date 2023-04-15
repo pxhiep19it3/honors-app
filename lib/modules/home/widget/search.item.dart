@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/common/values/app.colors.dart';
 import '../../../models/user.dart';
 import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
@@ -23,17 +24,16 @@ class SearchItem extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () {
-                  // onTap(context, users[index], workspace);
-                  favorite(context, users[index].displayName ?? '', model);
+                  onTap(context, users[index].displayName ?? '', model);
                 },
                 title: Text(users[index].displayName ?? ''),
                 trailing: IconButton(
                   onPressed: () {
-                    favorite(context, users[index].displayName ?? '', model);
+                    view(context, users[index], workspace);
                   },
                   icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
+                    Icons.view_array,
+                    color: AppColor.primary,
                     size: 30,
                   ),
                 ),
@@ -47,7 +47,7 @@ class SearchItem extends StatelessWidget {
         });
   }
 
-  void favorite(BuildContext context, String name, HomeProvider model) {
+  void onTap(BuildContext context, String name, HomeProvider model) {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) => Hornors(
@@ -59,10 +59,10 @@ class SearchItem extends StatelessWidget {
             createHornors: model.createHornors));
   }
 
-  // void onTap(BuildContext context, Users user, String workspace) {
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (_) => Profile(user: user, workspace: workspace)));
-  // }
+  void view(BuildContext context, Users user, String workspace) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => ProfileScreen(user: user, workspace: workspace)));
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/modules/chart/widget/get.best.wiget.dart';
 import 'package:honors_app/modules/chart/widget/value.best.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -112,7 +113,10 @@ class _ChartScreenState extends State<ChartScreen> {
                   height: height,
                   range: _range,
                 )
-              : _body3();
+              : GetBestWidget(
+                  height: height,
+                  range: _range,
+                );
     }
   }
 
@@ -162,11 +166,5 @@ class _ChartScreenState extends State<ChartScreen> {
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
     });
-  }
-
-  Widget _body3() {
-    return Center(
-      child: Text('1'),
-    );
   }
 }
