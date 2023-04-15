@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/hornors.dart';
 
-class ValueBestRepo {
+class ChartRepo {
   final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
 
@@ -15,6 +15,7 @@ class ValueBestRepo {
       for (var doc in querySnapshot.docs) {
         getHornors.add(Hornors(
           coreValue: doc['coreValue'].toString(),
+          userSet: doc['userSet'].toString(),
           t: int.parse(
             doc['t'].toString(),
           ),

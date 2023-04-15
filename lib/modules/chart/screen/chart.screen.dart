@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import '../../../common/values/app.colors.dart';
 import '../widget/navigator.dart';
+import '../widget/set.best.widget.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key});
@@ -107,7 +108,10 @@ class _ChartScreenState extends State<ChartScreen> {
               range: _range,
             )
           : index == 1
-              ? _body2()
+              ? SetBestWidget(
+                  height: height,
+                  range: _range,
+                )
               : _body3();
     }
   }
@@ -158,12 +162,6 @@ class _ChartScreenState extends State<ChartScreen> {
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
     });
-  }
-
-  Widget _body2() {
-    return Center(
-      child: Text('1'),
-    );
   }
 
   Widget _body3() {

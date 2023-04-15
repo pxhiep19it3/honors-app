@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:honors_app/models/set.best.dart';
+import 'package:honors_app/modules/chart/provider/set.best.provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../../models/value.best.dart';
-import '../provider/value.best.provider.dart';
 
-class ValueBestWidget extends StatefulWidget {
-  const ValueBestWidget({
+class SetBestWidget extends StatefulWidget {
+  const SetBestWidget({
     super.key,
     required this.height,
     required this.range,
   });
   final double height;
   final String range;
-
   @override
-  State<ValueBestWidget> createState() => _ValueBestWidgetState();
+  State<SetBestWidget> createState() => _SetBestWidgetState();
 }
 
-class _ValueBestWidgetState extends State<ValueBestWidget> {
+class _SetBestWidgetState extends State<SetBestWidget> {
   final TooltipBehavior _tooltip = TooltipBehavior(enable: true);
-  ValueBestProvider provider = ValueBestProvider();
+
+  SetBestProvider provider = SetBestProvider();
 
   @override
   void initState() {
@@ -31,18 +31,17 @@ class _ValueBestWidgetState extends State<ValueBestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ValueBestProvider>(
+    return ChangeNotifierProvider<SetBestProvider>(
       create: ((context) => provider),
       builder: ((context, child) {
-        return Consumer<ValueBestProvider>(builder: (context, model, child) {
+        return Consumer<SetBestProvider>(builder: (context, model, child) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: widget.height * 0.7,
-              child: SfCircularChart(
+              child: SfPyramidChart(
                   title: ChartTitle(
-                      text:
-                          'Giá trị được sử dụng nhiều nhất\n(${widget.range})',
+                      text: 'Người vinh danh nhiều nhất\n(${widget.range})',
                       textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -57,16 +56,11 @@ class _ValueBestWidgetState extends State<ValueBestWidget> {
                     isVisible: true,
                     alignment: ChartAlignment.center,
                   ),
-                  series: <CircularSeries>[
-                    PieSeries<ValueBest, String>(
-                        dataSource: model.valueBest,
-                        pointColorMapper: (ValueBest data, _) => data.color,
-                        xValueMapper: (ValueBest data, _) => data.title,
-                        yValueMapper: (ValueBest data, _) => data.total,
-                        dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            textStyle: TextStyle(fontSize: 20)))
-                  ]),
+                  series: PyramidSeries<SetBest, String>(
+                    dataSource: model.setBest,
+                    xValueMapper: (SetBest data, _) => data.name,
+                    yValueMapper: (SetBest data, _) => data.total,
+                  )),
             ),
           );
         });
