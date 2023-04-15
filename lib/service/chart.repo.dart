@@ -16,6 +16,8 @@ class ChartRepo {
         getHornors.add(Hornors(
           coreValue: doc['coreValue'].toString(),
           userSet: doc['userSet'].toString(),
+          userGet: doc['userGet'].toString(),
+          score: int.parse(doc['score'].toString()),
           t: int.parse(
             doc['t'].toString(),
           ),
