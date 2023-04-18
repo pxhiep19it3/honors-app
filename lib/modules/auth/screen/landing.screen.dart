@@ -1,12 +1,48 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/common/values/app.images.dart';
 import 'package:honors_app/common/values/app.text.dart';
 import 'package:honors_app/common/widgets/basic.button.dart';
 import 'package:honors_app/modules/auth/screen/login.screen.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 
-class LandingScreen extends StatelessWidget {
+import '../widget/new.version.dart';
+
+class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  final newVersion = NewVersionPlus(
+    androidId: 'vn.doitsolutions.honors_app',
+    iOSId: 'vn.doitsolutions.honorsApp',
+  );
+  @override
+  void initState() {
+    super.initState();
+    checkNewVersion();
+  }
+
+  void checkNewVersion() async {
+    final status = await newVersion.getVersionStatus();
+    if (status != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UpdateDialog(
+            description: status.releaseNotes!,
+            version: status.storeVersion,
+            appLink: status.appStoreLink,
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
