@@ -42,6 +42,11 @@ class HomeProvider extends ChangeNotifier {
   String? coreValue;
   String workspace = '';
 
+  int _count = 0;
+
+  bool _isAdMob = false;
+  bool get isAdMob => _isAdMob;
+
   Users _admin = Users();
 
   init(String nameWorkspace) async {
@@ -101,6 +106,17 @@ class HomeProvider extends ChangeNotifier {
         time.toString());
     _listHornors = await _hornorsRepo.getHornors(workspace);
     _contentHornors.clear();
+    _count++;
+    if (_count % 5 == 0) {
+      _isAdMob = true;
+    } else {
+      _isAdMob = false;
+    }
+    notifyListeners();
+  }
+
+  setAdMob() {
+    _isAdMob = false;
     notifyListeners();
   }
 }

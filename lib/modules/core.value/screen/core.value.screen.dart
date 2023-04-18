@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/common/values/app.text.dart';
 import 'package:honors_app/models/core.value.dart';
@@ -6,6 +7,7 @@ import 'package:honors_app/modules/bottom/bottom.navigation.dart';
 import 'package:honors_app/modules/core.value/provider/corevalue.provider.dart';
 import 'package:honors_app/modules/core.value/screen/detail.value.screen.dart';
 import 'package:honors_app/modules/core.value/widget/add.core.value.dart';
+import 'package:honors_app/service/admob.repo.dart';
 import 'package:provider/provider.dart';
 import '../../../common/widgets/basic.button.dart';
 import '../widget/core.value.item.dart';
@@ -25,11 +27,12 @@ class CoreValueScreen extends StatefulWidget {
 
 class _CoreValueScreenState extends State<CoreValueScreen> {
   final CoreValueProvider provider = CoreValueProvider();
-
+  RewardedAd? rewardedAd;
   @override
   void initState() {
     super.initState();
     provider.getCoreValue();
+    initRewardedAd();
   }
 
   @override
@@ -116,7 +119,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                 ),
                               )
                             : const Center(
-                                child: CircularProgressIndicator(),
+                                child: Text('Chưa có dữ liệu!'),
                               )),
                 floatingActionButton:
                     widget.isFirst && model.listCore.isNotEmpty
@@ -133,6 +136,41 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
         );
       }),
     );
+  }
+
+  void initRewardedAd() {
+    RewardedAd.load(
+        adUnitId: AdMobRepo.adUnitIdRewaredAd!,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
+          setState(() {
+            rewardedAd = ad;
+          });
+          setFullScreenContentCallBack();
+        }, onAdFailedToLoad: (erro) {
+          setState(() {
+            rewardedAd = null;
+          });
+        }));
+  }
+
+  void setFullScreenContentCallBack() {
+    if (rewardedAd == null) return;
+    rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (ad) {},
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+        });
+    rewardedAd != null ? showRewardedAd() : null;
+  }
+
+  void showRewardedAd() {
+    rewardedAd!.show(onUserEarnedReward: (ad, re) {
+      print(re.amount);
+    });
   }
 
   void settingScore() {

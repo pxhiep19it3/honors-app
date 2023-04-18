@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/common/values/app.text.dart';
@@ -7,11 +8,24 @@ import 'package:honors_app/common/widgets/basic.button.dart';
 import 'package:honors_app/modules/auth/screen/login.screen.dart';
 import 'package:honors_app/modules/workspace/screen/create.workspace.dart';
 
+import '../../../service/admob.repo.dart';
 import '../../workspace/screen/group.joined.screen.dart';
 
-class LoginedScreen extends StatelessWidget {
+class LoginedScreen extends StatefulWidget {
   const LoginedScreen({super.key, required this.user});
   final User user;
+
+  @override
+  State<LoginedScreen> createState() => _LoginedScreenState();
+}
+
+class _LoginedScreenState extends State<LoginedScreen> {
+  InterstitialAd? interstitialAd;
+  @override
+  void initState() {
+    super.initState();
+    initInterstitialAd();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +44,12 @@ class LoginedScreen extends StatelessWidget {
               width: 180,
               child: CircleAvatar(
                 radius: 110,
-                backgroundImage: NetworkImage(user.photoURL ?? ''),
+                backgroundImage: NetworkImage(widget.user.photoURL ?? ''),
               ),
             ),
             const SizedBox(height: 40),
             Text(
-              user.displayName ?? '',
+              widget.user.displayName ?? '',
               style: const TextStyle(
                   fontSize: 25,
                   color: AppColor.secondary,
@@ -45,7 +59,7 @@ class LoginedScreen extends StatelessWidget {
               height: 10,
             ),
             Text(
-              user.email ?? '',
+              widget.user.email ?? '',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 16,
@@ -55,7 +69,7 @@ class LoginedScreen extends StatelessWidget {
             const Spacer(),
             BacsicButton(
                 onPressed: () {
-                  create(context, user.email ?? '');
+                  create(context, widget.user.email ?? '');
                 },
                 label: AppText.btCreateNew,
                 width: width * 0.85,
@@ -65,7 +79,7 @@ class LoginedScreen extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  join(context, user.email ?? '');
+                  join(context, widget.user.email ?? '');
                 },
                 child: const Text(
                   AppText.btJoin,
@@ -107,7 +121,7 @@ class LoginedScreen extends StatelessWidget {
       MaterialPageRoute(
           builder: (context) => CreateWorkspaceScreen(
                 admin: admin,
-                user: user,
+                user: widget.user,
               )),
       (Route<dynamic> route) => false,
     );
@@ -122,5 +136,26 @@ class LoginedScreen extends StatelessWidget {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();
     await FirebaseAuth.instance.signOut();
+  }
+
+  initInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobRepo.adUnitIdLogined!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) {
+              interstitialAd = ad;
+              setfullScreenContentCallback(ad);
+            },
+            onAdFailedToLoad: (LoadAdError error) => interstitialAd = null));
+  }
+
+  setfullScreenContentCallback(InterstitialAd ad) {
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (InterstitialAd ad) {
+          ad.dispose();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {});
+    interstitialAd != null ? interstitialAd!.show() : null;
   }
 }

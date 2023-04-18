@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/get.hornors/provider/get.hornors.provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../../common/widgets/show.score.dart';
 import '../../../models/user.dart';
+import '../../../service/admob.repo.dart';
 import '../../profile/screen/profile.screen.dart';
 
 class GetHornorsScreen extends StatefulWidget {
@@ -19,10 +21,13 @@ class GetHornorsScreen extends StatefulWidget {
 class _GetHornorsScreenState extends State<GetHornorsScreen> {
   GetHornorsProvider model = GetHornorsProvider();
   String? nameWorkspace;
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
     init();
+    initBannnerAd();
   }
 
   void init() async {
@@ -48,6 +53,13 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
               centerTitle: true,
               title: const Text('Được vinh danh'),
             ),
+            bottomNavigationBar: isAdLoad
+                ? SizedBox(
+                    height: bannerAd!.size.height.toDouble(),
+                    width: double.infinity,
+                    child: AdWidget(ad: bannerAd!),
+                  )
+                : Container(),
             body: Column(
               children: [
                 Container(
@@ -124,13 +136,30 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                                     ),
                                   ),
                                 ))
-                        : const Center(child: Text('Chưa có dữ liệu!'),)),
+                        : const Center(
+                            child: Text('Chưa có dữ liệu!'),
+                          )),
               ],
             ),
           );
         });
       },
     );
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 
   void onTap(Users u, GetHornorsProvider model) {

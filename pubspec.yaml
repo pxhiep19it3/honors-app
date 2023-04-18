@@ -45,6 +45,7 @@ dependencies:
   another_flushbar: ^1.12.29
   syncfusion_flutter_charts: ^21.1.39
   syncfusion_flutter_datepicker: ^21.1.39
+  google_mobile_ads: ^2.4.0
 
       
 dev_dependencies:

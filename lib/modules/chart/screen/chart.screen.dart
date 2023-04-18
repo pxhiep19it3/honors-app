@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/chart/widget/get.best.wiget.dart';
 import 'package:honors_app/modules/chart/widget/value.best.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import '../../../common/values/app.colors.dart';
+import '../../../service/admob.repo.dart';
 import '../widget/navigator.dart';
 import '../widget/set.best.widget.dart';
 
@@ -18,7 +20,8 @@ class ChartScreen extends StatefulWidget {
 class _ChartScreenState extends State<ChartScreen> {
   int index = 0;
   String _range = '';
-
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
   bool selectTime = false;
   String nameWorkspace = '';
   String start = DateTime.now()
@@ -36,14 +39,16 @@ class _ChartScreenState extends State<ChartScreen> {
       .split('/')
       .reversed
       .join('/');
+  RewardedAd? rewardedAd;
 
   @override
   void initState() {
+    initRewardedAd();
     init();
+    initBannnerAd();
     setState(() {
       _range = '$start - $end';
     });
-
     super.initState();
   }
 
@@ -83,6 +88,13 @@ class _ChartScreenState extends State<ChartScreen> {
             onTap: onTap,
           ),
         ),
+        bottomNavigationBar: isAdLoad
+            ? SizedBox(
+                height: bannerAd!.size.height.toDouble(),
+                width: double.infinity,
+                child: AdWidget(ad: bannerAd!),
+              )
+            : Container(),
         body: main(height, width));
   }
 
@@ -166,5 +178,55 @@ class _ChartScreenState extends State<ChartScreen> {
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
     });
+  }
+
+  void initRewardedAd() {
+    RewardedAd.load(
+        adUnitId: AdMobRepo.adUnitIdRewaredAd!,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
+          setState(() {
+            rewardedAd = ad;
+          });
+          setFullScreenContentCallBack();
+        }, onAdFailedToLoad: (erro) {
+          setState(() {
+            rewardedAd = null;
+          });
+        }));
+  }
+
+  void setFullScreenContentCallBack() {
+    if (rewardedAd == null) return;
+    rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (ad) {},
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+        });
+    rewardedAd != null ? showRewardedAd() : null;
+  }
+
+  void showRewardedAd() {
+    rewardedAd!.show(onUserEarnedReward: (ad, re) {
+      print(re.amount);
+    });
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 }

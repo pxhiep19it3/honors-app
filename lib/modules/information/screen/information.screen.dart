@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
+import '../../../service/admob.repo.dart';
 import '../../auth/screen/login.screen.dart';
 import '../widget/profile.item.screen.dart';
 
@@ -18,10 +20,12 @@ class _InformationScreenState extends State<InformationScreen> {
   String? _userLogined = '';
   String? _emailLogin = '';
   String? _photoURL;
-
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
+    initBannnerAd();
     init();
   }
 
@@ -52,6 +56,13 @@ class _InformationScreenState extends State<InformationScreen> {
               icon: const Icon(Icons.logout))
         ],
       ),
+      bottomNavigationBar: isAdLoad
+          ? SizedBox(
+              height: bannerAd!.size.height.toDouble(),
+              width: double.infinity,
+              child: AdWidget(ad: bannerAd!),
+            )
+          : Container(),
       body: Column(
         children: [
           Container(
@@ -101,6 +112,21 @@ class _InformationScreenState extends State<InformationScreen> {
         ],
       ),
     );
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.largeBanner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 
   void logout(BuildContext context) async {

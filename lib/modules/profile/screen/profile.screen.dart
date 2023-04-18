@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/common/widgets/hornors.item.dart';
 import 'package:honors_app/modules/profile/provider/profile.provider.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/show.score.dart';
 import '../../../models/user.dart';
 import '../../../common/widgets/hornors.dart';
+import '../../../service/admob.repo.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.user, required this.workspace});
@@ -17,11 +19,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileProvider provider = ProfileProvider();
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
 
   @override
   void initState() {
     super.initState();
     provider.init(widget.user!, widget.workspace!);
+    initBannnerAd();
   }
 
   @override
@@ -108,6 +113,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )),
                 ],
               ),
+              bottomNavigationBar: isAdLoad
+                  ? SizedBox(
+                      height: bannerAd!.size.height.toDouble(),
+                      width: double.infinity,
+                      child: AdWidget(ad: bannerAd!),
+                    )
+                  : Container(),
             );
           });
         });
@@ -125,5 +137,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 controller: model.contentHornors,
                 createHornors: model.createHornors))
         : null;
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 }

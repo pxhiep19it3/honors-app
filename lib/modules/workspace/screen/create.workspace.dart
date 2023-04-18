@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:honors_app/modules/workspace/screen/add.user.screen.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 import '../../../common/widgets/basic.button.dart';
+import '../../../service/admob.repo.dart';
 import '../../auth/screen/logineds.screen.dart';
 import '../widget/check.box.dart';
 import '../widget/inline.text.button.dart';
@@ -25,6 +27,14 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
   bool isCheck = false;
   final WorkspaceProvider _workspaceProvider = WorkspaceProvider();
   final _formKey = GlobalKey<FormState>();
+
+  InterstitialAd? interstitialAd;
+  @override
+  void initState() {
+    super.initState();
+    initInterstitialAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -174,5 +184,26 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  initInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobRepo.adUnitIdCreateWorkspace!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) {
+              interstitialAd = ad;
+              setfullScreenContentCallback(ad);
+            },
+            onAdFailedToLoad: (LoadAdError error) => interstitialAd = null));
+  }
+
+  setfullScreenContentCallback(InterstitialAd ad) {
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (InterstitialAd ad) {
+          ad.dispose();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {});
+    interstitialAd != null ? interstitialAd!.show() : null;
   }
 }

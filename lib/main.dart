@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/auth/screen/landing.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:honors_app/modules/chart/provider/get.best.provider.dart';
@@ -12,6 +13,11 @@ import 'modules/information/provider/management.provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var dv = ['BB4102BBD8C72214DC6C98FFCE2B4351'];
+  await MobileAds.instance.initialize();
+  RequestConfiguration requestConfiguration =
+      RequestConfiguration(testDeviceIds: dv);
+  MobileAds.instance.updateRequestConfiguration(requestConfiguration);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
