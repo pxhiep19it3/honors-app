@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/models/workspace.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
+import 'package:honors_app/service/admob.repo.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,10 +22,14 @@ class GroupJoined extends StatefulWidget {
 class _GroupJoinedState extends State<GroupJoined> {
   final WorkspaceProvider _provider = WorkspaceProvider();
 
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
+
   @override
   void initState() {
     super.initState();
     _provider.getWorkspace();
+    initBannnerAd();
   }
 
   @override
@@ -66,9 +72,31 @@ class _GroupJoinedState extends State<GroupJoined> {
                   )
                 : const Center(
                     child: Text('Chưa có dữ liệu!'),
-                  ));
+                  ),
+            bottomNavigationBar: isAdLoad
+                ? SizedBox(
+                    height: bannerAd!.size.height.toDouble(),
+                    width: bannerAd!.size.width.toDouble(),
+                    child: AdWidget(ad: bannerAd!),
+                  )
+                : Container());
       }),
     );
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.largeBanner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 
   void onTap(WorkspaceProvider model, int index) async {

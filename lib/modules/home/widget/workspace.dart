@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:honors_app/modules/workspace/widget/delete.workspace.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -112,7 +113,7 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                 model.emailLogin == workspace.admin
                     ? ListTile(
                         onTap: () async {
-                          await model.deleteWorkspace(workspace.id ?? '');
+                          await delete(workspace, model);
                           Navigator.pop(context);
                         },
                         leading: const Icon(Icons.delete),
@@ -138,6 +139,18 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
           workspace: workspace,
           model: model,
           isAdmin: model.emailLogin == workspace.admin,
+        );
+      },
+    );
+  }
+
+  Future delete(Workspace workspace, WorkspaceProvider model) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteWorkspace(
+          workspace: workspace,
+          model: model,
         );
       },
     );

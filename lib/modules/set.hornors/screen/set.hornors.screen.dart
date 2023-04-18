@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/models/user.dart';
 import 'package:honors_app/modules/set.hornors/provider/set.hornors.provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
+import '../../../service/admob.repo.dart';
 import '../../profile/screen/profile.screen.dart';
 
 class SetHornorsScreen extends StatefulWidget {
@@ -17,11 +19,14 @@ class SetHornorsScreen extends StatefulWidget {
 class _SetHornorsScreenState extends State<SetHornorsScreen> {
   SetHornorsProvider provider = SetHornorsProvider();
    String? nameWorkspace;
-
+  BannerAd? bannerAd;
+  bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
     init();
+    initBannnerAd();
+    
   }
 
   void init() async {
@@ -47,6 +52,13 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
                 centerTitle: true,
                 title: const Text('Đã vinh danh'),
               ),
+                bottomNavigationBar: isAdLoad
+                  ? SizedBox(
+                      height: bannerAd!.size.height.toDouble(),
+                      width: double.infinity,
+                      child: AdWidget(ad: bannerAd!),
+                    )
+                  : Container(),
               body: model.listHornors.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -71,6 +83,21 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
         });
       },
     );
+  }
+
+  initBannnerAd() {
+    bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: AdMobRepo.adUnitIdJoin!,
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoad = true;
+          });
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        }),
+        request: const AdRequest());
+    bannerAd!.load();
   }
 
   void onTap(Users u, SetHornorsProvider model) async {
