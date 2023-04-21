@@ -21,26 +21,27 @@ class TextInput extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
-        
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Bạn chưa điền vào đây!';
+            return 'Bạn chưa nhập vào đây!';
           }
           return null;
         },
         controller: controller,
         onChanged: onChange,
         decoration: InputDecoration(
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 2, color: AppColor.primary),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            labelText: label ?? '',
-            labelStyle: const TextStyle(color: AppColor.primary),
-            enabled: enabled ?? true,
-            border: const OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: AppColor.primary),
-                borderRadius: BorderRadius.all(Radius.circular(8)))),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1.5, color: AppColor.primary),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1.5, color: AppColor.primary),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          labelText: label ?? '',
+          labelStyle: const TextStyle(color: AppColor.primary),
+          enabled: enabled ?? true,
+        ),
       ),
     );
   }

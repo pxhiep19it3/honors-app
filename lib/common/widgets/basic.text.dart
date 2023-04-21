@@ -21,10 +21,10 @@ class BasicText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: isContent! ? 10 : null,
+      maxLines: isContent! ? 9 : null,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return null;
+          return 'Bạn chưa nhập vào đây!';
         }
         return null;
       },
