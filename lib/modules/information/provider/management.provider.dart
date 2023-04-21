@@ -7,6 +7,7 @@ import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../service/workspace.repo.dart';
+import '../const/emailTemplate.dart';
 
 class ManagementProvider extends ChangeNotifier {
   final WorkspaceRepo _workspaceRepo = WorkspaceRepo();
@@ -79,6 +80,19 @@ class ManagementProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getEmailContent() {
+    //get file content form ./const/email.html
+    var content = emailTemplate;
+    content = content
+        .replaceAll("{member_email}", "email nguoi nhan")
+        .replaceAll("{company_name}", "ten cong ty")
+        .replaceAll("{company_email}", "email cong ty")
+        .replaceAll("{chplay_link}", "ch play link")
+        .replaceAll("{appstore_link}", "app store link");
+
+    return content;
+  }
+
   sendEmail(List<String> listMember) async {
     if (listMember.isNotEmpty) {
       for (int i = 0; i < listMember.length; i++) {
@@ -90,9 +104,7 @@ class ManagementProvider extends ChangeNotifier {
           ..recipients.add(listMember[i])
           ..subject = 'Mời bạn tham gia vào ${nameWorkspace!} cùng chúng tôi!'
           ..text = ''
-          ..html = r""" 
-                    <center><a href="https://play.google.com/store/apps/details?id=com.facebook.katana"><img height="250px" width="400px" src="https://cdn.wikimobi.vn/2018/07/cuoc-chien-cua-hai-cho-ung-dung-lon-nhat-google-play-store-appstore.jpeg"></a><center/>
-                    """;
+          ..html = getEmailContent();
         await send(message, smtpServer);
       }
       await _workspaceRepo.addUser(id!, listMember);

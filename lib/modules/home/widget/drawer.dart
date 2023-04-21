@@ -43,8 +43,10 @@ class DrawerHome extends StatelessWidget {
             thickness: 1,
             color: AppColor.secondary,
           ),
-          NavigationItems(
-            nameWorkspace: nameWorkspace,
+          Expanded(
+            child: NavigationItems(
+              nameWorkspace: nameWorkspace,
+            ),
           )
         ],
       ),
