@@ -13,10 +13,10 @@ class JobDropButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: const Border(
-          left: BorderSide(width: 1.0, color: AppColor.primary),
-          right: BorderSide(width: 1.0, color: AppColor.primary),
-          bottom: BorderSide(width: 1.0, color: AppColor.primary),
-          top: BorderSide(width: 1.0, color: AppColor.primary),
+          left: BorderSide(width: 1.5, color: AppColor.primary),
+          right: BorderSide(width: 1.5, color: AppColor.primary),
+          bottom: BorderSide(width: 1.5, color: AppColor.primary),
+          top: BorderSide(width: 1.5, color: AppColor.primary),
         ),
       ),
       child: Padding(
@@ -24,7 +24,10 @@ class JobDropButton extends StatelessWidget {
         child: DropdownButton<String>(
           isExpanded: true,
           value: provider.career,
-          icon: const Icon(Icons.arrow_downward),
+          icon: const Icon(
+            Icons.arrow_downward,
+            color: AppColor.primary,
+          ),
           elevation: 16,
           style: const TextStyle(color: AppColor.primary),
           underline: Container(

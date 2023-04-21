@@ -8,7 +8,7 @@ import '../../modules/core.value/screen/core.value.screen.dart';
 import '../values/app.colors.dart';
 import '../values/app.text.dart';
 
-class Hornors extends StatelessWidget {
+class Hornors extends StatefulWidget {
   const Hornors(
       {super.key,
       required this.name,
@@ -23,82 +23,95 @@ class Hornors extends StatelessWidget {
   final Function(String)? setCoreValue;
   final TextEditingController? controller;
   final Function(String)? createHornors;
+
+  @override
+  State<Hornors> createState() => _HornorsState();
+}
+
+class _HornorsState extends State<Hornors> {
+  final form = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return coreValue!.isNotEmpty
-        ? AlertDialog(
-            backgroundColor: AppColor.gray,
-            title: Center(
-                child: Text(
-              name ?? '',
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColor.primary),
-            )),
-            content: SingleChildScrollView(
-              child: SizedBox(
-                height: 550,
-                width: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      AppText.selectCoreValue,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SelectCoreValue(
-                        coreValue: coreValue, setCoreValue: setCoreValue!),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      AppText.coreHornors,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SelectScore(
-                      score: coreValue![0].score!.toDouble(),
-                      setScore: setScore,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      AppText.contentHornors,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BasicText(
-                      controller: controller!,
-                      isContent: true,
-                    )
-                  ],
+    return widget.coreValue!.isNotEmpty
+        ? Form(
+            key: form,
+            child: AlertDialog(
+              backgroundColor: AppColor.gray,
+              title: Center(
+                  child: Text(
+                widget.name ?? '',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppColor.primary),
+              )),
+              content: SingleChildScrollView(
+                child: SizedBox(
+                  height: 550,
+                  width: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        AppText.selectCoreValue,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SelectCoreValue(
+                          coreValue: widget.coreValue,
+                          setCoreValue: widget.setCoreValue!),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        AppText.coreHornors,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SelectScore(
+                        score: widget.coreValue![0].score!.toDouble(),
+                        setScore: widget.setScore,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        AppText.contentHornors,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      BasicText(
+                        controller: widget.controller!,
+                        isContent: true,
+                      )
+                    ],
+                  ),
                 ),
               ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Thoát'),
+                  child: const Text(
+                    'Thoát',
+                    style: TextStyle(color: AppColor.primary),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (form.currentState!.validate()) {
+                      widget.createHornors!(widget.name ?? '');
+                      Navigator.pop(context, 'Vinh danh');
+                    }
+                  },
+                  child: const Text(
+                    'Vinh danh',
+                    style: TextStyle(color: AppColor.primary),
+                  ),
+                ),
+              ],
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Thoát'),
-                child: const Text(
-                  'Thoát',
-                  style: TextStyle(color: AppColor.primary),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  createHornors!(name ?? '');
-                  Navigator.pop(context, 'Vinh danh');
-                },
-                child: const Text(
-                  'Vinh danh',
-                  style: TextStyle(color: AppColor.primary),
-                ),
-              ),
-            ],
           )
         : AlertDialog(
             backgroundColor: AppColor.gray,

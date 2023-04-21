@@ -13,7 +13,7 @@ import 'modules/information/provider/management.provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var dv = ['BB4102BBD8C72214DC6C98FFCE2B4351'];
+  var dv = ['13B3C4E7640A4C8135687E60B1F5FEF0'];
   await MobileAds.instance.initialize();
   RequestConfiguration requestConfiguration =
       RequestConfiguration(testDeviceIds: dv);
