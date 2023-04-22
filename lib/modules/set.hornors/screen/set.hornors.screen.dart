@@ -24,7 +24,7 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
   void initState() {
     super.initState();
     init();
-    // initBannnerAd();
+    initBannnerAd();
   }
 
   void init() {

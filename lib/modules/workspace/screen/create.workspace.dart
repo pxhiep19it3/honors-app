@@ -32,7 +32,7 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
   @override
   void initState() {
     super.initState();
-    // initInterstitialAd();
+    initInterstitialAd();
   }
 
   @override

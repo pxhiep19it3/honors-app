@@ -43,9 +43,9 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   void initState() {
-    // initRewardedAd();
+    initRewardedAd();
     init();
-    // initBannnerAd();
+    initBannnerAd();
     setState(() {
       _range = '$start - $end';
     });

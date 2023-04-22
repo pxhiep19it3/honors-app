@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     provider.init(widget.user!);
-    // initBannnerAd();
+    initBannnerAd();
   }
 
   @override

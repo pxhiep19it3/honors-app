@@ -31,7 +31,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   void initState() {
     super.initState();
     provider.getCoreValue();
-    // initRewardedAd();
+    initRewardedAd();
   }
 
   @override
