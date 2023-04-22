@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/hornors.dart';
 import '../../../service/chart.repo.dart';
 
-class SetBestProvider extends ChangeNotifier{
-   final ChartRepo _bestRepo = ChartRepo();
-    List<String> listName = [];
+class SetBestProvider extends ChangeNotifier {
+  final ChartRepo _bestRepo = ChartRepo();
+  List<String> listName = [];
   List<Hornors> getHornors = [];
   final List<SetBest> _setBest = [];
   List<SetBest> get setBest => _setBest;
@@ -15,9 +15,9 @@ class SetBestProvider extends ChangeNotifier{
 
   init(String range) async {
     final prefs = await SharedPreferences.getInstance();
-    String nameWorkspace = prefs.getString('nameWorkspace')!;
+    String workspaceID = prefs.getString('workspaceID')!;
     getHornors =
-        await _bestRepo.getHornors(nameWorkspace, start(range), end(range));
+        await _bestRepo.getHornors(workspaceID, start(range), end(range));
     if (getHornors.isNotEmpty) {
       for (int i = 0; i < getHornors.length; i++) {
         listName.add(getHornors[i].userSet.toString());

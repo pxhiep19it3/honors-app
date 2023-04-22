@@ -15,9 +15,9 @@ class ValueBestProvider extends ChangeNotifier {
 
   init(String range) async {
     final prefs = await SharedPreferences.getInstance();
-    String nameWorkspace = prefs.getString('nameWorkspace')!;
+    String workspaceID = prefs.getString('workspaceID')!;
     getHornors =
-        await _bestRepo.getHornors(nameWorkspace, start(range), end(range));
+        await _bestRepo.getHornors(workspaceID, start(range), end(range));
     if (getHornors.isNotEmpty) {
       for (int i = 0; i < getHornors.length; i++) {
         listTitle.add(getHornors[i].coreValue.toString());

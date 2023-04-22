@@ -6,10 +6,10 @@ class ChartRepo {
   final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
 
-  Future<List<Hornors>> getHornors(String workspace, int start, int end) async {
+  Future<List<Hornors>> getHornors(String workspaceID, int start, int end) async {
     List<Hornors> getHornors = [];
     await hornorsFisebase
-        .where("workspace", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {

@@ -44,7 +44,7 @@ class _GetBestWidgetState extends State<GetBestWidget> {
                   model.getBest.isEmpty
                       ? const Text('Chưa có dữ liệu!')
                       : Container(),
-                  SfPyramidChart(
+                  SfCircularChart(
                       title: ChartTitle(
                           text:
                               'Người được vinh danh nhiều nhất\n(${widget.range})',
@@ -55,18 +55,19 @@ class _GetBestWidgetState extends State<GetBestWidget> {
                       tooltipBehavior: _tooltip,
                       legend: Legend(
                         textStyle: const TextStyle(fontSize: 20),
-                        orientation: LegendItemOrientation.vertical,
                         position: LegendPosition.bottom,
-                        shouldAlwaysShowScrollbar: false,
-                        padding: 20,
+                        overflowMode: LegendItemOverflowMode.wrap,
                         isVisible: true,
-                        alignment: ChartAlignment.center,
                       ),
-                      series: PyramidSeries<GetBest, String>(
-                        dataSource: model.getBest,
-                        xValueMapper: (GetBest data, _) => data.name,
-                        yValueMapper: (GetBest data, _) => data.total,
-                      )),
+                      series: <CircularSeries>[
+                        DoughnutSeries<GetBest, String>(
+                            dataSource: model.getBest,
+                            xValueMapper: (GetBest data, _) => data.name,
+                            yValueMapper: (GetBest data, _) => data.total,
+                            dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                textStyle: TextStyle(fontSize: 20)))
+                      ]),
                 ],
               ),
             ),
