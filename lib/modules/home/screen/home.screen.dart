@@ -24,12 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeProvider provider = HomeProvider();
   BannerAd? bannerAd;
   bool isAdLoad = false;
+  String? workspaceID;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   RewardedAd? rewardedAd;
@@ -39,11 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       nameWorkspace = prefs.getString('nameWorkspace');
     });
-    provider.init(nameWorkspace!);
+    setState(() {
+      workspaceID = prefs.getString('workspaceID');
+    });
+    provider.init(workspaceID!);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_scrollController.hasClients) {
+      final position = _scrollController.position.maxScrollExtent;
+      _scrollController.jumpTo(position);
+    }
     return ChangeNotifierProvider<HomeProvider>(
       create: ((context) => provider),
       builder: (context, child) {
@@ -83,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: double.infinity,
                       child: AdWidget(ad: bannerAd!),
                     )
-                  : Container(),
+                  : null,
               body: _body(context, model));
         });
       },
@@ -91,22 +100,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _body(BuildContext context, HomeProvider model) {
+    if (_scrollController.hasClients) {
+      final position = _scrollController.position.maxScrollExtent;
+      _scrollController.jumpTo(position);
+    }
     return !isSearch
-        ? (model.listHornors.isNotEmpty
+        ? (model.listHornors != null && model.listHornors!.isNotEmpty
             ? Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 40, right: 15, left: 15),
                 child: ListView.builder(
+                    controller: _scrollController,
                     shrinkWrap: true,
-                    itemCount: model.listHornors.length,
-                    itemBuilder: (BuildContext context, index) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: HonorsItems(
-                          hornors: model.listHornors[index],
-                        ))),
+                    itemCount: model.listHornors!.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: HonorsItems(
+                            hornors: model.listHornors![index],
+                          ));
+                    }),
               )
-            : const Center(
-                child: Text('Chưa có dữ liệu!'),
-              ))
+            : model.listHornors != null && model.listHornors!.isEmpty
+                ? const Center(
+                    child: Text(
+                      'Chưa có vinh danh nào!',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ))
         : SearchItem(
             users: model.listUser,
             model: model,
@@ -118,7 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isSearch = !isSearch;
     });
-    provider.init(nameWorkspace ?? '');
+    provider.init(workspaceID ?? '');
+    if (_scrollController.hasClients) {
+      final position = _scrollController.position.maxScrollExtent;
+      _scrollController.jumpTo(position);
+    }
   }
 
   initBannnerAd() {

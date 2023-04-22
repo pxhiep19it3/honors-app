@@ -69,7 +69,8 @@ class _OutWorkspaceState extends State<OutWorkspace> {
           child:
               const Text('Rời khỏi', style: TextStyle(color: AppColor.primary)),
           onPressed: () {
-            widget.model.outWorkspace(widget.workspace.id ?? '', widget.isAdmin, newAdmin);
+            widget.model.outWorkspace(
+                widget.workspace.id ?? '', widget.isAdmin, newAdmin);
             Navigator.of(context).pop();
           },
         ),

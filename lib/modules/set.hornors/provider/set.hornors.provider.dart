@@ -11,16 +11,22 @@ import '../../../models/user.dart';
 class SetHornorsProvider extends ChangeNotifier {
   SetHornorsRepo repo = SetHornorsRepo();
 
-  List<Hornors> _listHornors = [];
-  List<Hornors> get listHornors => _listHornors;
+  List<Hornors>? _listHornors;
+  List<Hornors>? get listHornors => _listHornors;
+  List<Hornors>? _listHornorsTmp;
 
   String? _userLogined;
   String? get userLogined => _userLogined;
 
-  init(String nameWorkspace) async {
+  String? _workspaceID;
+
+  init() async {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
-    _listHornors = await repo.getHornors(nameWorkspace, _userLogined ?? '');
+    _workspaceID = prefs.getString('workspaceID');
+     _listHornorsTmp =
+        await repo.getHornors(_workspaceID!, _userLogined ?? '');
+    _listHornors = _listHornorsTmp!;
     notifyListeners();
   }
 

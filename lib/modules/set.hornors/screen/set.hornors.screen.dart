@@ -3,7 +3,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/models/user.dart';
 import 'package:honors_app/modules/set.hornors/provider/set.hornors.provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../../service/admob.repo.dart';
@@ -18,25 +17,19 @@ class SetHornorsScreen extends StatefulWidget {
 
 class _SetHornorsScreenState extends State<SetHornorsScreen> {
   SetHornorsProvider provider = SetHornorsProvider();
-   String? nameWorkspace;
+
   BannerAd? bannerAd;
   bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
-    
+    // initBannnerAd();
   }
 
-  void init() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nameWorkspace = prefs.getString('nameWorkspace');
-    });
-    provider.init(nameWorkspace!);
+  void init() {
+    provider.init();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,34 +45,43 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
                 centerTitle: true,
                 title: const Text('Đã vinh danh'),
               ),
-                bottomNavigationBar: isAdLoad
+              bottomNavigationBar: isAdLoad
                   ? SizedBox(
                       height: bannerAd!.size.height.toDouble(),
                       width: double.infinity,
                       child: AdWidget(ad: bannerAd!),
                     )
-                  : Container(),
-              body: model.listHornors.isNotEmpty
+                  : null,
+              body: model.listHornors != null && model.listHornors!.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: model.listHornors.length,
+                          itemCount: model.listHornors!.length,
                           itemBuilder: (BuildContext context, index) => InkWell(
                                 onTap: () async {
                                   Users u = await model.getUser(
-                                      model.listHornors[index].userGet ?? '');
+                                      model.listHornors![index].userGet ?? '');
                                   onTap(u, model);
                                 },
                                 child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: HonorsItems(
-                                      hornors: model.listHornors[index],
+                                      hornors: model.listHornors![index],
                                       isHome: false,
                                     )),
                               )),
                     )
-                  : const Center(child: Text('Chưa có dữ liệu!'),));
+                  : model.listHornors != null && model.listHornors!.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'Chưa có vinh danh nào!',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ));
         });
       },
     );
@@ -104,6 +106,8 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => ProfileScreen(user: u, workspace: nameWorkspace ?? '')));
+            builder: (_) => ProfileScreen(
+                  user: u,
+                )));
   }
 }

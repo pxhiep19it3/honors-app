@@ -6,8 +6,9 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../common/values/app.email.dart';
+import '../../../service/user.in.workspace.repo.dart';
 import '../../../service/workspace.repo.dart';
-import '../const/emailTemplate.dart';
 
 class ManagementProvider extends ChangeNotifier {
   final WorkspaceRepo _workspaceRepo = WorkspaceRepo();
@@ -28,8 +29,11 @@ class ManagementProvider extends ChangeNotifier {
   TextEditingController? _adminCtl = TextEditingController();
   TextEditingController? get adminCtl => _adminCtl;
 
+  final UserInWorkspaceRepo _inWorkspaceRepo = UserInWorkspaceRepo();
+
   String? nameWorkspace;
-  String? id;
+
+  String? workspaceID;
 
   bool _isAdmin = false;
   bool get isAdmin => _isAdmin;
@@ -39,12 +43,12 @@ class ManagementProvider extends ChangeNotifier {
   init() async {
     final prefs = await SharedPreferences.getInstance();
     nameWorkspace = prefs.getString('nameWorkspace');
-    _workspace = await _workspaceRepo.getWorkspace(nameWorkspace!);
+    workspaceID = prefs.getString('workspaceID');
+    _workspace = await _workspaceRepo.getWorkspace(workspaceID!);
     _nameCtl = TextEditingController(text: _workspace!.name);
     _addressCtl = TextEditingController(text: _workspace!.address);
     _careerCtl = TextEditingController(text: _workspace!.career);
     _adminCtl = TextEditingController(text: _workspace!.admin);
-    id = _workspace!.id;
     emailLogin = prefs.getString('emailLogin');
     emailLogin == _workspace!.admin ? _isAdmin = true : _isAdmin = false;
     notifyListeners();
@@ -53,43 +57,40 @@ class ManagementProvider extends ChangeNotifier {
   updateWorkspace() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nameWorkspace', nameCtl!.text);
-    _coreValueRepo.setWorkspace(nameWorkspace!, nameCtl!.text);
     _workspaceRepo.updateWorkspace(
-        id!, _addressCtl!.text, _careerCtl!.text, nameCtl!.text);
-    _hornorsRepo.setWorkspace(nameWorkspace!, nameCtl!.text);
+        workspaceID!, _addressCtl!.text, _careerCtl!.text, nameCtl!.text);
     init();
     notifyListeners();
   }
 
   deleteMember(String member) async {
-    await _workspaceRepo.deleteMember(id!, member);
+    await _workspaceRepo.deleteMember(workspaceID!, member);
     _workspace!.members!.removeWhere((item) => item == member);
+    await _inWorkspaceRepo.deleteAllWorkspaceID([member], workspaceID!);
     notifyListeners();
   }
 
-  deleteWorkspace(String nameWorkspace) async {
-    await _workspaceRepo.deleteWorkspace(id!);
-    await _coreValueRepo.deleteAllCoreValue(nameWorkspace);
-    await _hornorsRepo.deleteHornors(nameWorkspace);
+  deleteWorkspace(List<String> listEmail) async {
+    await _workspaceRepo.deleteWorkspace(workspaceID!);
+    await _coreValueRepo.deleteAllCoreValue(workspaceID!);
+    await _hornorsRepo.deleteHornors(workspaceID!);
+    listEmail.add(adminCtl!.text);
+    await _inWorkspaceRepo.deleteAllWorkspaceID(listEmail, workspaceID!);
     notifyListeners();
   }
 
   transfeAdmin(String newAdmin) async {
-    await _workspaceRepo.transfeAdmin(id!, newAdmin, emailLogin!);
+    await _workspaceRepo.transfeAdmin(workspaceID!, newAdmin, emailLogin!);
     init();
     notifyListeners();
   }
 
-  getEmailContent() {
-    //get file content form ./const/email.html
+  getEmailContent(String memberEmail, String nameWorkspace) {
     var content = emailTemplate;
     content = content
-        .replaceAll("{member_email}", "email nguoi nhan")
-        .replaceAll("{company_name}", "ten cong ty")
-        .replaceAll("{company_email}", "email cong ty")
-        .replaceAll("{chplay_link}", "ch play link")
-        .replaceAll("{appstore_link}", "app store link");
-
+        .replaceAll("{member_email}", memberEmail)
+        .replaceAll("{company_name}", nameWorkspace)
+        .replaceAll("{company_email}", emailLogin!);
     return content;
   }
 
@@ -102,12 +103,14 @@ class ManagementProvider extends ChangeNotifier {
         final message = Message()
           ..from = Address(username, 'Phan Xuân Hiệp')
           ..recipients.add(listMember[i])
-          ..subject = 'Mời bạn tham gia vào ${nameWorkspace!} cùng chúng tôi!'
+          ..subject =
+              'LỜI MỜI THAM GIA VÀO ${nameWorkspace!.toUpperCase()} CÙNG CHÚNG TÔI!'
           ..text = ''
-          ..html = getEmailContent();
+          ..html = getEmailContent(listMember[i], nameWorkspace!);
         await send(message, smtpServer);
       }
-      await _workspaceRepo.addUser(id!, listMember);
+      await _workspaceRepo.addUser(workspaceID!, listMember);
+      await _inWorkspaceRepo.addUserInWorkspace(listMember, workspaceID!);
     }
     init();
     notifyListeners();

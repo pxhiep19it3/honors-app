@@ -10,8 +10,10 @@ import '../../../models/hornors.dart';
 
 class HomeProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
-  List<Hornors> _listHornors = [];
-  List<Hornors> get listHornors => _listHornors;
+  List<Hornors>? _listHornors;
+  List<Hornors>? get listHornors => _listHornors;
+
+  List<Hornors>? _listHornorsTmp;
 
   List<Users> _listUser = [];
   List<Users> get listUser => _listUser;
@@ -46,21 +48,22 @@ class HomeProvider extends ChangeNotifier {
 
   bool _isAdMob = false;
   bool get isAdMob => _isAdMob;
-
+  String? _workspaceID;
   Users _admin = Users();
 
-  init(String nameWorkspace) async {
+  init(String workspaceID) async {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
-    _listHornors = await _hornorsRepo.getHornors(nameWorkspace);
-    _admin = await _hornorsRepo.getAdmin(nameWorkspace);
-    _userTmp = await _hornorsRepo.getUser(nameWorkspace);
+    _workspaceID = workspaceID;
+    _listHornorsTmp = await _hornorsRepo.getHornors(_workspaceID!);
+    _listHornors = _listHornorsTmp!;
+    _admin = await _hornorsRepo.getAdmin(_workspaceID!);
+    _userTmp = await _hornorsRepo.getUser(_workspaceID!);
     _userLogined != _admin.displayName ? _userTmp.add(_admin) : null;
     _userTmp.removeWhere((element) => element.displayName == _userLogined);
     _listUser = _userTmp;
-    _listCoreValue = await _coreValueRepo.getCoreValue(nameWorkspace);
-    workspace = nameWorkspace;
-    _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
+    _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
+    _listHornors!.sort((a, b) => a.time!.compareTo(b.time!));
     setUser();
     notifyListeners();
   }
@@ -102,9 +105,10 @@ class HomeProvider extends ChangeNotifier {
         _score ?? _listCoreValue[0].score!,
         userGet,
         _userLogined ?? '',
-        workspace,
-        time.toString());
-    _listHornors = await _hornorsRepo.getHornors(workspace);
+        time.toString(),
+        _workspaceID!);
+    _listHornorsTmp = await _hornorsRepo.getHornors(workspace);
+    _listHornors = _listHornors;
     _contentHornors.clear();
     _count++;
     if (_count % 5 == 0) {

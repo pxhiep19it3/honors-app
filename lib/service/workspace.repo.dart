@@ -7,45 +7,30 @@ class WorkspaceRepo {
   final CollectionReference workspaceFisebase =
       FirebaseFirestore.instance.collection('Workspace');
 
-  Future<List<Workspace>> getWorkspaces(String emailLogin) async {
+  Future<List<Workspace>> getWorkspaces(List<String> workspaceIDs) async {
     List<Workspace> getWorkspace = [];
-
-    await workspaceFisebase
-        .where("members", arrayContains: emailLogin)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        getWorkspace.add(Workspace(
-            id: doc.id,
-            name: doc['name'].toString(),
-            address: doc['address'].toString(),
-            career: doc['career'].toString(),
-            admin: doc['admin'].toString(),
-            members: doc['members']));
-      }
-    });
-
-    await workspaceFisebase
-        .where("admin", isEqualTo: emailLogin)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        getWorkspace.add(Workspace(
-            id: doc.id,
-            name: doc['name'].toString(),
-            address: doc['address'].toString(),
-            career: doc['career'].toString(),
-            admin: doc['admin'].toString(),
-            members: doc['members']));
-      }
-    });
+    for (int i = 0; i < workspaceIDs.length; i++) {
+      await workspaceFisebase
+          .where('workspaceID', isEqualTo: workspaceIDs[i])
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          getWorkspace.add(Workspace(
+              id: doc.id,
+              name: doc['name'].toString(),
+              admin: doc['admin'].toString(),
+              workspaceID: doc['workspaceID'].toString(),
+              members: doc['members']));
+        }
+      });
+    }
     return getWorkspace;
   }
 
-  Future<Workspace> getWorkspace(String workspace) async {
+  Future<Workspace> getWorkspace(String workspaceID) async {
     Workspace getWorkspace = Workspace();
     await workspaceFisebase
-        .where("name", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -55,21 +40,25 @@ class WorkspaceRepo {
             address: doc['address'].toString(),
             career: doc['career'].toString(),
             admin: doc['admin'].toString(),
+            workspaceID: doc['workspaceID'].toString(),
             members: doc['members']);
       }
     });
     return getWorkspace;
   }
 
-  Future<void> createWorkspace(String admin, WorkspaceProvider workspace,
+  Future<String> createWorkspace(String admin, WorkspaceProvider workspace,
       List<String> listMember) async {
-    workspaceFisebase.add(({
+    DocumentReference docRef = await workspaceFisebase.add(({
       'name': workspace.nameWorkspaceCtl.text,
       'address': workspace.addressCtl.text,
       'career': workspace.career,
       'admin': admin,
-      'members': listMember
+      'members': listMember,
+      'workspaceID': ''
     }));
+    await workspaceFisebase.doc(docRef.id).update({'workspaceID': docRef.id});
+    return docRef.id;
   }
 
   Future<void> outWorkspace(String id, String emailLogin) async {

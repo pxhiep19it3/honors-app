@@ -4,6 +4,7 @@ class Workspace {
   String? address;
   String? career;
   String? admin;
+  String? workspaceID;
   List? members;
   Workspace(
       {this.id,
@@ -11,5 +12,6 @@ class Workspace {
       this.address,
       this.career,
       this.admin,
-      this.members});
+      this.members,
+      this.workspaceID});
 }

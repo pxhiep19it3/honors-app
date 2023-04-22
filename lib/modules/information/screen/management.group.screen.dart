@@ -174,7 +174,7 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
         return DeleteWorkspace(
           nameWorkspace: nameWorkspace,
           deleteWorkspace: () {
-            model.deleteWorkspace(nameWorkspace);
+            model.deleteWorkspace(model.workspace!.members!.cast<String>());
           },
         );
       },

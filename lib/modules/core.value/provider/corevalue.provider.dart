@@ -7,10 +7,11 @@ import '../../../service/core.value.repo.dart';
 class CoreValueProvider extends ChangeNotifier {
   final CoreValueRepo _coreValueRepo = CoreValueRepo();
 
-  List<CoreValue> _listCore = [];
-  List<CoreValue> get listCore => _listCore;
+  List<CoreValue>? _listCore;
+  List<CoreValue>? get listCore => _listCore;
+  List<CoreValue>? _listCoreTmp;
 
-  String? workspace;
+  String? workspaceID;
 
   TextEditingController _titleCtl = TextEditingController();
   TextEditingController get titleCtl => _titleCtl;
@@ -23,21 +24,22 @@ class CoreValueProvider extends ChangeNotifier {
 
   getCoreValue() async {
     final prefs = await SharedPreferences.getInstance();
-    workspace = prefs.getString('nameWorkspace');
-    _listCore = await _coreValueRepo.getCoreValue(workspace!);
+    workspaceID = prefs.getString('workspaceID');
+    _listCoreTmp = await _coreValueRepo.getCoreValue(workspaceID!);
+    _listCore = _listCoreTmp!;
     notifyListeners();
   }
 
   addCoreValue() async {
     bool check = true;
-    for (int i = 0; i < _listCore.length; i++) {
-      if (_titleCtl.text == _listCore[i].title) {
+    for (int i = 0; i < _listCore!.length; i++) {
+      if (_titleCtl.text == _listCore![i].title) {
         check = false;
       }
     }
     check
         ? await _coreValueRepo.createCoreValue(
-            workspace!, _titleCtl.text, _contentCtl.text, _score)
+            _titleCtl.text, _contentCtl.text, _score, workspaceID!)
         : null;
     getCoreValue();
     clearCtl();
@@ -51,7 +53,7 @@ class CoreValueProvider extends ChangeNotifier {
   }
 
   deleteCoreValue(String id) async {
-    _listCore.removeWhere((element) => element.id == id);
+    _listCore!.removeWhere((element) => element.id == id);
     await _coreValueRepo.deleteCoreValue(id);
     clearCtl();
     notifyListeners();
@@ -66,14 +68,14 @@ class CoreValueProvider extends ChangeNotifier {
   update(String id) async {
     await _coreValueRepo.update(id, _titleCtl.text, _contentCtl.text);
     getCoreValue();
-    _listCore = _listCore.reversed.toList();
+    _listCore = _listCore!.reversed.toList();
     notifyListeners();
   }
 
   List<String> getListID() {
     List<String> listID = [];
-    for (int i = 0; i < _listCore.length; i++) {
-      listID.add(_listCore[i].id ?? '');
+    for (int i = 0; i < _listCore!.length; i++) {
+      listID.add(_listCore![i].id ?? '');
     }
     notifyListeners();
     return listID;

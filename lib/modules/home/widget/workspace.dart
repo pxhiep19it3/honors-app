@@ -5,14 +5,15 @@ import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/modules/workspace/widget/delete.workspace.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../models/workspace.dart';
+import '../../auth/screen/login.screen.dart';
 import '../../bottom/bottom.navigation.dart';
 import '../../workspace/provider/workspace.provider.dart';
 import '../../workspace/widget/out.workspace.dart';
 
 class WorkspaceItem extends StatefulWidget {
-  const WorkspaceItem({super.key});
+  const WorkspaceItem({super.key, required this.workspaceName});
+  final String? workspaceName;
 
   @override
   State<WorkspaceItem> createState() => _WorkspaceItemState();
@@ -33,23 +34,23 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
       create: ((context) => _provider),
       builder: (context, child) =>
           Consumer<WorkspaceProvider>(builder: (context, model, child) {
-        return model.listWorkspace.isNotEmpty
+        return model.listWorkspace != null && model.listWorkspace!.isNotEmpty
             ? ListView.builder(
                 shrinkWrap: true,
-                itemCount: model.listWorkspace.length,
+                itemCount: model.listWorkspace!.length,
                 itemBuilder: (BuildContext context, index) {
                   return ListTile(
                     onTap: () {
                       onTap(model, index);
                     },
                     title: Text(
-                      model.listWorkspace[index].name ?? '',
+                      model.listWorkspace![index].name ?? '',
                       style: const TextStyle(
                           fontSize: 18, color: AppColor.secondary),
                     ),
                     trailing: IconButton(
                         onPressed: () {
-                          trailing(model.listWorkspace[index], model);
+                          trailing(model.listWorkspace![index], model);
                         },
                         icon: const Icon(
                           Icons.more_vert,
@@ -58,9 +59,13 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                   );
                 },
               )
-            : const Center(
-                child: CircularProgressIndicator(),
-              );
+            : model.listWorkspace != null && model.listWorkspace!.isEmpty
+                ? const Center(
+                    child: Text('Bạn chưa tham gia nhóm nào!'),
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  );
       }),
     );
   }
@@ -68,7 +73,9 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
   void onTap(WorkspaceProvider model, int index) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        'nameWorkspace', model.listWorkspace[index].name ?? '');
+        'nameWorkspace', model.listWorkspace![index].name ?? '');
+    await prefs.setString(
+        'workspaceID', model.listWorkspace![index].workspaceID ?? '');
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const BottomNavigation()),
@@ -102,7 +109,14 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                 ListTile(
                   onTap: () async {
                     await out(workspace, model);
-                    Navigator.pop(context);
+                    workspace.name == widget.workspaceName
+                        ? Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                            (Route<dynamic> route) => false,
+                          )
+                        : Navigator.pop(context);
                   },
                   leading: const Icon(Icons.logout),
                   title: const Text(
@@ -114,7 +128,15 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                     ? ListTile(
                         onTap: () async {
                           await delete(workspace, model);
-                          Navigator.pop(context);
+                          workspace.name == widget.workspaceName
+                              ? Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()),
+                                  (Route<dynamic> route) => false,
+                                )
+                              : Navigator.pop(context);
                         },
                         leading: const Icon(Icons.delete),
                         title: const Text(

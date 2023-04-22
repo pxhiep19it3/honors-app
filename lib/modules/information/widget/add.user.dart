@@ -83,7 +83,6 @@ class _AddUserState extends State<AddUser> {
                         setState(() {
                           users = [];
                         });
-
                         Flushbar(
                           message: "Đã gửi lời mời!",
                           icon: Icon(

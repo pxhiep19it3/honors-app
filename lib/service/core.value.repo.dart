@@ -5,10 +5,10 @@ class CoreValueRepo {
   final CollectionReference coreFisebase =
       FirebaseFirestore.instance.collection('CoreValue');
 
-  Future<List<CoreValue>> getCoreValue(String workspace) async {
+  Future<List<CoreValue>> getCoreValue(String workspaceID) async {
     List<CoreValue> listCoreValue = [];
     await coreFisebase
-        .where("workspace", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -17,7 +17,6 @@ class CoreValueRepo {
           title: doc['title'].toString(),
           content: doc['content'].toString(),
           score: int.parse(doc['score'].toString()),
-          workspace: doc['workspace'].toString(),
         ));
       }
     });
@@ -25,12 +24,12 @@ class CoreValueRepo {
   }
 
   Future<void> createCoreValue(
-      String workspace, String title, String content, int score) async {
+      String title, String content, int score, String workspaceID) async {
     coreFisebase.add(({
-      'workspace': workspace,
       'title': title,
       'content': content,
       'score': score,
+      'workspaceID': workspaceID
     }));
   }
 
@@ -48,22 +47,9 @@ class CoreValueRepo {
     }
   }
 
-  Future<void> setWorkspace(String workspaceOLD, String workspaceNEW) async {
+  Future<void> deleteAllCoreValue(String workspaceID) async {
     await coreFisebase
-        .where("workspace", isEqualTo: workspaceOLD)
-        .get()
-        .then((QuerySnapshot querySnapshot) async {
-      for (var doc in querySnapshot.docs) {
-        await coreFisebase.doc(doc.id).update({
-          'workspace': workspaceNEW,
-        });
-      }
-    });
-  }
-
-  Future<void> deleteAllCoreValue(String nameWorkspace) async {
-    await coreFisebase
-        .where("workspace", isEqualTo: nameWorkspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {

@@ -9,7 +9,6 @@ import 'package:honors_app/modules/core.value/screen/detail.value.screen.dart';
 import 'package:honors_app/modules/core.value/widget/add.core.value.dart';
 import 'package:honors_app/service/admob.repo.dart';
 import 'package:provider/provider.dart';
-import '../../../common/widgets/basic.button.dart';
 import '../widget/core.value.item.dart';
 import '../widget/score.setting.dart';
 
@@ -32,12 +31,11 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   void initState() {
     super.initState();
     provider.getCoreValue();
-    initRewardedAd();
+    // initRewardedAd();
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider<CoreValueProvider>(
       create: ((context) => provider),
       builder: ((context, child) {
@@ -60,27 +58,27 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                 body: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    child: model.listCore.isNotEmpty
+                    child: model.listCore != null && model.listCore!.isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,
-                            itemCount: model.listCore.length,
+                            itemCount: model.listCore!.length,
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
                                 onTap: () {
                                   model.setValueOnTap(
-                                      model.listCore[index].title ?? '',
-                                      model.listCore[index].content ?? '');
-                                  onTap(model.listCore[index], model);
+                                      model.listCore![index].title ?? '',
+                                      model.listCore![index].content ?? '');
+                                  onTap(model.listCore![index], model);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: CoreValueItem(
-                                    item: model.listCore[index],
+                                    item: model.listCore![index],
                                   ),
                                 ),
                               );
                             })
-                        : model.listCore.isEmpty && widget.isFirst
+                        : model.listCore != null && model.listCore!.isEmpty
                             ? Center(
                                 child: Column(
                                   children: [
@@ -103,35 +101,24 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         )),
-                                    model.listCore.isEmpty && widget.isFirst
-                                        ? const SizedBox(
-                                            height: 50,
-                                          )
-                                        : Container(),
-                                    model.listCore.isEmpty && widget.isFirst
-                                        ? BacsicButton(
-                                            onPressed: done,
-                                            label: 'BỎ QUA',
-                                            width: width * 0.85,
-                                            primary: false)
-                                        : Container()
                                   ],
                                 ),
                               )
                             : const Center(
-                                child: Text('Chưa có dữ liệu!'),
+                                child: CircularProgressIndicator(),
                               )),
-                floatingActionButton:
-                    widget.isFirst && model.listCore.isNotEmpty
-                        ? FloatingActionButton(
-                            backgroundColor: AppColor.primary,
-                            onPressed: done,
-                            child: const Icon(
-                              Icons.done,
-                              color: AppColor.secondary,
-                            ),
-                          )
-                        : Container());
+                floatingActionButton: widget.isFirst &&
+                        model.listCore != null &&
+                        model.listCore!.isNotEmpty
+                    ? FloatingActionButton(
+                        backgroundColor: AppColor.primary,
+                        onPressed: done,
+                        child: const Icon(
+                          Icons.done,
+                          color: AppColor.secondary,
+                        ),
+                      )
+                    : Container());
           },
         );
       }),
@@ -168,9 +155,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   }
 
   void showRewardedAd() {
-    rewardedAd!.show(onUserEarnedReward: (ad, re) {
-      print(re.amount);
-    });
+    rewardedAd!.show(onUserEarnedReward: (ad, re) {});
   }
 
   void settingScore() {
@@ -188,6 +173,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   }
 
   void create() {
+    provider.clearCtl();
     showDialog<String>(
         context: context,
         builder: (BuildContext context) => AddCoreValue(provider: provider));

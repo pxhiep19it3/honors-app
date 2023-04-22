@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/get.hornors/provider/get.hornors.provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../../common/widgets/show.score.dart';
@@ -20,22 +18,18 @@ class GetHornorsScreen extends StatefulWidget {
 
 class _GetHornorsScreenState extends State<GetHornorsScreen> {
   GetHornorsProvider model = GetHornorsProvider();
-  String? nameWorkspace;
+
   BannerAd? bannerAd;
   bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
-  void init() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nameWorkspace = prefs.getString('nameWorkspace');
-    });
-    model.init(nameWorkspace!);
+  void init() {
+    model.init();
   }
 
   @override
@@ -59,7 +53,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                     width: double.infinity,
                     child: AdWidget(ad: bannerAd!),
                   )
-                : Container(),
+                : null,
             body: Column(
               children: [
                 Container(
@@ -109,22 +103,24 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                       model.photoURL != null
                           ? ShowScore(
                               score: model.score,
-                              number: model.listHornors.length,
+                              number: model.listHornors!.length,
                             )
                           : Container()
                     ],
                   ),
                 ),
                 Expanded(
-                    child: model.listHornors.isNotEmpty
+                    child: model.listHornors != null &&
+                            model.listHornors!.isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,
-                            itemCount: model.listHornors.length,
+                            itemCount: model.listHornors!.length,
                             itemBuilder: (BuildContext context, index) =>
                                 InkWell(
                                   onTap: () async {
                                     Users u = await model.getUser(
-                                        model.listHornors[index].userSet ?? '');
+                                        model.listHornors![index].userSet ??
+                                            '');
                                     onTap(u, model);
                                   },
                                   child: Padding(
@@ -132,13 +128,21 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                                     child: HonorsItems(
                                       isHome: false,
                                       isGet: true,
-                                      hornors: model.listHornors[index],
+                                      hornors: model.listHornors![index],
                                     ),
                                   ),
                                 ))
-                        : const Center(
-                            child: Text('Chưa có dữ liệu!'),
-                          )),
+                        : model.listHornors != null &&
+                                model.listHornors!.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  'Chưa có vinh danh nào!',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              )
+                            : const Center(
+                                child: CircularProgressIndicator(),
+                              )),
               ],
             ),
           );
@@ -166,7 +170,8 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) =>
-                ProfileScreen(user: u, workspace: nameWorkspace ?? '')));
+            builder: (_) => ProfileScreen(
+                  user: u,
+                )));
   }
 }

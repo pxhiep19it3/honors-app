@@ -7,8 +7,8 @@ import 'package:honors_app/modules/core.value/screen/core.value.screen.dart';
 import '../../auth/screen/login.screen.dart';
 
 class NavigationItems extends StatelessWidget {
-  const NavigationItems({super.key, required this.nameWorkspace});
-  final String nameWorkspace;
+  const NavigationItems({super.key});
+ 
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [

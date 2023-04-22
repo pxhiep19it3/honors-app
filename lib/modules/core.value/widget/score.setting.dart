@@ -20,7 +20,7 @@ class _ScoreSettingState extends State<ScoreSetting> {
   void initState() {
     super.initState();
     setState(() {
-      end = widget.model.listCore[0].score!.toDouble();
+      end = widget.model.listCore![0].score!.toDouble();
       _currentRangeValues = RangeValues(1, end!);
     });
   }
