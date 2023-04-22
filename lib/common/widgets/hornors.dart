@@ -4,6 +4,7 @@ import 'package:honors_app/models/core.value.dart';
 import 'package:honors_app/modules/home/widget/select.core.value.dart';
 import 'package:honors_app/modules/home/widget/select.score.dart';
 
+import '../../modules/bottom/bottom.navigation.dart';
 import '../../modules/core.value/screen/core.value.screen.dart';
 import '../values/app.colors.dart';
 import '../values/app.text.dart';
@@ -16,13 +17,15 @@ class Hornors extends StatefulWidget {
       required this.setScore,
       required this.setCoreValue,
       required this.controller,
-      required this.createHornors});
+      required this.createHornors,
+      this.isBack});
   final String? name;
   final List<CoreValue>? coreValue;
   final Function(int)? setScore;
   final Function(String)? setCoreValue;
   final TextEditingController? controller;
   final Function(String)? createHornors;
+  final bool? isBack;
 
   @override
   State<Hornors> createState() => _HornorsState();
@@ -102,7 +105,15 @@ class _HornorsState extends State<Hornors> {
                   onPressed: () {
                     if (form.currentState!.validate()) {
                       widget.createHornors!(widget.name ?? '');
-                      Navigator.pop(context, 'Vinh danh');
+                      !widget.isBack!
+                          ? Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BottomNavigation()),
+                              (Route<dynamic> route) => false,
+                            )
+                          : Navigator.pop(context);
                     }
                   },
                   child: const Text(

@@ -14,9 +14,9 @@ class AuthModel extends ChangeNotifier {
   List<Users> get retrievedUsers => _userList;
 
   signInWithGoogle() async {
-    _userList = await _userRepo.getUser();
-    _user = await Authentication.signInWithGoogle();
     final prefs = await SharedPreferences.getInstance();
+    _userList = await _userRepo.getUsers();
+    _user = await Authentication.signInWithGoogle();
     await prefs.setString('userLogined', _user!.displayName ?? '');
     checkUser();
     notifyListeners();
@@ -26,7 +26,7 @@ class AuthModel extends ChangeNotifier {
     String email = _user!.email!;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('emailLogin', email);
-     await prefs.setString('photoURL', _user!.photoURL ?? '');
+    await prefs.setString('photoURL', _user!.photoURL ?? '');
     List<String> emailList = [];
     for (int i = 0; i < _userList.length; i++) {
       emailList.add(_userList[i].email.toString());

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../bottom/bottom.navigation.dart';
+import '../widget/delete.workspace.dart';
 import '../widget/out.workspace.dart';
 
 class GroupJoined extends StatefulWidget {
@@ -29,7 +30,7 @@ class _GroupJoinedState extends State<GroupJoined> {
   void initState() {
     super.initState();
     _provider.getWorkspace();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   @override
@@ -45,23 +46,23 @@ class _GroupJoinedState extends State<GroupJoined> {
               centerTitle: true,
               title: const Text('Nhóm đã tham gia'),
             ),
-            body: model.listWorkspace.isNotEmpty
+            body: model.listWorkspace != null && model.listWorkspace!.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true,
-                    itemCount: model.listWorkspace.length,
+                    itemCount: model.listWorkspace!.length,
                     itemBuilder: (BuildContext context, index) {
                       return ListTile(
                         onTap: () {
                           onTap(model, index);
                         },
                         title: Text(
-                          model.listWorkspace[index].name ?? '',
+                          model.listWorkspace![index].name ?? '',
                           style: const TextStyle(
                               fontSize: 18, color: AppColor.black),
                         ),
                         trailing: IconButton(
                             onPressed: () {
-                              trailing(model.listWorkspace[index], model);
+                              trailing(model.listWorkspace![index], model);
                             },
                             icon: const Icon(
                               Icons.more_vert,
@@ -70,16 +71,20 @@ class _GroupJoinedState extends State<GroupJoined> {
                       );
                     },
                   )
-                : const Center(
-                    child: Text('Chưa có dữ liệu!'),
-                  ),
+                : model.listWorkspace != null && model.listWorkspace!.isEmpty
+                    ? const Center(
+                        child: Text('Bạn chưa tham gia nhóm nào!'),
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
             bottomNavigationBar: isAdLoad
                 ? SizedBox(
                     height: bannerAd!.size.height.toDouble(),
                     width: bannerAd!.size.width.toDouble(),
                     child: AdWidget(ad: bannerAd!),
                   )
-                : Container());
+                : null);
       }),
     );
   }
@@ -102,7 +107,9 @@ class _GroupJoinedState extends State<GroupJoined> {
   void onTap(WorkspaceProvider model, int index) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        'nameWorkspace', model.listWorkspace[index].name ?? '');
+        'nameWorkspace', model.listWorkspace![index].name ?? '');
+    await prefs.setString(
+        'workspaceID', model.listWorkspace![index].workspaceID ?? '');
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
   }
@@ -150,7 +157,7 @@ class _GroupJoinedState extends State<GroupJoined> {
                 model.emailLogin == workspace.admin
                     ? ListTile(
                         onTap: () async {
-                          await model.deleteWorkspace(workspace.id ?? '');
+                          await delete(workspace, model);
                           Navigator.pop(context);
                         },
                         leading: const Icon(Icons.delete),
@@ -163,6 +170,18 @@ class _GroupJoinedState extends State<GroupJoined> {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Future delete(Workspace workspace, WorkspaceProvider model) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteWorkspace(
+          workspace: workspace,
+          model: model,
         );
       },
     );

@@ -10,9 +10,9 @@ import '../../../common/widgets/hornors.dart';
 import '../../../service/admob.repo.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, required this.user, required this.workspace});
+  const ProfileScreen({super.key, required this.user});
   final Users? user;
-  final String? workspace;
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -25,8 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    provider.init(widget.user!, widget.workspace!);
-    initBannnerAd();
+    provider.init(widget.user!);
+    // initBannnerAd();
   }
 
   @override
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       child: AdWidget(ad: bannerAd!),
                     )
-                  : Container(),
+                  : null,
             );
           });
         });
@@ -130,12 +130,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ? showDialog<String>(
             context: context,
             builder: (BuildContext context) => Hornors(
-                name: name,
-                coreValue: model.listCoreValue,
-                setScore: model.setScore,
-                setCoreValue: model.setCoreValue,
-                controller: model.contentHornors,
-                createHornors: model.createHornors))
+                  name: name,
+                  coreValue: model.listCoreValue,
+                  setScore: model.setScore,
+                  setCoreValue: model.setCoreValue,
+                  controller: model.contentHornors,
+                  createHornors: model.createHornors,
+                  isBack: true,
+                ))
         : null;
   }
 

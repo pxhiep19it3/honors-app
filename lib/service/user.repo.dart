@@ -6,7 +6,7 @@ class UserRepo {
   final CollectionReference userFisebase =
       FirebaseFirestore.instance.collection('User');
 
-  Future<List<Users>> getUser() async {
+  Future<List<Users>> getUsers() async {
     List<Users> getUser = [];
     await userFisebase.get().then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -19,6 +19,7 @@ class UserRepo {
     });
     return getUser;
   }
+
 
   Future<void> addUser(
       String displayName, String email, String photoUrl) async {

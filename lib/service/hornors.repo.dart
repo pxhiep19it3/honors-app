@@ -6,11 +6,11 @@ class HornorsRepo {
   final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
 
-  Future<List<Hornors>> getHornors(String workspace) async {
+  Future<List<Hornors>> getHornors(String workspaceID) async {
     List<Hornors> getHornors = [];
 
     await hornorsFisebase
-        .where("workspace", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -18,7 +18,6 @@ class HornorsRepo {
           id: doc.id,
           coreValue: doc['coreValue'].toString(),
           content: doc['content'].toString(),
-          workspace: doc['workspace'].toString(),
           userSet: doc['userSet'].toString(),
           userGet: doc['userGet'].toString(),
           time: doc['time'].toString(),
@@ -35,26 +34,26 @@ class HornorsRepo {
   }
 
   Future<void> createHornors(String content, String coreValue, int score,
-      String userGet, String userSet, String workspace, String time) async {
+      String userGet, String userSet, String time, String workspaceID) async {
     hornorsFisebase.add(({
       'content': content,
       'coreValue': coreValue,
       'score': score,
       'userGet': userGet,
       'userSet': userSet,
-      'workspace': workspace,
+      'workspaceID': workspaceID,
       'time': time,
       't': int.parse(
           '${time.substring(0, 4)}${time.substring(5, 7)}${time.substring(8, 10)}')
     }));
   }
 
-  Future<List<Users>> getUser(String workspace) async {
+  Future<List<Users>> getUser(String workspaceID) async {
     List user = [];
     List<Users> getUser = [];
     await FirebaseFirestore.instance
         .collection('Workspace')
-        .where("name", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -80,12 +79,12 @@ class HornorsRepo {
     return getUser;
   }
 
-  Future<Users> getAdmin(String workspace) async {
+  Future<Users> getAdmin(String workspaceID) async {
     String? admin;
     Users getAdmin = Users();
     await FirebaseFirestore.instance
         .collection('Workspace')
-        .where("name", isEqualTo: workspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -109,22 +108,11 @@ class HornorsRepo {
     return getAdmin;
   }
 
-  Future<void> setWorkspace(String workspaceOLD, String workspaceNEW) async {
-    await hornorsFisebase
-        .where("workspace", isEqualTo: workspaceOLD)
-        .get()
-        .then((QuerySnapshot querySnapshot) async {
-      for (var doc in querySnapshot.docs) {
-        await hornorsFisebase.doc(doc.id).update({
-          'workspace': workspaceNEW,
-        });
-      }
-    });
-  }
+  
 
-  Future<void> deleteHornors(String nameWorkspace) async {
+  Future<void> deleteHornors(String workspaceID) async {
     await hornorsFisebase
-        .where("workspace", isEqualTo: nameWorkspace)
+        .where("workspaceID", isEqualTo: workspaceID)
         .get()
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {

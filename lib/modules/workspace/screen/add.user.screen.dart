@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/common/values/app.colors.dart';
@@ -10,7 +11,6 @@ import 'package:honors_app/modules/workspace/widget/area.user.dart';
 import 'package:provider/provider.dart';
 
 import '../../../service/admob.repo.dart';
-import '../../core.value/screen/core.value.screen.dart';
 import '../widget/text.input.dart';
 
 class AddUserScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   @override
   void initState() {
     super.initState();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   @override
@@ -84,14 +84,28 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   ),
                   BacsicButton(
                       onPressed: () {
-                        model.createWorkspace(widget.admin, widget.provider);
-                        model.listMember.isNotEmpty
-                            ? sentEmail(context, model)
-                            : skip(context);
+                        if (model.listMember.isNotEmpty) {
+                          model.createWorkspace(widget.admin, widget.provider);
+                          sentEmail(context, model);
+                        } else {
+                          Flushbar(
+                            message: "Thêm ít nhất một thành viên!",
+                            icon: const Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Colors.amber,
+                            ),
+                            duration: const Duration(seconds: 2),
+                            leftBarIndicatorColor: Colors.amber,
+                            margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height - 100,
+                                right: 20,
+                                left: 20),
+                          ).show(context);
+                        }
                       },
-                      label: model.listMember.isEmpty
-                          ? 'Bỏ qua'
-                          : AppText.btSendEmail,
+                      label: AppText.btSendEmail,
                       width: width,
                       primary: false)
                 ],
@@ -104,7 +118,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   width: bannerAd!.size.width.toDouble(),
                   child: AdWidget(ad: bannerAd!),
                 )
-              : Container());
+              : null);
     });
   }
 
@@ -131,13 +145,5 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   users: model.listMember.reversed.toList(),
                   isFirst: widget.isFirst,
                 )));
-  }
-
-  void skip(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => const CoreValueScreen(
-                isFirst: true, automaticallyImplyLeading: false)));
   }
 }

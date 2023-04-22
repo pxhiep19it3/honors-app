@@ -21,21 +21,18 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => WorkspaceProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => HomeProvider(),
-      ),
-      ChangeNotifierProvider(create: (context) => ManagementProvider()),
-      ChangeNotifierProvider(create: (context) => ValueBestProvider()),
-      ChangeNotifierProvider(create: (context) => SetBestProvider()),
-      ChangeNotifierProvider(create: (context) => GetBestProvider()),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => WorkspaceProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => HomeProvider(),
+    ),
+    ChangeNotifierProvider(create: (context) => ManagementProvider()),
+    ChangeNotifierProvider(create: (context) => ValueBestProvider()),
+    ChangeNotifierProvider(create: (context) => SetBestProvider()),
+    ChangeNotifierProvider(create: (context) => GetBestProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

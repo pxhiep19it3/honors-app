@@ -18,21 +18,33 @@ class DrawerHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: height * 0.6,
+            height: height * 0.55,
             child: Column(
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 40,
                 ),
-                Text(
+                const Text(
                   AppText.workspaces,
                   style: TextStyle(
                       fontSize: 25,
                       color: AppColor.secondary,
                       fontWeight: FontWeight.bold),
                 ),
-                Expanded(child: WorkspaceItem()),
+                Expanded(
+                    child: WorkspaceItem(
+                  workspaceName: nameWorkspace,
+                )),
               ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Center(
+            child: Text(
+              'Phiên bản: 1.0.0',
+              style: TextStyle(color: AppColor.secondary),
             ),
           ),
           const SizedBox(
@@ -43,10 +55,8 @@ class DrawerHome extends StatelessWidget {
             thickness: 1,
             color: AppColor.secondary,
           ),
-          Expanded(
-            child: NavigationItems(
-              nameWorkspace: nameWorkspace,
-            ),
+          const Expanded(
+            child: NavigationItems(),
           )
         ],
       ),

@@ -1,3 +1,4 @@
+const emailTemplate = r"""
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,11 +101,7 @@
             vertical-align: middle;
             text-align: center;
         }
-
-        table thead {
-            /* background: rgba(38, 52, 109, 0.1); */
-        }
-
+ 
         table {
             background: rgba(255, 255, 255, 0.6);
             width: 100%;
@@ -138,8 +135,6 @@
         .qr-content {
             text-align: left;
         }
-
-        .qr-image {}
 
         .container-logo {
             padding-top: 32px;
@@ -219,28 +214,31 @@
         <div class="container-logo">
             <img class="logo" src="https://udoo.work/wp-content/uploads/2021/03/cropped-LogoTrans.png">
         </div>
-        <h3>LỜI MỜI THAM GIA WORKSPACE</h3>
+        <h2>LỜI MỜI THAM GIA WORKSPACE</h2>
         <div class="section welcome">
-            <p>Xin chào {member_email},</p>
-            <p>Bạn có lời mời tham gia vào workspace vinh danh.</p>
+            <h4>Xin chào {member_email},</h4>
+            <h4>Bạn có lời mời tham gia vào workspace vinh danh.</h4>
 
         </div>
         <div class="section general">
-            <h4>THÔNG TIN</h4>
-            <div class="customer-info">
+            <h2>THÔNG TIN</h2>
+            <div class="section welcome">
                 <div>
-                    <p>Công ty: {company_name}</p>
-                    <p>Người mời tham gia: {company_email}</p>
+                    <h4>Công ty: {company_name}</h4>
+                    <h4>Người mời tham gia: {company_email}</h4>
                 </div>
             </div>
-            <h4>Ấn vào đây để tham gia</h4>
+            <h2>Ấn vào đây để tham gia</h2>
             <div class="customer-info">
                 <div style=" display: flex; justify-content: center">
-                <a style="text-align: center; font-size: 14px; background-color: #CF084D; padding: 12px; border-radius: 8px; color: white;" href="{link}">Tham gia</a>
+                <!-- <a style="justify-content: center; text-align: center; font-size: 14px; background-color: #4B154B; padding: 12px; border-radius: 8px; color: white;" href="{link}">Tham gia</a> -->
+                <a href="https://play.google.com/store/apps/details?id=com.shopee.vn"><img width="300", height="100" src="https://taxisaomai.vn/wp-content/uploads/2017/04/app-store-android-download.png"></a>
+                <a href="https://play.google.com/store/apps/details?id=com.shopee.vn"><img width="300", height="100" src="https://giaohangtietkiem.vn/wp-content/uploads/2016/12/appstore.png"></a>
+               
             </div>
             </div>
         </div>
 
 </body>
-
 </html>
+""";

@@ -20,24 +20,26 @@ class ProfileProvider extends ChangeNotifier {
   int _score = 0;
   int get score => _score;
   String? coreValue;
-  String nameWorkspace = '';
   String? _userLogined;
-
+  String? _workspaceID;
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
-  init(Users user, String workspace) async {
+  init(Users user) async {
+    final prefs = await SharedPreferences.getInstance();
+    _workspaceID = prefs.getString('workspaceID');
     List listScore = [];
-    _listHornors = await _hornors.getHornors(workspace, user.displayName ?? '');
+    _listHornors =
+        await _hornors.getHornors(_workspaceID!, user.displayName ?? '');
     if (_listHornors.isNotEmpty) {
-      _listCoreValue = await _coreValueRepo.getCoreValue(workspace);
+      _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
       for (int i = 0; i < _listHornors.length; i++) {
         listScore.add(_listHornors[i].score);
       }
       _score = listScore.reduce((a, b) => a + b);
     }
-    nameWorkspace = workspace;
-    _listCoreValue = await _coreValueRepo.getCoreValue(workspace);
+
+    _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
     _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
   }
@@ -62,9 +64,9 @@ class ProfileProvider extends ChangeNotifier {
         _scoreHornors ?? _listCoreValue[0].score!,
         userGet,
         _userLogined ?? '',
-        nameWorkspace,
-        time.toString());
-    _listHornors = await _hornors.getHornors(nameWorkspace, userGet);
+        time.toString(),
+        _workspaceID!);
+    _listHornors = await _hornors.getHornors(_workspaceID!, userGet);
     _listHornors.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     notifyListeners();

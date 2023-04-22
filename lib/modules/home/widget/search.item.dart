@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import '../../../models/user.dart';
+import '../../bottom/bottom.navigation.dart';
 import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
 import '../../../common/widgets/hornors.dart';
@@ -51,18 +52,20 @@ class SearchItem extends StatelessWidget {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) => Hornors(
-            name: name,
-            coreValue: model.listCoreValue,
-            setScore: model.setScore,
-            setCoreValue: model.setCoreValue,
-            controller: model.contentHornors,
-            createHornors: model.createHornors));
+              name: name,
+              coreValue: model.listCoreValue,
+              setScore: model.setScore,
+              setCoreValue: model.setCoreValue,
+              controller: model.contentHornors,
+              createHornors: model.createHornors,
+              isBack: false,
+            ));
   }
 
   void view(BuildContext context, Users user, String workspace) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => ProfileScreen(user: user, workspace: workspace)));
+            builder: (_) => ProfileScreen(user: user)));
   }
 }
