@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vn.doitsolutions.honors_app">
    <application
-        android:label="honors_app"
+        android:label="Vinh danh"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
           <meta-data

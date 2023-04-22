@@ -9,7 +9,7 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9109656601962491~1878178907</string>
 	<key>CFBundleDisplayName</key>
-	<string>Honors App</string>
+	<string>Vinh danh</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
