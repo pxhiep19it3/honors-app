@@ -44,28 +44,29 @@ class _SetBestWidgetState extends State<SetBestWidget> {
                   model.setBest.isEmpty
                       ? const Text('Chưa có dữ liệu!')
                       : Container(),
-                  SfPyramidChart(
+                  SfCircularChart(
                       title: ChartTitle(
                           text: 'Người vinh danh nhiều nhất\n(${widget.range})',
                           textStyle: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: AppColor.black)),
-                      tooltipBehavior: _tooltip,
                       legend: Legend(
                         textStyle: const TextStyle(fontSize: 20),
-                        orientation: LegendItemOrientation.vertical,
                         position: LegendPosition.bottom,
-                        shouldAlwaysShowScrollbar: false,
-                        padding: 20,
+                        overflowMode: LegendItemOverflowMode.wrap,
                         isVisible: true,
-                        alignment: ChartAlignment.center,
                       ),
-                      series: PyramidSeries<SetBest, String>(
-                        dataSource: model.setBest,
-                        xValueMapper: (SetBest data, _) => data.name,
-                        yValueMapper: (SetBest data, _) => data.total,
-                      )),
+                      tooltipBehavior: _tooltip,
+                      series: <CircularSeries>[
+                        DoughnutSeries<SetBest, String>(
+                            dataSource: model.setBest,
+                            xValueMapper: (SetBest data, _) => data.name,
+                            yValueMapper: (SetBest data, _) => data.total,
+                            dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                textStyle: TextStyle(fontSize: 20)))
+                      ]),
                 ],
               ),
             ),

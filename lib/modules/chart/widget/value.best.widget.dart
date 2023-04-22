@@ -56,15 +56,12 @@ class _ValueBestWidgetState extends State<ValueBestWidget> {
                       tooltipBehavior: _tooltip,
                       legend: Legend(
                         textStyle: const TextStyle(fontSize: 20),
-                        orientation: LegendItemOrientation.vertical,
                         position: LegendPosition.bottom,
-                        shouldAlwaysShowScrollbar: false,
-                        padding: 20,
+                        overflowMode: LegendItemOverflowMode.wrap,
                         isVisible: true,
-                        alignment: ChartAlignment.center,
                       ),
                       series: <CircularSeries>[
-                        PieSeries<ValueBest, String>(
+                        DoughnutSeries<ValueBest, String>(
                             dataSource: model.valueBest,
                             pointColorMapper: (ValueBest data, _) => data.color,
                             xValueMapper: (ValueBest data, _) => data.title,
