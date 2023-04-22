@@ -42,7 +42,6 @@ class HomeProvider extends ChangeNotifier {
 
   int? _score;
   String? coreValue;
-  String workspace = '';
 
   int _count = 0;
 
@@ -50,6 +49,8 @@ class HomeProvider extends ChangeNotifier {
   bool get isAdMob => _isAdMob;
   String? _workspaceID;
   Users _admin = Users();
+
+  String? _selectUser;
 
   init(String workspaceID) async {
     final prefs = await SharedPreferences.getInstance();
@@ -97,17 +98,22 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setUserHornors(String value) {
+    _selectUser = value;
+    notifyListeners();
+  }
+
   createHornors(String userGet) async {
     DateTime time = DateTime.now();
     await _hornorsRepo.createHornors(
         _contentHornors.text,
         coreValue ?? _listCoreValue[0].title!,
         _score ?? _listCoreValue[0].score!,
-        userGet,
+        userGet == '' ? _selectUser ?? _listUser[0].displayName! : userGet,
         _userLogined ?? '',
         time.toString(),
-        _workspaceID!);
-    _listHornorsTmp = await _hornorsRepo.getHornors(workspace);
+        _workspaceID ?? '');
+    _listHornorsTmp = await _hornorsRepo.getHornors(_workspaceID ?? '');
     _listHornors = _listHornors;
     _contentHornors.clear();
     _count++;

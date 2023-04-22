@@ -10,7 +10,7 @@ class BasicText extends StatelessWidget {
       required this.isContent,
       this.keyboardType,
       this.isDetail,
-      this.height});
+      this.height, this.onTap});
   final TextEditingController controller;
   final String? label;
   final bool? enabled;
@@ -18,6 +18,7 @@ class BasicText extends StatelessWidget {
   final bool? isContent;
   final TextInputType? keyboardType;
   final bool? isDetail;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -28,6 +29,7 @@ class BasicText extends StatelessWidget {
         }
         return null;
       },
+      onTap: onTap,
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       decoration: InputDecoration(

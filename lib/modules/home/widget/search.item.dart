@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import '../../../models/user.dart';
-import '../../bottom/bottom.navigation.dart';
 import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
 import '../../../common/widgets/hornors.dart';
@@ -11,10 +10,13 @@ class SearchItem extends StatelessWidget {
       {super.key,
       required this.users,
       required this.model,
-      required this.workspace});
+      required this.workspace,
+      required this.onBack});
   final List<Users> users;
   final HomeProvider model;
   final String workspace;
+  final VoidCallback onBack;
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -59,13 +61,14 @@ class SearchItem extends StatelessWidget {
               controller: model.contentHornors,
               createHornors: model.createHornors,
               isBack: false,
+              back: () {
+                onBack.call();
+              },
             ));
   }
 
   void view(BuildContext context, Users user, String workspace) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => ProfileScreen(user: user)));
+        context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
   }
 }

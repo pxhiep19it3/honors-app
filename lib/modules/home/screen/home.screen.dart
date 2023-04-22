@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
+import 'package:honors_app/modules/home/screen/hornors.creen.dart';
 import 'package:honors_app/modules/home/widget/drawer.dart';
 import 'package:honors_app/modules/home/widget/search.item.dart';
 import 'package:provider/provider.dart';
@@ -49,18 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_scrollController.hasClients) {
-      final position = _scrollController.position.maxScrollExtent;
-      _scrollController.jumpTo(position);
-    }
     return ChangeNotifierProvider<HomeProvider>(
       create: ((context) => provider),
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, model, child) {
           Future.delayed(Duration.zero, () {
+            if (_scrollController.hasClients) {
+              final position = _scrollController.position.maxScrollExtent;
+              _scrollController.jumpTo(position);
+            }
             if (model.isAdMob) {
-              initRewardedAd();
               model.setAdMob();
+              initRewardedAd();
             }
           });
           return Scaffold(
@@ -86,6 +87,33 @@ class _HomeScreenState extends State<HomeScreen> {
               drawer: DrawerHome(
                 nameWorkspace: nameWorkspace ?? '',
               ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  model.listCoreValue.isNotEmpty &&
+                          model.listHornors!.isNotEmpty &&
+                          model.listUser.isNotEmpty
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => HornorsScreen(
+                                    coreValue: model.listCoreValue,
+                                    setScore: model.setScore,
+                                    setCoreValue: model.setCoreValue,
+                                    controller: model.contentHornors,
+                                    createHornors: model.createHornors,
+                                    users: model.listUser,
+                                    setUser: model.setUserHornors,
+                                    onBack: () {
+                                      model.init(workspaceID!);
+                                    },
+                                  )))
+                      : null;
+                },
+                backgroundColor: AppColor.primary,
+                child: const Icon(
+                  Icons.favorite,
+                ),
+              ),
               bottomNavigationBar: isAdLoad
                   ? SizedBox(
                       height: bannerAd!.size.height.toDouble(),
@@ -100,10 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _body(BuildContext context, HomeProvider model) {
-    if (_scrollController.hasClients) {
-      final position = _scrollController.position.maxScrollExtent;
-      _scrollController.jumpTo(position);
-    }
     return !isSearch
         ? (model.listHornors != null && model.listHornors!.isNotEmpty
             ? Padding(
@@ -135,7 +159,17 @@ class _HomeScreenState extends State<HomeScreen> {
             users: model.listUser,
             model: model,
             workspace: nameWorkspace ?? '',
+            onBack: () {
+              setState(() {
+                isSearch = !isSearch;
+              });
+              model.init(workspaceID!);
+            },
           );
+  }
+
+  void back() {
+    provider.init(workspaceID ?? '');
   }
 
   void showSearch() {
@@ -143,10 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
       isSearch = !isSearch;
     });
     provider.init(workspaceID ?? '');
-    if (_scrollController.hasClients) {
-      final position = _scrollController.position.maxScrollExtent;
-      _scrollController.jumpTo(position);
-    }
   }
 
   initBannnerAd() {
