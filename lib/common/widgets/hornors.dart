@@ -18,6 +18,7 @@ class Hornors extends StatefulWidget {
       required this.setCoreValue,
       required this.controller,
       required this.createHornors,
+      this.back,
       this.isBack});
   final String? name;
   final List<CoreValue>? coreValue;
@@ -26,6 +27,7 @@ class Hornors extends StatefulWidget {
   final TextEditingController? controller;
   final Function(String)? createHornors;
   final bool? isBack;
+  final VoidCallback? back;
 
   @override
   State<Hornors> createState() => _HornorsState();
@@ -105,15 +107,8 @@ class _HornorsState extends State<Hornors> {
                   onPressed: () {
                     if (form.currentState!.validate()) {
                       widget.createHornors!(widget.name ?? '');
-                      !widget.isBack!
-                          ? Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BottomNavigation()),
-                              (Route<dynamic> route) => false,
-                            )
-                          : Navigator.pop(context);
+                      Navigator.pop(context);
+                      widget.back?.call();
                     }
                   },
                   child: const Text(

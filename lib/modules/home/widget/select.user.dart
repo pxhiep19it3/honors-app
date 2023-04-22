@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../../../models/core.value.dart';
+import '../../../models/user.dart';
 
-class SelectCoreValue extends StatefulWidget {
-  const SelectCoreValue(
-      {super.key,
-      required this.coreValue,
-      required this.setCoreValue,
-      this.isScreen = false});
-  final List<CoreValue>? coreValue;
-  final Function(String) setCoreValue;
-  final bool isScreen;
+class SelectUser extends StatefulWidget {
+  const SelectUser({
+    super.key,
+    required this.listUser,
+    required this.setUser,
+  });
+  final List<Users>? listUser;
+  final Function(String) setUser;
+
   @override
-  State<SelectCoreValue> createState() => _SelectCoreValueState();
+  State<SelectUser> createState() => _SelectUserState();
 }
 
-class _SelectCoreValueState extends State<SelectCoreValue> {
+class _SelectUserState extends State<SelectUser> {
   List<String> list = <String>[];
   String dropdownValue = '';
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < widget.coreValue!.length; i++) {
+    for (int i = 0; i < widget.listUser!.length; i++) {
       setState(() {
-        list.add(widget.coreValue![i].title ?? '');
+        list.add(widget.listUser![i].displayName ?? '');
       });
     }
     setState(() {
@@ -36,8 +36,7 @@ class _SelectCoreValueState extends State<SelectCoreValue> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: widget.isScreen ? AppColor.gray : AppColor.secondary,
-          borderRadius: BorderRadius.circular(5)),
+          color: AppColor.gray, borderRadius: BorderRadius.circular(5)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
@@ -52,7 +51,7 @@ class _SelectCoreValueState extends State<SelectCoreValue> {
             setState(() {
               dropdownValue = value!;
             });
-            widget.setCoreValue(value!);
+            widget.setUser(value!);
           },
           items: list.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
