@@ -11,6 +11,7 @@ class HornorsRepo {
 
     await hornorsFisebase
         .where("workspaceID", isEqualTo: workspaceID)
+        .limit(30)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -107,8 +108,6 @@ class HornorsRepo {
     });
     return getAdmin;
   }
-
-  
 
   Future<void> deleteHornors(String workspaceID) async {
     await hornorsFisebase
