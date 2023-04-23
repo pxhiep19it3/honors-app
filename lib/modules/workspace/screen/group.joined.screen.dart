@@ -7,7 +7,6 @@ import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:honors_app/service/admob.repo.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../common/values/app.colors.dart';
 import '../../bottom/bottom.navigation.dart';
 import '../widget/delete.workspace.dart';
@@ -110,8 +109,11 @@ class _GroupJoinedState extends State<GroupJoined> {
         'nameWorkspace', model.listWorkspace![index].name ?? '');
     await prefs.setString(
         'workspaceID', model.listWorkspace![index].workspaceID ?? '');
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const BottomNavigation()));
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void trailing(
@@ -182,6 +184,7 @@ class _GroupJoinedState extends State<GroupJoined> {
         return DeleteWorkspace(
           workspace: workspace,
           model: model,
+          isFirst: true,
         );
       },
     );

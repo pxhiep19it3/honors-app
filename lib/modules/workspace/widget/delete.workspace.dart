@@ -9,13 +9,14 @@ import '../../../common/values/app.colors.dart';
 import '../../auth/screen/login.screen.dart';
 
 class DeleteWorkspace extends StatelessWidget {
-  const DeleteWorkspace({
-    super.key,
-    required this.workspace,
-    required this.model,
-  });
+  const DeleteWorkspace(
+      {super.key,
+      required this.workspace,
+      required this.model,
+      this.isFirst = false});
   final Workspace workspace;
   final WorkspaceProvider model;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +51,20 @@ class DeleteWorkspace extends StatelessWidget {
           child: const Text('Xóa', style: TextStyle(color: AppColor.primary)),
           onPressed: () async {
             final prefs = await SharedPreferences.getInstance();
-            model.deleteWorkspace(
-                workspace.id ?? '', workspace.members!.cast<String>(), workspace.admin?? '');
-            if (prefs.getString('nameWorkspace') == workspace.name) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (Route<dynamic> route) => false,
-              );
-            } else {
+            model.deleteWorkspace(workspace.id ?? '',
+                workspace.members!.cast<String>(), workspace.admin ?? '');
+            if (isFirst) {
               Navigator.of(context).pop();
+            } else {
+              if (prefs.getString('nameWorkspace') == workspace.name) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Navigator.of(context).pop();
+              }
             }
           },
         ),

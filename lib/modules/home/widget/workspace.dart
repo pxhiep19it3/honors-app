@@ -128,15 +128,6 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                     ? ListTile(
                         onTap: () async {
                           await delete(workspace, model);
-                          workspace.name == widget.workspaceName
-                              ? Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()),
-                                  (Route<dynamic> route) => false,
-                                )
-                              : Navigator.pop(context);
                         },
                         leading: const Icon(Icons.delete),
                         title: const Text(

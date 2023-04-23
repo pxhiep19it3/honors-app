@@ -78,7 +78,6 @@ class WorkspaceProvider extends ChangeNotifier {
     await _inWorkspaceRepo.addUserInWorkspace(_listMember, workspaceID);
     await _inWorkspaceRepo.addUserInWorkspace([admin], workspaceID);
     sendEmail(workspace.nameWorkspaceCtl.text);
-    _listMember = [];
     notifyListeners();
   }
 
