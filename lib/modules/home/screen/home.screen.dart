@@ -153,7 +153,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: AppColor.primary,
+                      strokeWidth: 2,
+                    ),
                   ))
         : SearchItem(
             users: model.listUser,

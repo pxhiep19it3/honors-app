@@ -75,7 +75,10 @@ class _GroupJoinedState extends State<GroupJoined> {
                         child: Text('Bạn chưa tham gia nhóm nào!'),
                       )
                     : const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: AppColor.primary,
+                          strokeWidth: 2,
+                        ),
                       ),
             bottomNavigationBar: isAdLoad
                 ? SizedBox(

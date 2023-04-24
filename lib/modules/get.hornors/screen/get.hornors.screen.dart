@@ -141,7 +141,10 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                                 ),
                               )
                             : const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  color: AppColor.primary,
+                                  strokeWidth: 2,
+                                ),
                               )),
               ],
             ),

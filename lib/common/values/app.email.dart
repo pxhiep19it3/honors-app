@@ -216,25 +216,25 @@ const emailTemplate = r"""
         </div>
         <h2>LỜI MỜI THAM GIA WORKSPACE</h2>
         <div class="section welcome">
-            <h4>Xin chào {member_email},</h4>
-            <h4>Bạn có lời mời tham gia vào workspace vinh danh.</h4>
+            <p>Xin chào {member_email},</p>
+            <p>Bạn có lời mời tham gia vào workspace vinh danh.</p>
 
         </div>
         <div class="section general">
             <h2>THÔNG TIN</h2>
-            <div class="section welcome">
+            <div class="customer-info">
                 <div>
-                    <h4>Công ty: {company_name}</h4>
-                    <h4>Người mời tham gia: {company_email}</h4>
+                    <p>Công ty: {company_name}</p>
+                    <p>Người mời tham gia: {company_email}</p>
                 </div>
             </div>
             <h2>Ấn vào đây để tham gia</h2>
             <div class="customer-info">
                 <div style=" display: flex; justify-content: center">
                 <!-- <a style="justify-content: center; text-align: center; font-size: 14px; background-color: #4B154B; padding: 12px; border-radius: 8px; color: white;" href="{link}">Tham gia</a> -->
-                <a href="https://play.google.com/store/apps/details?id=com.shopee.vn"><img width="300", height="100" src="https://taxisaomai.vn/wp-content/uploads/2017/04/app-store-android-download.png"></a>
-                <a href="https://play.google.com/store/apps/details?id=com.shopee.vn"><img width="300", height="100" src="https://giaohangtietkiem.vn/wp-content/uploads/2016/12/appstore.png"></a>
-               
+                <img width="270", height="50" src="https://taxisaomai.vn/wp-content/uploads/2017/04/app-store-android-download.png">
+                <br>
+                <img width="270", height="50" src="https://giaohangtietkiem.vn/wp-content/uploads/2016/12/appstore.png">
             </div>
             </div>
         </div>

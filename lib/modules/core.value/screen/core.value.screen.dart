@@ -105,7 +105,10 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                 ),
                               )
                             : const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  color: AppColor.primary,
+                                  strokeWidth: 2,
+                                ),
                               )),
                 floatingActionButton: widget.isFirst &&
                         model.listCore != null &&

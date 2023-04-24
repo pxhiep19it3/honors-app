@@ -64,7 +64,10 @@ class _WorkspaceItemState extends State<WorkspaceItem> {
                     child: Text('Bạn chưa tham gia nhóm nào!'),
                   )
                 : const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: AppColor.primary,
+                      strokeWidth: 2,
+                    ),
                   );
       }),
     );

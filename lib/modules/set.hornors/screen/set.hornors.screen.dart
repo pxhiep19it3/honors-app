@@ -80,7 +80,10 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
                           ),
                         )
                       : const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppColor.primary,
+                            strokeWidth: 2,
+                          ),
                         ));
         });
       },

@@ -38,18 +38,6 @@ class DrawerHome extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Center(
-            child: Text(
-              'Phiên bản: 1.0.0',
-              style: TextStyle(color: AppColor.secondary),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
           const Divider(
             height: 2,
             thickness: 1,
