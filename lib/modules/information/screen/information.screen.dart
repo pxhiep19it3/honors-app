@@ -106,7 +106,7 @@ class _InformationScreenState extends State<InformationScreen> {
             ),
           ),
           Expanded(
-              child: Column(
+              child: ListView(
             children: [
               InformationItem(
                 emailLogin: _emailLogin ?? '',
