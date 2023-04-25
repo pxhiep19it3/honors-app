@@ -46,7 +46,7 @@ class _SetBestWidgetState extends State<SetBestWidget> {
                       : Container(),
                   SfCircularChart(
                       title: ChartTitle(
-                          text: 'Người vinh danh nhiều nhất\n(${widget.range})',
+                          text: 'Thống kê người vinh danh\n(${widget.range})',
                           textStyle: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

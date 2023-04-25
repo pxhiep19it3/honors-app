@@ -47,7 +47,7 @@ class _GetBestWidgetState extends State<GetBestWidget> {
                   SfCircularChart(
                       title: ChartTitle(
                           text:
-                              'Người được vinh danh nhiều nhất\n(${widget.range})',
+                              'Thống kê người được vinh danh\n(${widget.range})',
                           textStyle: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

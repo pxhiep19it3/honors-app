@@ -51,12 +51,16 @@ class DeleteWorkspace extends StatelessWidget {
           child: const Text('Xóa', style: TextStyle(color: AppColor.primary)),
           onPressed: () async {
             final prefs = await SharedPreferences.getInstance();
-            model.deleteWorkspace(workspace.id ?? '',
-                workspace.members!.cast<String>(), workspace.admin ?? '');
+            bool isCheck = prefs.getString('nameWorkspace') == workspace.name;
+            model.deleteWorkspace(
+                workspace.id ?? '',
+                workspace.members!.cast<String>(),
+                workspace.admin ?? '',
+                isCheck);
             if (isFirst) {
               Navigator.of(context).pop();
             } else {
-              if (prefs.getString('nameWorkspace') == workspace.name) {
+              if (isCheck) {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),

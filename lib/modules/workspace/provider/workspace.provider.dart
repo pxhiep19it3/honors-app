@@ -99,14 +99,15 @@ class WorkspaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteWorkspace(String id, List<String> listEmail, String admin) async {
+  deleteWorkspace(String id, List<String> listEmail, String admin,
+      bool notifyListener) async {
     _listWorkspace!.removeWhere((item) => item.id == id);
     await _workspaceRepo.deleteWorkspace(id);
     await _hornorsRepo.deleteHornors(id);
     await _coreValueRepo.deleteAllCoreValue(id);
     listEmail.add(admin);
     await _inWorkspaceRepo.deleteAllWorkspaceID(listEmail, id);
-    notifyListeners();
+    !notifyListener ? notifyListeners() : null;
   }
 
   getEmailContent(String memberEmail, String nameWorkspace, String logined) {

@@ -24,7 +24,7 @@ class _LoginedScreenState extends State<LoginedScreen> {
   @override
   void initState() {
     super.initState();
-    initInterstitialAd();
+    // initInterstitialAd();
   }
 
   @override

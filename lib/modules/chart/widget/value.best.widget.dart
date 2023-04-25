@@ -47,8 +47,7 @@ class _ValueBestWidgetState extends State<ValueBestWidget> {
                       : Container(),
                   SfCircularChart(
                       title: ChartTitle(
-                          text:
-                              'Giá trị được sử dụng nhiều nhất\n(${widget.range})',
+                          text: 'Thống kê giá trị cốt lõi\n(${widget.range})',
                           textStyle: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

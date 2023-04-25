@@ -54,7 +54,8 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                     child: AdWidget(ad: bannerAd!),
                   )
                 : null,
-            body: Column(
+            body: ListView(
+              shrinkWrap: true,
               children: [
                 Container(
                   height: height * 0.35,
@@ -109,43 +110,45 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                     ],
                   ),
                 ),
-                Expanded(
-                    child: model.listHornors != null &&
-                            model.listHornors!.isNotEmpty
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: model.listHornors!.length,
-                            itemBuilder: (BuildContext context, index) =>
-                                InkWell(
-                                  onTap: () async {
-                                    Users u = await model.getUser(
-                                        model.listHornors![index].userSet ??
-                                            '');
-                                    onTap(u, model);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: HonorsItems(
-                                      isHome: false,
-                                      isGet: true,
-                                      hornors: model.listHornors![index],
-                                    ),
-                                  ),
-                                ))
-                        : model.listHornors != null &&
-                                model.listHornors!.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  'Chưa có vinh danh nào!',
-                                  style: TextStyle(fontSize: 15),
+                model.listHornors != null && model.listHornors!.isNotEmpty
+                    ? ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: model.listHornors!.length,
+                        itemBuilder: (BuildContext context, index) => InkWell(
+                              onTap: () async {
+                                Users u = await model.getUser(
+                                    model.listHornors![index].userSet ?? '');
+                                onTap(u, model);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: HonorsItems(
+                                  isHome: false,
+                                  isGet: true,
+                                  hornors: model.listHornors![index],
                                 ),
-                              )
-                            : const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primary,
-                                  strokeWidth: 2,
-                                ),
-                              )),
+                              ),
+                            ))
+                    : model.listHornors != null && model.listHornors!.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.only(top: 100),
+                            child: Center(
+                              child: Text(
+                                'Chưa có vinh danh nào!',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 100),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.primary,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ),
               ],
             ),
           );

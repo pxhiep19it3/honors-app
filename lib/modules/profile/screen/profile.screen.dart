@@ -50,7 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: const Icon(Icons.favorite))
                 ],
               ),
-              body: Column(
+              body: ListView(
+                shrinkWrap: true,
                 children: [
                   Container(
                     height: height * 0.3,
@@ -96,21 +97,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Expanded(
-                      child: model.listHornors.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: model.listHornors.length,
-                              itemBuilder: (BuildContext context, index) =>
-                                  Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: HonorsItems(
-                                      hornors: model.listHornors[index],
-                                    ),
-                                  ))
-                          : const Center(
-                              child: Text('Chưa có dữ liệu'),
-                            )),
+                  model.listHornors.isNotEmpty
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: model.listHornors.length,
+                          itemBuilder: (BuildContext context, index) => Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: HonorsItems(
+                                  hornors: model.listHornors[index],
+                                ),
+                              ))
+                      : const Padding(
+                          padding: EdgeInsets.only(top: 100),
+                          child: Center(
+                            child: Text('Chưa có dữ liệu'),
+                          ),
+                        ),
                 ],
               ),
               bottomNavigationBar: isAdLoad

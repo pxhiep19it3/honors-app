@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:honors_app/modules/chart/widget/get.best.wiget.dart';
 import 'package:honors_app/modules/chart/widget/value.best.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -9,6 +8,7 @@ import '../../../common/values/app.colors.dart';
 import '../../../service/admob.repo.dart';
 import '../widget/navigator.dart';
 import '../widget/set.best.widget.dart';
+import '../widget/get.best.widget.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key});
