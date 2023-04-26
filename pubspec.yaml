@@ -49,6 +49,9 @@ dependencies:
   new_version_plus: ^0.0.9
   open_store: ^0.5.0
   flutter_native_splash: ^2.2.19
+  flutter_inappwebview: ^5.7.2+3
+  firebase_remote_config: ^4.0.1
+  
 
 flutter_native_splash:
   android: true

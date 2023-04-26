@@ -1,12 +1,21 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:honors_app/modules/information/screen/policy.screen.dart';
+import 'package:honors_app/modules/information/screen/privacy.screen.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
 import '../screen/management.group.screen.dart';
 
-class InformationItem extends StatelessWidget {
+class InformationItem extends StatefulWidget {
   const InformationItem({super.key, required this.emailLogin});
-final String emailLogin;
+  final String emailLogin;
+
+  @override
+  State<InformationItem> createState() => _InformationItemState();
+}
+
+class _InformationItemState extends State<InformationItem> {
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [
@@ -55,7 +64,10 @@ final String emailLogin;
     } else if (listTitle[index] == listTitle[1]) {
       coreValue(context);
     } else if (listTitle[index] == listTitle[2]) {
-    } else if (listTitle[index] == listTitle[3]) {}
+      policy(context);
+    } else if (listTitle[index] == listTitle[3]) {
+      privacy(context);
+    }
   }
 
   void managerGroup(BuildContext context) {
@@ -69,5 +81,17 @@ final String emailLogin;
         MaterialPageRoute(
             builder: (_) => const CoreValueScreen(
                 isFirst: false, automaticallyImplyLeading: true)));
+  }
+
+  void policy(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PolicyScreen()),
+    );
+  }
+
+  void privacy(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const PrivacyScreen()));
   }
 }

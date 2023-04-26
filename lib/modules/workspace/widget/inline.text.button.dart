@@ -9,9 +9,7 @@ class InlineTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       constraints: const BoxConstraints(),
-      onPressed: () {
-        print('object');
-      },
+      onPressed: function,
       child: Text(
         text,
         style: const TextStyle(fontSize: 14, color: Colors.blue),

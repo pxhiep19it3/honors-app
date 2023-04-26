@@ -1,9 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:honors_app/modules/auth/screen/landing.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:honors_app/modules/chart/provider/get.best.provider.dart';
 import 'package:honors_app/modules/chart/provider/set.best.provider.dart';

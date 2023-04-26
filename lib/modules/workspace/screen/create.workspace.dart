@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:honors_app/modules/information/screen/policy.screen.dart';
+import 'package:honors_app/modules/information/screen/privacy.screen.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:honors_app/modules/workspace/screen/add.user.screen.dart';
 import 'package:provider/provider.dart';
@@ -121,14 +123,28 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
                                     fontSize: 15, color: AppColor.black),
                               ),
                               InlineTextButton(
-                                  text: ' Chính sách', function: () {}),
+                                  text: ' Chính sách',
+                                  function: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const PolicyScreen()));
+                                  }),
                               const Text(
                                 ' và ',
                                 style: TextStyle(
                                     fontSize: 15, color: AppColor.black),
                               ),
                               InlineTextButton(
-                                  text: 'Quyền riêng tư', function: () {}),
+                                  text: 'Quyền riêng tư',
+                                  function: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const PrivacyScreen()));
+                                  }),
                             ],
                           ),
                           const SizedBox(
