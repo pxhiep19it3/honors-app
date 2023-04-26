@@ -56,7 +56,11 @@ class _LandingScreenState extends State<LandingScreen> {
             const SizedBox(
               height: 150,
             ),
-            Image.asset(AppImage.logo),
+            Image.asset(
+              AppImage.logo,
+              width: 126,
+              height: 133,
+            ),
             const SizedBox(height: 40),
             const Text(
               AppText.nameApp,
