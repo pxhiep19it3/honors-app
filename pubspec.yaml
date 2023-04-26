@@ -48,8 +48,14 @@ dependencies:
   google_mobile_ads: ^2.4.0
   new_version_plus: ^0.0.9
   open_store: ^0.5.0
+  flutter_native_splash: ^2.2.19
 
-      
+flutter_native_splash:
+  android: true
+  ios: true
+  color: "#4B154B"
+  image: "assets/image/logo.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

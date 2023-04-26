@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/auth/screen/landing.screen.dart';
@@ -9,6 +12,7 @@ import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'modules/auth/screen/check.login.dart';
 import 'modules/information/provider/management.provider.dart';
 
 void main() async {
@@ -37,13 +41,14 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Honors App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-      home: const LandingScreen(),
+      home: const CheckLogin(),
     );
   }
 }
