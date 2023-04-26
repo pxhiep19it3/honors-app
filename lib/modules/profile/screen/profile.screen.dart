@@ -139,7 +139,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   setCoreValue: model.setCoreValue,
                   controller: model.contentHornors,
                   createHornors: model.createHornors,
-                  isBack: true,
                 ))
         : null;
   }

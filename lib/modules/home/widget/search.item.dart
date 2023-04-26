@@ -6,16 +6,15 @@ import '../provider/home.provider.dart';
 import '../../../common/widgets/hornors.dart';
 
 class SearchItem extends StatelessWidget {
-  const SearchItem(
-      {super.key,
-      required this.users,
-      required this.model,
-      required this.workspace,
-      required this.onBack});
+  const SearchItem({
+    super.key,
+    required this.users,
+    required this.model,
+    required this.workspace,
+  });
   final List<Users> users;
   final HomeProvider model;
   final String workspace;
-  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +59,6 @@ class SearchItem extends StatelessWidget {
               setCoreValue: model.setCoreValue,
               controller: model.contentHornors,
               createHornors: model.createHornors,
-              isBack: false,
-              back: () {
-                onBack.call();
-              },
             ));
   }
 
