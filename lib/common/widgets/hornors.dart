@@ -1,33 +1,29 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/widgets/basic.text.dart';
 import 'package:honors_app/models/core.value.dart';
 import 'package:honors_app/modules/home/widget/select.core.value.dart';
 import 'package:honors_app/modules/home/widget/select.score.dart';
-
-import '../../modules/bottom/bottom.navigation.dart';
 import '../../modules/core.value/screen/core.value.screen.dart';
 import '../values/app.colors.dart';
 import '../values/app.text.dart';
 
 class Hornors extends StatefulWidget {
-  const Hornors(
-      {super.key,
-      required this.name,
-      required this.coreValue,
-      required this.setScore,
-      required this.setCoreValue,
-      required this.controller,
-      required this.createHornors,
-      this.back,
-      this.isBack});
+  const Hornors({
+    super.key,
+    required this.name,
+    required this.coreValue,
+    required this.setScore,
+    required this.setCoreValue,
+    required this.controller,
+    required this.createHornors,
+  });
   final String? name;
   final List<CoreValue>? coreValue;
   final Function(int)? setScore;
   final Function(String)? setCoreValue;
   final TextEditingController? controller;
   final Function(String)? createHornors;
-  final bool? isBack;
-  final VoidCallback? back;
 
   @override
   State<Hornors> createState() => _HornorsState();
@@ -108,7 +104,20 @@ class _HornorsState extends State<Hornors> {
                     if (form.currentState!.validate()) {
                       widget.createHornors!(widget.name ?? '');
                       Navigator.pop(context);
-                      widget.back?.call();
+                      Flushbar(
+                        message: "Đã gửi vinh danh!",
+                        icon: Icon(
+                          Icons.info_outline,
+                          size: 28.0,
+                          color: Colors.blue[300],
+                        ),
+                        duration: const Duration(seconds: 2),
+                        leftBarIndicatorColor: Colors.blue[300],
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height - 100,
+                            right: 20,
+                            left: 20),
+                      ).show(context);
                     }
                   },
                   child: const Text(

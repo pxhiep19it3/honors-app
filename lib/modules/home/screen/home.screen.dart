@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onBack: () {
                                       model.init(workspaceID!);
                                     },
+                                    
                                   )))
                       : null;
                 },
@@ -160,12 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
             users: model.listUser,
             model: model,
             workspace: nameWorkspace ?? '',
-            onBack: () {
-              setState(() {
-                isSearch = !isSearch;
-              });
-              model.init(workspaceID!);
-            },
           );
   }
 

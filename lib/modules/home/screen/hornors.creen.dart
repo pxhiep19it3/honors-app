@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/widgets/basic.button.dart';
 import '../../../common/values/app.colors.dart';
@@ -55,6 +56,13 @@ class _HornorsScreenState extends State<HornorsScreen> {
               backgroundColor: AppColor.primary,
               centerTitle: true,
               title: const Text('Vinh danh'),
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    widget.onBack.call();
+                  },
+                  icon: const Icon(Icons.arrow_back)),
             ),
             body: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -147,8 +155,20 @@ class _HornorsScreenState extends State<HornorsScreen> {
   void hornors() {
     if (form.currentState!.validate()) {
       widget.createHornors!('');
-      Navigator.pop(context);
-      widget.onBack.call();
+      Flushbar(
+        message: "Đã gửi vinh danh!",
+        icon: Icon(
+          Icons.info_outline,
+          size: 28.0,
+          color: Colors.blue[300],
+        ),
+        duration: const Duration(seconds: 2),
+        leftBarIndicatorColor: Colors.blue[300],
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 100,
+            right: 20,
+            left: 20),
+      ).show(context);
     }
   }
 }
