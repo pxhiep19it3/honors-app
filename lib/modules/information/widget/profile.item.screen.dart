@@ -1,4 +1,3 @@
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/information/screen/policy.screen.dart';
 import 'package:honors_app/modules/information/screen/privacy.screen.dart';
@@ -65,7 +64,7 @@ class _InformationItemState extends State<InformationItem> {
       coreValue(context);
     } else if (listTitle[index] == listTitle[2]) {
       policy(context);
-    } else if (listTitle[index] == listTitle[3]) {
+    } else {
       privacy(context);
     }
   }

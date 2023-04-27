@@ -31,8 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getData();
     init();
-    initBannnerAd();
+    // initBannnerAd();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        getData();
+      }
+    });
   }
 
   RewardedAd? rewardedAd;
@@ -41,11 +48,17 @@ class _HomeScreenState extends State<HomeScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       nameWorkspace = prefs.getString('nameWorkspace');
-    });
-    setState(() {
       workspaceID = prefs.getString('workspaceID');
     });
     provider.init(workspaceID!);
+  }
+
+  void getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      workspaceID = prefs.getString('workspaceID');
+    });
+    provider.getData(workspaceID!);
   }
 
   @override
@@ -55,10 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, model, child) {
           Future.delayed(Duration.zero, () {
-            if (_scrollController.hasClients) {
-              final position = _scrollController.position.maxScrollExtent;
-              _scrollController.jumpTo(position);
-            }
             if (model.isAdMob) {
               model.setAdMob();
               initRewardedAd();
@@ -104,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onBack: () {
                                       model.init(workspaceID!);
                                     },
-                                    
                                   )))
                       : null;
                 },

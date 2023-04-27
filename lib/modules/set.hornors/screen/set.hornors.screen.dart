@@ -17,6 +17,7 @@ class SetHornorsScreen extends StatefulWidget {
 
 class _SetHornorsScreenState extends State<SetHornorsScreen> {
   SetHornorsProvider provider = SetHornorsProvider();
+  final ScrollController _scrollController = ScrollController();
 
   BannerAd? bannerAd;
   bool isAdLoad = false;
@@ -24,7 +25,13 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
+    // initBannnerAd();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        init();
+      }
+    });
   }
 
   void init() {
@@ -57,6 +64,7 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
                       padding: const EdgeInsets.all(15.0),
                       child: ListView.builder(
                           shrinkWrap: true,
+                          controller: _scrollController,
                           itemCount: model.listHornors!.length,
                           itemBuilder: (BuildContext context, index) => InkWell(
                                 onTap: () async {

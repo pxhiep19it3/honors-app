@@ -111,7 +111,7 @@ class _HornorsState extends State<Hornors> {
                           size: 28.0,
                           color: Colors.blue[300],
                         ),
-                        duration: const Duration(seconds: 2),
+                        duration: const Duration(seconds: 1),
                         leftBarIndicatorColor: Colors.blue[300],
                         margin: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height - 100,
