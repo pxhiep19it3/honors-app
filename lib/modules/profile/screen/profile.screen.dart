@@ -11,7 +11,7 @@ import '../../../service/admob.repo.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.user});
-  final Users? user;
+  final Users user;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -19,14 +19,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileProvider provider = ProfileProvider();
+  final ScrollController _scrollController = ScrollController();
   BannerAd? bannerAd;
   bool isAdLoad = false;
 
   @override
   void initState() {
     super.initState();
-    provider.init(widget.user!);
-    initBannnerAd();
+    provider.init(widget.user);
+    // initBannnerAd();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        provider.init(widget.user);
+      }
+    });
   }
 
   @override
@@ -41,17 +48,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               appBar: AppBar(
                 backgroundColor: AppColor.primary,
                 centerTitle: true,
-                title: Text(widget.user!.displayName ?? ''),
+                title: Text(widget.user.displayName ?? ''),
                 actions: [
                   IconButton(
                       onPressed: () {
-                        favorite(widget.user!.displayName ?? '', model);
+                        favorite(widget.user.displayName ?? '', model);
                       },
                       icon: const Icon(Icons.favorite))
                 ],
               ),
               body: ListView(
                 shrinkWrap: true,
+                controller: _scrollController,
                 children: [
                   Container(
                     height: height * 0.3,
@@ -62,14 +70,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        widget.user!.photoURL != null
+                        widget.user.photoURL != null
                             ? SizedBox(
                                 height: 120,
                                 width: 120,
                                 child: CircleAvatar(
                                   radius: 110,
                                   backgroundImage:
-                                      NetworkImage(widget.user!.photoURL ?? ''),
+                                      NetworkImage(widget.user.photoURL ?? ''),
                                 ),
                               )
                             : Container(),
@@ -80,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 10,
                         ),
                         Text(
-                          widget.user!.email ?? '',
+                          widget.user.email ?? '',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 16,
@@ -91,29 +99,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 10,
                         ),
                         ShowScore(
-                          number: model.listHornors.length,
+                          number: model.listHornors!.length,
                           score: model.score,
                         ),
                       ],
                     ),
                   ),
-                  model.listHornors.isNotEmpty
+                  model.listHornors!.isNotEmpty
                       ? ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: model.listHornors.length,
+                          itemCount: model.listHornors!.length,
                           itemBuilder: (BuildContext context, index) => Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: HonorsItems(
-                                  hornors: model.listHornors[index],
+                                  hornors: model.listHornors![index],
                                 ),
                               ))
-                      : const Padding(
-                          padding: EdgeInsets.only(top: 100),
-                          child: Center(
-                            child: Text('Chưa có dữ liệu'),
-                          ),
-                        ),
+                      : Container()
                 ],
               ),
               bottomNavigationBar: isAdLoad

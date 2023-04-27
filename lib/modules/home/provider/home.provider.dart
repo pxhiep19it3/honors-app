@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:honors_app/models/core.value.dart';
 import 'package:honors_app/models/user.dart';
@@ -56,17 +55,20 @@ class HomeProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
     _workspaceID = workspaceID;
-    _listHornorsTmp = await _hornorsRepo.getHornors(_workspaceID!);
-    _listHornors = _listHornorsTmp!;
     _admin = await _hornorsRepo.getAdmin(_workspaceID!);
     _userTmp = await _hornorsRepo.getUser(_workspaceID!);
     _userLogined != _admin.displayName ? _userTmp.add(_admin) : null;
     _userTmp.removeWhere((element) => element.displayName == _userLogined);
     _listUser = _userTmp;
     _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
-    _listHornors!.sort((a, b) => a.time!.compareTo(b.time!));
     setUser();
     notifyListeners();
+  }
+
+  void getData(String workspaceID) async {
+    _listHornorsTmp = await _hornorsRepo.getHornors(workspaceID);
+    _listHornors = _listHornorsTmp;
+    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
   }
 
   setUser() async {
