@@ -112,7 +112,7 @@ class _InformationScreenState extends State<InformationScreen> {
                 emailLogin: _emailLogin ?? '',
               ),
               const SizedBox(
-                height: 15,
+                height: 5,
               ),
               const Center(
                 child: Text(
@@ -129,7 +129,7 @@ class _InformationScreenState extends State<InformationScreen> {
 
   initBannnerAd() {
     bannerAd = BannerAd(
-        size: AdSize.largeBanner,
+        size: AdSize.banner,
         adUnitId: AdMobRepo.adUnitIdJoin!,
         listener: BannerAdListener(onAdLoaded: (ad) {
           setState(() {
