@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/modules/information/screen/policy.screen.dart';
 import 'package:honors_app/modules/information/screen/privacy.screen.dart';
+import 'package:honors_app/modules/information/screen/update.pro.screen.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
@@ -22,12 +23,14 @@ class _InformationItemState extends State<InformationItem> {
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
+      'Nâng cấp gói'
     ];
     List listIcon = const [
       Icon(Icons.manage_accounts, color: AppColor.black),
       Icon(Icons.accessibility_new, color: AppColor.black),
       Icon(Icons.chrome_reader_mode, color: AppColor.black),
       Icon(Icons.security, color: AppColor.black),
+      Icon(Icons.cloud_upload, color: AppColor.black),
     ];
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -64,9 +67,16 @@ class _InformationItemState extends State<InformationItem> {
       coreValue(context);
     } else if (listTitle[index] == listTitle[2]) {
       policy(context);
-    } else {
+    } else if (listTitle[index] == listTitle[3]) {
       privacy(context);
+    } else {
+      updatePro(context);
     }
+  }
+
+  void updatePro(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const UpdateProScreen()));
   }
 
   void managerGroup(BuildContext context) {
