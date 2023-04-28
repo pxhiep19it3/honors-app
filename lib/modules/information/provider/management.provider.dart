@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:honors_app/models/workspace.dart';
 import 'package:honors_app/service/core.value.repo.dart';
@@ -7,6 +8,7 @@ import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.email.dart';
+import '../../../service/remote.config.dart';
 import '../../../service/user.in.workspace.repo.dart';
 import '../../../service/workspace.repo.dart';
 
@@ -39,6 +41,8 @@ class ManagementProvider extends ChangeNotifier {
   bool get isAdmin => _isAdmin;
 
   String? emailLogin;
+
+  FirebaseRemoteConfig? remote;
 
   init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -94,11 +98,21 @@ class ManagementProvider extends ChangeNotifier {
     return content;
   }
 
+  Future<String> getEmailSend() async {
+    remote = await RemoteConfigRepo.setupRemoteConfig();
+    return remote!.getString('emailSend');
+  }
+
+  Future<String> getPasswordSend() async {
+    remote = await RemoteConfigRepo.setupRemoteConfig();
+    return remote!.getString('passwordSend');
+  }
+
   sendEmail(List<String> listMember) async {
+    String username = await getEmailSend();
+    String password = await getPasswordSend();
     if (listMember.isNotEmpty) {
       for (int i = 0; i < listMember.length; i++) {
-        String username = 'hiepphan197420@gmail.com';
-        String password = 'vwlpdapwoknvkdxg';
         final smtpServer = gmail(username, password);
         final message = Message()
           ..from = Address(username, 'Phan Xuân Hiệp')

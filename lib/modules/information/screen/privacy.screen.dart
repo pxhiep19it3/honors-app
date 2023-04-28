@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../common/values/app.colors.dart';
+import '../../../service/remote.config.dart';
 
 class PrivacyScreen extends StatelessWidget {
   const PrivacyScreen({super.key});
@@ -10,7 +11,7 @@ class PrivacyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FirebaseRemoteConfig>(
-        future: setupRemoteConfig(),
+        future: RemoteConfigRepo.setupRemoteConfig(),
         builder: (BuildContext context,
             AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
           return snapshot.hasData
@@ -35,15 +36,4 @@ class PrivacyScreen extends StatelessWidget {
                 );
         });
   }
-}
-
-Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-  await remoteConfig.fetchAndActivate();
-  RemoteConfigValue(null, ValueSource.valueStatic);
-  await remoteConfig.setConfigSettings(RemoteConfigSettings(
-    fetchTimeout: const Duration(seconds: 1),
-    minimumFetchInterval: const Duration(seconds: 1),
-  ));
-  return remoteConfig;
 }
