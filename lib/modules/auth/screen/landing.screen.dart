@@ -25,7 +25,7 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
-    checkNewVersion();
+    // checkNewVersion();
   }
 
   void checkNewVersion() async {

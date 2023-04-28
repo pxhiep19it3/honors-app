@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/home/screen/hornors.creen.dart';
 import 'package:honors_app/modules/home/widget/drawer.dart';
 import 'package:honors_app/modules/home/widget/search.item.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +15,7 @@ import '../../../common/widgets/hornors.item.dart';
 
 import '../../../common/widgets/search.field.dart';
 import '../../../service/admob.repo.dart';
+import '../../auth/widget/new.version.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,9 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
   String? workspaceID;
   final ScrollController _scrollController = ScrollController();
 
+  final newVersion = NewVersionPlus(
+    androidId: 'vn.doitsolutions.honorsApp',
+    iOSId: 'vn.doitsolutions.honorsApp',
+  );
+
   @override
   void initState() {
     super.initState();
+    // checkNewVersion();
     getData();
     init();
     initBannnerAd();
@@ -40,6 +50,22 @@ class _HomeScreenState extends State<HomeScreen> {
         getData();
       }
     });
+  }
+
+  void checkNewVersion() async {
+    final status = await newVersion.getVersionStatus();
+    if (status != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UpdateDialog(
+            description: status.releaseNotes!,
+            version: status.storeVersion,
+            appLink: status.appStoreLink,
+          );
+        },
+      );
+    }
   }
 
   RewardedAd? rewardedAd;
