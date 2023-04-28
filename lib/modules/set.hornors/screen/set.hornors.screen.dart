@@ -25,7 +25,7 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
   void initState() {
     super.initState();
     init();
-    // initBannnerAd();
+    initBannnerAd();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {

@@ -23,14 +23,14 @@ class _InformationItemState extends State<InformationItem> {
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
-      'Nâng cấp gói'
+      // 'Nâng cấp gói'
     ];
     List listIcon = const [
       Icon(Icons.manage_accounts, color: AppColor.black),
       Icon(Icons.accessibility_new, color: AppColor.black),
       Icon(Icons.chrome_reader_mode, color: AppColor.black),
       Icon(Icons.security, color: AppColor.black),
-      Icon(Icons.cloud_upload, color: AppColor.black),
+      // Icon(Icons.cloud_upload, color: AppColor.black),
     ];
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -70,7 +70,7 @@ class _InformationItemState extends State<InformationItem> {
     } else if (listTitle[index] == listTitle[3]) {
       privacy(context);
     } else {
-      updatePro(context);
+      // updatePro(context);
     }
   }
 
