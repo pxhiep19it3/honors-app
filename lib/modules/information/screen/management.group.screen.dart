@@ -51,115 +51,110 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                     : Container(),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 20,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListView(shrinkWrap: true, children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Tên nhóm: ',
+                  style: TextStyle(
+                      color: AppColor.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BasicText(
+                    controller: model.nameCtl!,
+                    isContent: false,
+                    enabled: model.isAdmin ? true : false,
+                    isDetail: true),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Địa chỉ: ',
+                  style: TextStyle(
+                      color: AppColor.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BasicText(
+                    controller: model.addressCtl!,
+                    isContent: false,
+                    enabled: model.isAdmin ? true : false,
+                    isDetail: true),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Lĩnh vực: ',
+                  style: TextStyle(
+                      color: AppColor.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BasicText(
+                    controller: model.careerCtl!,
+                    isContent: false,
+                    enabled: model.isAdmin ? true : false,
+                    isDetail: true),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  'Quản trị: ',
+                  style: TextStyle(
+                      color: AppColor.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BasicText(
+                    controller: model.adminCtl!,
+                    isContent: false,
+                    enabled: false,
+                    isDetail: true),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Thành viên nhóm:',
+                      style: TextStyle(
+                          color: AppColor.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        addUser(model);
+                      },
+                      child: Image.asset(
+                        AppIcon.addMember,
+                        width: 70,
+                        height: 70,
                       ),
-                      const Text(
-                        'Tên nhóm: ',
-                        style: TextStyle(
-                            color: AppColor.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BasicText(
-                          controller: model.nameCtl!,
-                          isContent: false,
-                          enabled: model.isAdmin ? true : false,
-                          isDetail: true),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Địa chỉ: ',
-                        style: TextStyle(
-                            color: AppColor.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BasicText(
-                          controller: model.addressCtl!,
-                          isContent: false,
-                          enabled: model.isAdmin ? true : false,
-                          isDetail: true),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Lĩnh vực: ',
-                        style: TextStyle(
-                            color: AppColor.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BasicText(
-                          controller: model.careerCtl!,
-                          isContent: false,
-                          enabled: model.isAdmin ? true : false,
-                          isDetail: true),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Quản trị: ',
-                        style: TextStyle(
-                            color: AppColor.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BasicText(
-                          controller: model.adminCtl!,
-                          isContent: false,
-                          enabled: false,
-                          isDetail: true),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Thành viên nhóm:',
-                            style: TextStyle(
-                                color: AppColor.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              addUser(model);
-                            },
-                            child: Image.asset(
-                              AppIcon.addMember,
-                              width: 70,
-                              height: 70,
-                            ),
-                          )
-                        ],
-                      ),
-                      model.workspace != null
-                          ? MemberItem(
-                              workspace: model.workspace!,
-                              model: model,
-                            )
-                          : Container()
-                    ]),
-              ),
+                    )
+                  ],
+                ),
+                model.workspace != null
+                    ? MemberItem(
+                        workspace: model.workspace!,
+                        model: model,
+                      )
+                    : Container()
+              ]),
             ),
           );
         });

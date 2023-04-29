@@ -64,6 +64,10 @@ class SearchItem extends StatelessWidget {
 
   void view(BuildContext context, Users user, String workspace) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
+        context,
+        MaterialPageRoute(
+            builder: (_) => ProfileScreen(
+                  user: user,
+                )));
   }
 }

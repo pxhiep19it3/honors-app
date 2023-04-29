@@ -24,9 +24,9 @@ class SetHornorsProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
     _workspaceID = prefs.getString('workspaceID');
-     _listHornorsTmp =
-        await repo.getHornors(_workspaceID!, _userLogined ?? '');
+    _listHornorsTmp = await repo.getHornors(_workspaceID!, _userLogined ?? '');
     _listHornors = _listHornorsTmp!;
+    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
   }
 

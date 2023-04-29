@@ -19,7 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileProvider provider = ProfileProvider();
-  final ScrollController _scrollController = ScrollController();
+
   BannerAd? bannerAd;
   bool isAdLoad = false;
 
@@ -28,12 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     provider.init(widget.user);
     initBannnerAd();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        provider.init(widget.user);
-      }
-    });
   }
 
   @override
@@ -59,7 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               body: ListView(
                 shrinkWrap: true,
-                controller: _scrollController,
                 children: [
                   Container(
                     height: height * 0.3,
@@ -99,13 +92,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 10,
                         ),
                         ShowScore(
-                          number: model.listHornors!.length,
+                          number: model.listHornors != null &&
+                                  model.listHornors!.isNotEmpty
+                              ? model.listHornors!.length
+                              : 0,
                           score: model.score,
                         ),
                       ],
                     ),
                   ),
-                  model.listHornors!.isNotEmpty
+                  model.listHornors != null && model.listHornors!.isNotEmpty
                       ? ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -116,7 +112,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   hornors: model.listHornors![index],
                                 ),
                               ))
-                      : Container()
+                      : model.listHornors != null && model.listHornors!.isEmpty
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 150),
+                              child: Center(
+                                child: Text(
+                                  'Chưa có vinh danh nào!',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.only(top: 100),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColor.primary,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
                 ],
               ),
               bottomNavigationBar: isAdLoad

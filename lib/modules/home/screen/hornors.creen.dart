@@ -11,16 +11,16 @@ import '../widget/select.score.dart';
 import '../widget/select.user.dart';
 
 class HornorsScreen extends StatefulWidget {
-  const HornorsScreen(
-      {super.key,
-      required this.coreValue,
-      required this.setScore,
-      required this.createHornors,
-      required this.controller,
-      required this.setCoreValue,
-      required this.users,
-      required this.setUser,
-      required this.onBack});
+  const HornorsScreen({
+    super.key,
+    required this.coreValue,
+    required this.setScore,
+    required this.createHornors,
+    required this.controller,
+    required this.setCoreValue,
+    required this.users,
+    required this.setUser,
+  });
   final List<CoreValue>? coreValue;
   final Function(int)? setScore;
   final TextEditingController? controller;
@@ -28,7 +28,6 @@ class HornorsScreen extends StatefulWidget {
   final Function(String)? setCoreValue;
   final List<Users> users;
   final Function(String)? setUser;
-  final VoidCallback onBack;
 
   @override
   State<HornorsScreen> createState() => _HornorsScreenState();
@@ -56,13 +55,6 @@ class _HornorsScreenState extends State<HornorsScreen> {
               backgroundColor: AppColor.primary,
               centerTitle: true,
               title: const Text('Vinh danh'),
-              automaticallyImplyLeading: false,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    widget.onBack.call();
-                  },
-                  icon: const Icon(Icons.arrow_back)),
             ),
             body: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -153,6 +145,11 @@ class _HornorsScreenState extends State<HornorsScreen> {
   }
 
   void hornors() {
+    FocusManager.instance.primaryFocus!.unfocus();
+    if (_scrollController.hasClients) {
+      final position = _scrollController.position.minScrollExtent;
+      _scrollController.jumpTo(position);
+    }
     if (form.currentState!.validate()) {
       widget.createHornors!('');
       Flushbar(
@@ -162,7 +159,7 @@ class _HornorsScreenState extends State<HornorsScreen> {
           size: 28.0,
           color: Colors.blue[300],
         ),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
         leftBarIndicatorColor: Colors.blue[300],
         margin: EdgeInsets.only(
             bottom: MediaQuery.of(context).size.height - 100,

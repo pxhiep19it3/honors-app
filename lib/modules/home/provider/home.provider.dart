@@ -11,7 +11,6 @@ class HomeProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
   List<Hornors>? _listHornors;
   List<Hornors>? get listHornors => _listHornors;
-
   List<Hornors>? _listHornorsTmp;
 
   List<Users> _listUser = [];
@@ -67,8 +66,13 @@ class HomeProvider extends ChangeNotifier {
 
   void getData(String workspaceID) async {
     _listHornorsTmp = await _hornorsRepo.getHornors(workspaceID);
-    _listHornors = _listHornorsTmp;
-    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
+    _listHornors =
+        _listHornorsTmp != null ? _listHornors = _listHornorsTmp : null;
+    _listHornors!.toSet().toList();
+    _listHornors != null
+        ? _listHornors!.sort((a, b) => b.time!.compareTo(a.time!))
+        : null;
+    notifyListeners();
   }
 
   setUser() async {
@@ -115,8 +119,16 @@ class HomeProvider extends ChangeNotifier {
         _userLogined ?? '',
         time.toString(),
         _workspaceID ?? '');
-    _listHornorsTmp = await _hornorsRepo.getHornors(_workspaceID ?? '');
-    _listHornors = _listHornors;
+    _listHornors!.add(Hornors(
+      content: _contentHornors.text,
+      coreValue: coreValue ?? _listCoreValue[0].title!,
+      score: _score ?? _listCoreValue[0].score!,
+      userGet:
+          userGet == '' ? _selectUser ?? _listUser[0].displayName! : userGet,
+      time: time.toString(),
+      userSet: _userLogined ?? '',
+    ));
+    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     _count++;
     if (_count % 5 == 0) {

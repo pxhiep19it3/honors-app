@@ -18,24 +18,17 @@ class GetHornorsScreen extends StatefulWidget {
 
 class _GetHornorsScreenState extends State<GetHornorsScreen> {
   GetHornorsProvider model = GetHornorsProvider();
-  final ScrollController _scrollController = ScrollController();
   BannerAd? bannerAd;
   bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        init();
-      }
-    });
   }
 
   void init() {
     model.init();
+    initBannnerAd();
   }
 
   @override
@@ -62,7 +55,6 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                 : null,
             body: ListView(
               shrinkWrap: true,
-              controller: _scrollController,
               children: [
                 Container(
                   height: height * 0.35,
@@ -139,7 +131,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                             ))
                     : model.listHornors != null && model.listHornors!.isEmpty
                         ? const Padding(
-                            padding: EdgeInsets.only(top: 100),
+                            padding: EdgeInsets.only(top: 150),
                             child: Center(
                               child: Text(
                                 'Chưa có vinh danh nào!',

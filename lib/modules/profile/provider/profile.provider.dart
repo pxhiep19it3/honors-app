@@ -12,7 +12,7 @@ class ProfileProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
   final GetHornorsRepo _hornors = GetHornorsRepo();
   final CoreValueRepo _coreValueRepo = CoreValueRepo();
-  List<Hornors>? _listHornors = [];
+  List<Hornors>? _listHornors;
   List<Hornors>? get listHornors => _listHornors;
   List<Hornors>? _listHornorsTmp;
   List<CoreValue> _listCoreValue = [];
@@ -32,7 +32,8 @@ class ProfileProvider extends ChangeNotifier {
     List listScore = [];
     _listHornorsTmp =
         await _hornors.getHornors(_workspaceID!, user.displayName ?? '');
-    _listHornors = _listHornorsTmp;
+    _listHornors =
+        _listHornorsTmp != null ? _listHornors = _listHornorsTmp : null;
     if (_listHornors!.isNotEmpty) {
       _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
       for (int i = 0; i < _listHornors!.length; i++) {
@@ -68,8 +69,14 @@ class ProfileProvider extends ChangeNotifier {
         _userLogined ?? '',
         time.toString(),
         _workspaceID!);
-    _listHornorsTmp = await _hornors.getHornors(_workspaceID!, userGet);
-    _listHornors = _listHornorsTmp;
+    _listHornors!.add(Hornors(
+      content: _contentHornors.text,
+      coreValue: coreValue ?? _listCoreValue[0].title!,
+      score: _scoreHornors ?? _listCoreValue[0].score!,
+      userGet: userGet,
+      time: time.toString(),
+      userSet: _userLogined ?? '',
+    ));
     _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     notifyListeners();

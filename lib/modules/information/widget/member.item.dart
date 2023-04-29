@@ -15,6 +15,7 @@ class MemberItem extends StatelessWidget {
     return workspace.members!.isNotEmpty
         ? ListView.builder(
             shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
             itemCount: workspace.members!.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(

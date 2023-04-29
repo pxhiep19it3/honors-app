@@ -30,12 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   BannerAd? bannerAd;
   bool isAdLoad = false;
   String? workspaceID;
-  final ScrollController _scrollController = ScrollController();
+
 
   final newVersion = NewVersionPlus(
     androidId: 'vn.doitsolutions.honorsApp',
     iOSId: 'vn.doitsolutions.honorsApp',
   );
+
+  bool test = false;
 
   @override
   void initState() {
@@ -43,13 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // checkNewVersion();
     getData();
     init();
-    initBannnerAd();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        getData();
-      }
-    });
+    // initBannnerAd();
   }
 
   void checkNewVersion() async {
@@ -136,9 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     createHornors: model.createHornors,
                                     users: model.listUser,
                                     setUser: model.setUserHornors,
-                                    onBack: () {
-                                      model.init(workspaceID!);
-                                    },
                                   )))
                       : null;
                 },
@@ -167,7 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(
                     top: 15, bottom: 40, right: 15, left: 15),
                 child: ListView.builder(
-                    controller: _scrollController,
                     shrinkWrap: true,
                     itemCount: model.listHornors!.length,
                     itemBuilder: (BuildContext context, index) {
@@ -198,15 +190,13 @@ class _HomeScreenState extends State<HomeScreen> {
           );
   }
 
-  void back() {
-    provider.init(workspaceID ?? '');
-  }
-
-  void showSearch() {
+  showSearch() {
     setState(() {
       isSearch = !isSearch;
     });
-    provider.init(workspaceID ?? '');
+    setState(() {
+      test = true;
+    });
   }
 
   initBannnerAd() {
