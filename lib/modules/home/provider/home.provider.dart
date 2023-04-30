@@ -5,13 +5,9 @@ import 'package:honors_app/models/user.dart';
 import 'package:honors_app/service/core.value.repo.dart';
 import 'package:honors_app/service/hornors.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../models/hornors.dart';
 
 class HomeProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
-  List<Hornors>? _listHornors;
-  List<Hornors>? get listHornors => _listHornors;
-  List<Hornors>? _listHornorsTmp;
 
   List<Users> _listUser = [];
   List<Users> get listUser => _listUser;
@@ -46,14 +42,15 @@ class HomeProvider extends ChangeNotifier {
   bool _isAdMob = false;
   bool get isAdMob => _isAdMob;
   String? _workspaceID;
+  String? get workspaceID => _workspaceID;
   Users _admin = Users();
 
   String? _selectUser;
 
-  init(String workspaceID) async {
+  init() async {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
-    _workspaceID = workspaceID;
+    _workspaceID = prefs.getString('workspaceID');
     _admin = await _hornorsRepo.getAdmin(_workspaceID!);
     _userTmp = await _hornorsRepo.getUser(_workspaceID!);
     _userLogined != _admin.displayName ? _userTmp.add(_admin) : null;
@@ -61,17 +58,6 @@ class HomeProvider extends ChangeNotifier {
     _listUser = _userTmp;
     _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
     setUser();
-    notifyListeners();
-  }
-
-  void getData(String workspaceID) async {
-    _listHornorsTmp = await _hornorsRepo.getHornors(workspaceID);
-    _listHornors =
-        _listHornorsTmp != null ? _listHornors = _listHornorsTmp : null;
-    _listHornors!.toSet().toList();
-    _listHornors != null
-        ? _listHornors!.sort((a, b) => b.time!.compareTo(a.time!))
-        : null;
     notifyListeners();
   }
 
@@ -119,16 +105,6 @@ class HomeProvider extends ChangeNotifier {
         _userLogined ?? '',
         time.toString(),
         _workspaceID ?? '');
-    _listHornors!.add(Hornors(
-      content: _contentHornors.text,
-      coreValue: coreValue ?? _listCoreValue[0].title!,
-      score: _score ?? _listCoreValue[0].score!,
-      userGet:
-          userGet == '' ? _selectUser ?? _listUser[0].displayName! : userGet,
-      time: time.toString(),
-      userSet: _userLogined ?? '',
-    ));
-    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     _count++;
     if (_count % 5 == 0) {

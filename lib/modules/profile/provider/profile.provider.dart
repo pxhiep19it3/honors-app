@@ -14,7 +14,6 @@ class ProfileProvider extends ChangeNotifier {
   final CoreValueRepo _coreValueRepo = CoreValueRepo();
   List<Hornors>? _listHornors;
   List<Hornors>? get listHornors => _listHornors;
-  List<Hornors>? _listHornorsTmp;
   List<CoreValue> _listCoreValue = [];
   List<CoreValue> get listCoreValue => _listCoreValue;
   int? _scoreHornors;
@@ -23,6 +22,7 @@ class ProfileProvider extends ChangeNotifier {
   String? coreValue;
   String? _userLogined;
   String? _workspaceID;
+  String? get workspaceID => _workspaceID;
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
@@ -30,10 +30,8 @@ class ProfileProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _workspaceID = prefs.getString('workspaceID');
     List listScore = [];
-    _listHornorsTmp =
-        await _hornors.getHornors(_workspaceID!, user.displayName ?? '');
     _listHornors =
-        _listHornorsTmp != null ? _listHornors = _listHornorsTmp : null;
+        await _hornors.getHornors(_workspaceID!, user.displayName ?? '');
     if (_listHornors!.isNotEmpty) {
       _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
       for (int i = 0; i < _listHornors!.length; i++) {
@@ -77,7 +75,6 @@ class ProfileProvider extends ChangeNotifier {
       time: time.toString(),
       userSet: _userLogined ?? '',
     ));
-    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     _contentHornors.clear();
     notifyListeners();
   }

@@ -1,36 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/hornors.dart';
 import '../models/user.dart';
 
 class HornorsRepo {
   final CollectionReference hornorsFisebase =
       FirebaseFirestore.instance.collection('Hornors');
-
-  Future<List<Hornors>> getHornors(String workspaceID) async {
-    List<Hornors> listHornors = [];
-    await hornorsFisebase
-        .where("workspaceID", isEqualTo: workspaceID)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        listHornors.add(Hornors(
-          id: doc.id,
-          coreValue: doc['coreValue'].toString(),
-          content: doc['content'].toString(),
-          userSet: doc['userSet'].toString(),
-          userGet: doc['userGet'].toString(),
-          time: doc['time'].toString(),
-          t: int.parse(
-            doc['t'].toString(),
-          ),
-          score: int.parse(
-            doc['score'].toString(),
-          ),
-        ));
-      }
-    });
-    return listHornors;
-  }
 
   Future<void> createHornors(String content, String coreValue, int score,
       String userGet, String userSet, String time, String workspaceID) async {

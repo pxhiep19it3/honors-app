@@ -52,7 +52,7 @@ class SearchItem extends StatelessWidget {
   void onTap(BuildContext context, String name, HomeProvider model) {
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) => Hornors(
+        builder: (BuildContext context) => Hornor(
               name: name,
               coreValue: model.listCoreValue,
               setScore: model.setScore,

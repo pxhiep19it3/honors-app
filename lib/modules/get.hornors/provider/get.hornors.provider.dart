@@ -13,8 +13,7 @@ class GetHornorsProvider extends ChangeNotifier {
 
   List<Hornors>? _listHornors;
   List<Hornors>? get listHornors => _listHornors;
-  List<Hornors>? _listHornorsTmp;
-
+  
   String? _userLogined;
   String? get userLogined => _userLogined;
 
@@ -36,6 +35,7 @@ class GetHornorsProvider extends ChangeNotifier {
   TextEditingController get contentHornors => _contentHornors;
 
   String? _workspaceID;
+  String? get workspaceID => _workspaceID;
 
   init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,9 +44,8 @@ class GetHornorsProvider extends ChangeNotifier {
     _emailLogin = prefs.getString('emailLogin');
     _photoURL = prefs.getString('photoURL');
     _workspaceID = prefs.getString('workspaceID');
-    _listHornorsTmp =
+    _listHornors =
         await _getHornorsRepo.getHornors(_workspaceID!, _userLogined ?? '');
-    _listHornors = _listHornorsTmp!;
     if (_listHornors!.isNotEmpty) {
       _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
       for (int i = 0; i < _listHornors!.length; i++) {
