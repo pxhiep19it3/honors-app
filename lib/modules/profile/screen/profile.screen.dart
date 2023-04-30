@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_paginate_firestore/paginate_firestore.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/common/widgets/hornors.item.dart';
 import 'package:honors_app/modules/profile/provider/profile.provider.dart';
@@ -8,6 +10,7 @@ import '../../../common/widgets/show.score.dart';
 import '../../../models/user.dart';
 import '../../../common/widgets/hornors.dart';
 import '../../../service/admob.repo.dart';
+import '../../../models/hornors.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.user});
@@ -101,36 +104,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  model.listHornors != null && model.listHornors!.isNotEmpty
-                      ? ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: model.listHornors!.length,
-                          itemBuilder: (BuildContext context, index) => Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: HonorsItems(
-                                  hornors: model.listHornors![index],
-                                ),
-                              ))
-                      : model.listHornors != null && model.listHornors!.isEmpty
-                          ? const Padding(
-                              padding: EdgeInsets.only(top: 150),
-                              child: Center(
-                                child: Text(
-                                  'Chưa có vinh danh nào!',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            )
-                          : const Padding(
-                              padding: EdgeInsets.only(top: 100),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primary,
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            ),
+                  Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: _itemHornors(model))
                 ],
               ),
               bottomNavigationBar: isAdLoad
@@ -145,11 +121,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  void favorite(String name, ProfileProvider model) {
+  Widget _itemHornors(ProfileProvider model) {
+    return model.workspaceID != null
+        ? PaginateFirestore(
+            itemBuilderType: PaginateBuilderType.listView,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            onEmpty: const Padding(
+              padding: EdgeInsets.only(bottom: 500),
+              child: Center(
+                child: Text('Chưa có vinh danh nào!'),
+              ),
+            ),
+            onLoaded: (context) => const CircularProgressIndicator(),
+            itemBuilder: (context, documentSnapshots, index) {
+              final data = documentSnapshots[index].data() as Map?;
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: HonorsItems(
+                  hornors: Hornors(
+                      time: data!['time'],
+                      userGet: data['userGet'],
+                      userSet: data['userSet'],
+                      score: data['score'],
+                      content: data['content'],
+                      coreValue: data['coreValue']),
+                ),
+              );
+            },
+            query: FirebaseFirestore.instance
+                .collection('Hornors')
+                .where('workspaceID', isEqualTo: model.workspaceID)
+                .where("userGet", isEqualTo: widget.user.displayName)
+                .orderBy('time', descending: true),
+            isLive: true,
+            itemsPerPage: 5,
+          )
+        : Container();
+  }
+
+  favorite(String name, ProfileProvider model) {
     model.listCoreValue.isNotEmpty
         ? showDialog<String>(
             context: context,
-            builder: (BuildContext context) => Hornors(
+            builder: (BuildContext context) => Hornor(
                   name: name,
                   coreValue: model.listCoreValue,
                   setScore: model.setScore,

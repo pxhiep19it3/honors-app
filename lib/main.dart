@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +21,7 @@ void main() async {
   MobileAds.instance.updateRequestConfiguration(requestConfiguration);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  ); 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => WorkspaceProvider(),
@@ -50,3 +49,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_paginate_firestore/paginate_firestore.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/home/screen/hornors.creen.dart';
@@ -9,11 +11,11 @@ import 'package:honors_app/modules/home/widget/search.item.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 
 import '../../../common/widgets/search.field.dart';
+import '../../../models/hornors.dart';
 import '../../../service/admob.repo.dart';
 import '../../auth/widget/new.version.dart';
 
@@ -25,30 +27,33 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isSearch = false;
-  String? nameWorkspace;
   final HomeProvider provider = HomeProvider();
   BannerAd? bannerAd;
   bool isAdLoad = false;
-  String? workspaceID;
-
-
+  RewardedAd? rewardedAd;
+  String? workspaceName;
   final newVersion = NewVersionPlus(
     androidId: 'vn.doitsolutions.honorsApp',
     iOSId: 'vn.doitsolutions.honorsApp',
   );
 
-  bool test = false;
-
   @override
   void initState() {
     super.initState();
     // checkNewVersion();
-    getData();
     init();
     // initBannnerAd();
   }
 
-  void checkNewVersion() async {
+  init() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      workspaceName = prefs.getString('nameWorkspace');
+    });
+    provider.init();
+  }
+
+  checkNewVersion() async {
     final status = await newVersion.getVersionStatus();
     if (status != null) {
       showDialog(
@@ -62,25 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     }
-  }
-
-  RewardedAd? rewardedAd;
-
-  void init() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nameWorkspace = prefs.getString('nameWorkspace');
-      workspaceID = prefs.getString('workspaceID');
-    });
-    provider.init(workspaceID!);
-  }
-
-  void getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      workspaceID = prefs.getString('workspaceID');
-    });
-    provider.getData(workspaceID!);
   }
 
   @override
@@ -106,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         label: 'Tìm kiếm',
                         onChange: model.onSearch,
                       )
-                    : Text(nameWorkspace ?? ''),
+                    : Text(workspaceName ?? ''),
                 actions: [
                   IconButton(
                       onPressed: showSearch,
@@ -116,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               drawer: DrawerHome(
-                nameWorkspace: nameWorkspace ?? '',
+                nameWorkspace: workspaceName ?? '',
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -153,49 +139,55 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _itemHornors(BuildContext context, HomeProvider model) {
+    return model.workspaceID != null
+        ? PaginateFirestore(
+            itemBuilderType: PaginateBuilderType.listView,
+            onLoaded: (context) => const CircularProgressIndicator(),
+            onEmpty: const Center(
+              child: Text('Chưa có vinh danh nào!'),
+            ),
+            itemBuilder: (context, documentSnapshots, index) {
+              final data = documentSnapshots[index].data() as Map?;
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: HonorsItems(
+                  hornors: Hornors(
+                      time: data!['time'],
+                      userGet: data['userGet'],
+                      userSet: data['userSet'],
+                      score: data['score'],
+                      content: data['content'],
+                      coreValue: data['coreValue']),
+                ),
+              );
+            },
+            query: FirebaseFirestore.instance
+                .collection('Hornors')
+                .where('workspaceID', isEqualTo: model.workspaceID)
+                .orderBy('time', descending: true),
+            isLive: true,
+            itemsPerPage: 5,
+          )
+        : Container();
+  }
+
   Widget _body(BuildContext context, HomeProvider model) {
     return !isSearch
-        ? (model.listHornors != null && model.listHornors!.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, bottom: 40, right: 15, left: 15),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: model.listHornors!.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: HonorsItems(
-                            hornors: model.listHornors![index],
-                          ));
-                    }),
-              )
-            : model.listHornors != null && model.listHornors!.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Chưa có vinh danh nào!',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColor.primary,
-                      strokeWidth: 2,
-                    ),
-                  ))
+        ? Padding(
+            padding:
+                const EdgeInsets.only(top: 15, bottom: 40, right: 15, left: 15),
+            child: _itemHornors(context, model))
         : SearchItem(
             users: model.listUser,
             model: model,
-            workspace: nameWorkspace ?? '',
+            workspace: workspaceName ?? '',
           );
   }
 
   showSearch() {
     setState(() {
       isSearch = !isSearch;
-    });
-    setState(() {
-      test = true;
     });
   }
 
@@ -214,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bannerAd!.load();
   }
 
-  void initRewardedAd() {
+  initRewardedAd() {
     RewardedAd.load(
         adUnitId: AdMobRepo.adUnitIdRewaredAd!,
         request: const AdRequest(),
@@ -233,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
     rewardedAd == null ? showRewardedAd() : null;
   }
 
-  void setFullScreenContentCallBack() {
+  setFullScreenContentCallBack() {
     if (rewardedAd == null) return;
     rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdShowedFullScreenContent: (ad) {},
@@ -251,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  void showRewardedAd() {
+  showRewardedAd() {
     rewardedAd!.show(onUserEarnedReward: (ad, re) {});
   }
 }

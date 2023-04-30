@@ -1,32 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
-import 'package:honors_app/service/set.hornors.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../models/hornors.dart';
 import '../../../models/user.dart';
 
 class SetHornorsProvider extends ChangeNotifier {
-  SetHornorsRepo repo = SetHornorsRepo();
-
-  List<Hornors>? _listHornors;
-  List<Hornors>? get listHornors => _listHornors;
-  List<Hornors>? _listHornorsTmp;
-
   String? _userLogined;
   String? get userLogined => _userLogined;
 
   String? _workspaceID;
+  String? get workspaceID => _workspaceID;
 
   init() async {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
     _workspaceID = prefs.getString('workspaceID');
-    _listHornorsTmp = await repo.getHornors(_workspaceID!, _userLogined ?? '');
-    _listHornors = _listHornorsTmp!;
-    _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
   }
 

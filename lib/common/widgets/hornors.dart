@@ -8,8 +8,8 @@ import '../../modules/core.value/screen/core.value.screen.dart';
 import '../values/app.colors.dart';
 import '../values/app.text.dart';
 
-class Hornors extends StatefulWidget {
-  const Hornors({
+class Hornor extends StatefulWidget {
+  const Hornor({
     super.key,
     required this.name,
     required this.coreValue,
@@ -26,10 +26,10 @@ class Hornors extends StatefulWidget {
   final Function(String)? createHornors;
 
   @override
-  State<Hornors> createState() => _HornorsState();
+  State<Hornor> createState() => _HornorState();
 }
 
-class _HornorsState extends State<Hornors> {
+class _HornorState extends State<Hornor> {
   final form = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

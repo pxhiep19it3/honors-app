@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_paginate_firestore/paginate_firestore.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/get.hornors/provider/get.hornors.provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../common/values/app.colors.dart';
 import '../../../common/widgets/hornors.item.dart';
 import '../../../common/widgets/show.score.dart';
+import '../../../models/hornors.dart';
 import '../../../models/user.dart';
 import '../../../service/admob.repo.dart';
 import '../../profile/screen/profile.screen.dart';
@@ -17,17 +20,13 @@ class GetHornorsScreen extends StatefulWidget {
 }
 
 class _GetHornorsScreenState extends State<GetHornorsScreen> {
-  GetHornorsProvider model = GetHornorsProvider();
+  GetHornorsProvider provider = GetHornorsProvider();
   BannerAd? bannerAd;
   bool isAdLoad = false;
   @override
   void initState() {
     super.initState();
-    init();
-  }
-
-  void init() {
-    model.init();
+    provider.init();
     initBannnerAd();
   }
 
@@ -35,7 +34,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return ChangeNotifierProvider<GetHornorsProvider>(
-      create: ((context) => model),
+      create: ((context) => provider),
       builder: (context, child) {
         return Consumer<GetHornorsProvider>(builder: (context, model, child) {
           return Scaffold(
@@ -109,51 +108,62 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
                     ],
                   ),
                 ),
-                model.listHornors != null && model.listHornors!.isNotEmpty
-                    ? ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: model.listHornors!.length,
-                        itemBuilder: (BuildContext context, index) => InkWell(
-                              onTap: () async {
-                                Users u = await model.getUser(
-                                    model.listHornors![index].userSet ?? '');
-                                onTap(u, model);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: HonorsItems(
-                                  isHome: false,
-                                  isGet: true,
-                                  hornors: model.listHornors![index],
-                                ),
-                              ),
-                            ))
-                    : model.listHornors != null && model.listHornors!.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 150),
-                            child: Center(
-                              child: Text(
-                                'Chưa có vinh danh nào!',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ),
-                          )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 100),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColor.primary,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ),
+                Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: _itemHornors(model))
               ],
             ),
           );
         });
       },
     );
+  }
+
+  Widget _itemHornors(GetHornorsProvider model) {
+    return model.workspaceID != null
+        ? PaginateFirestore(
+            onEmpty: const Padding(
+              padding: EdgeInsets.only(bottom: 500),
+              child: Center(
+                child: Text('Chưa có vinh danh nào!'),
+              ),
+            ),
+            itemBuilderType: PaginateBuilderType.listView,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            onLoaded: (context) => const CircularProgressIndicator(),
+            itemBuilder: (context, documentSnapshots, index) {
+              final data = documentSnapshots[index].data() as Map?;
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: InkWell(
+                  onTap: () async {
+                    Users u = await model.getUser(data['userSet'] ?? '');
+                    onTap(u, model);
+                  },
+                  child: HonorsItems(
+                    isHome: false,
+                    isGet: true,
+                    hornors: Hornors(
+                        time: data!['time'],
+                        userGet: data['userGet'],
+                        userSet: data['userSet'],
+                        score: data['score'],
+                        content: data['content'],
+                        coreValue: data['coreValue']),
+                  ),
+                ),
+              );
+            },
+            query: FirebaseFirestore.instance
+                .collection('Hornors')
+                .where('workspaceID', isEqualTo: model.workspaceID)
+                .where("userGet", isEqualTo: model.userLogined)
+                .orderBy('time', descending: true),
+            isLive: true,
+            itemsPerPage: 5,
+          )
+        : Container();
   }
 
   initBannnerAd() {

@@ -20,10 +20,7 @@ class HonorsItems extends StatelessWidget {
           text: TextSpan(
             text:
                 '${hornors!.time.toString().substring(11, 16)} ${hornors!.time.toString().substring(0, 10)}\n',
-            style: const TextStyle(
-                color: Colors.black87,
-                // backgroundColor: Colors.blue,
-                fontSize: 13),
+            style: const TextStyle(color: Colors.black87, fontSize: 13),
             children: <TextSpan>[
               TextSpan(
                   text: isHome!
