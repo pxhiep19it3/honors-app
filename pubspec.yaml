@@ -52,6 +52,10 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   firebase_remote_config: ^4.0.1
   flutterflow_paginate_firestore: ^1.0.3+1
+  flutter_local_notifications: ^14.0.0+1
+  firebase_messaging: ^14.4.1
+  http: ^0.13.5
+  permission_handler: ^10.2.0
   
 
 flutter_native_splash:

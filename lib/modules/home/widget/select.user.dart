@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../../models/user.dart';
@@ -18,18 +19,27 @@ class SelectUser extends StatefulWidget {
 
 class _SelectUserState extends State<SelectUser> {
   List<String> list = <String>[];
+  List<String> listEmail = <String>[];
   String dropdownValue = '';
   @override
   void initState() {
     super.initState();
+
     for (int i = 0; i < widget.listUser!.length; i++) {
       setState(() {
         list.add(widget.listUser![i].displayName ?? '');
+        listEmail.add(widget.listUser![i].email ?? '');
       });
     }
     setState(() {
       dropdownValue = list[0];
     });
+    setEmail();
+  }
+
+  void setEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('uGet', listEmail[list.indexOf(dropdownValue)]);
   }
 
   @override
@@ -47,10 +57,13 @@ class _SelectUserState extends State<SelectUser> {
           ),
           icon: const Icon(Icons.keyboard_arrow_down_outlined),
           elevation: 16,
-          onChanged: (String? value) {
+          onChanged: (String? value) async {
+            final prefs = await SharedPreferences.getInstance();
             setState(() {
               dropdownValue = value!;
             });
+            await prefs.setString(
+                'uGet', listEmail[list.indexOf(dropdownValue)]);
             widget.setUser(value!);
           },
           items: list.map<DropdownMenuItem<String>>((String value) {

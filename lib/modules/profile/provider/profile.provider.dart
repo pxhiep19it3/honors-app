@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/core.value.dart';
 import '../../../models/hornors.dart';
 import '../../../service/core.value.repo.dart';
+import '../../../service/notification.repo.dart';
 
 class ProfileProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
@@ -26,9 +27,17 @@ class ProfileProvider extends ChangeNotifier {
   final TextEditingController _contentHornors = TextEditingController();
   TextEditingController get contentHornors => _contentHornors;
 
+  final NotificaitionRepo _notificaitionRepo = NotificaitionRepo();
+
+  String? _nameWorkspace;
+
+  String? _uGet;
+
   init(Users user) async {
     final prefs = await SharedPreferences.getInstance();
     _workspaceID = prefs.getString('workspaceID');
+    _nameWorkspace = prefs.getString('nameWorkspace');
+    _uGet = user.email;
     List listScore = [];
     _listHornors =
         await _hornors.getHornors(_workspaceID!, user.displayName ?? '');
@@ -39,7 +48,6 @@ class ProfileProvider extends ChangeNotifier {
       }
       _score = listScore.reduce((a, b) => a + b);
     }
-
     _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
     _listHornors!.sort((a, b) => b.time!.compareTo(a.time!));
     notifyListeners();
@@ -76,6 +84,8 @@ class ProfileProvider extends ChangeNotifier {
       userSet: _userLogined ?? '',
     ));
     _contentHornors.clear();
+    await _notificaitionRepo.sendNotification(
+        _uGet!, _userLogined!, _nameWorkspace!);
     notifyListeners();
   }
 }

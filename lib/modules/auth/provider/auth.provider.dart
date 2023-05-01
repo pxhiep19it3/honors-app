@@ -33,13 +33,20 @@ class AuthModel extends ChangeNotifier {
     }
     if (!emailList.contains(_user!.email ?? '')) {
       addUser();
-    } else {}
+    } else {
+      updateToken(_user!.email ?? '');
+    }
     notifyListeners();
   }
 
-  addUser() {
+  addUser() async {
     _userRepo.addUser(
         _user?.displayName ?? '', _user?.email ?? '', _user?.photoURL ?? '');
+    notifyListeners();
+  }
+
+  updateToken(String email) async {
+    _userRepo.updateToken(email);
     notifyListeners();
   }
 }
