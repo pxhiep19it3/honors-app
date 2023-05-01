@@ -6,6 +6,8 @@ import 'package:honors_app/service/core.value.repo.dart';
 import 'package:honors_app/service/hornors.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../service/notification.repo.dart';
+
 class HomeProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
 
@@ -46,11 +48,15 @@ class HomeProvider extends ChangeNotifier {
   Users _admin = Users();
 
   String? _selectUser;
+  String? _nameWorkspace;
+
+  final NotificaitionRepo _notificaitionRepo = NotificaitionRepo();
 
   init() async {
     final prefs = await SharedPreferences.getInstance();
     _userLogined = prefs.getString('userLogined');
     _workspaceID = prefs.getString('workspaceID');
+    _nameWorkspace = prefs.getString('nameWorkspace');
     _admin = await _hornorsRepo.getAdmin(_workspaceID!);
     _userTmp = await _hornorsRepo.getUser(_workspaceID!);
     _userLogined != _admin.displayName ? _userTmp.add(_admin) : null;
@@ -96,6 +102,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   createHornors(String userGet) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? uGet = prefs.getString('uGet');
     DateTime time = DateTime.now();
     await _hornorsRepo.createHornors(
         _contentHornors.text,
@@ -112,6 +120,8 @@ class HomeProvider extends ChangeNotifier {
     } else {
       _isAdMob = false;
     }
+    await _notificaitionRepo.sendNotification(
+        uGet!, _userLogined!, _nameWorkspace!);
     notifyListeners();
   }
 

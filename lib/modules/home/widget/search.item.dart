@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/user.dart';
 import '../../profile/screen/profile.screen.dart';
 import '../provider/home.provider.dart';
@@ -25,8 +26,14 @@ class SearchItem extends StatelessWidget {
           return Column(
             children: [
               ListTile(
-                onTap: () {
-                  onTap(context, users[index].displayName ?? '', model);
+                onTap: () async {
+                  onTap(
+                    context,
+                    users[index].displayName ?? '',
+                    model,
+                  );
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('uGet', users[index].email ?? '');
                 },
                 title: Text(users[index].displayName ?? ''),
                 trailing: IconButton(

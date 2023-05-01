@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // checkNewVersion();
     init();
-    // initBannnerAd();
+    initBannnerAd();
   }
 
   init() async {
