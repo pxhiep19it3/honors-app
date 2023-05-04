@@ -77,7 +77,7 @@ const emailTemplate = r"""
         }
 
         .customer-info div {
-            flex: 50%
+            flex: 60%
         }
 
         .col-second {
@@ -232,11 +232,10 @@ const emailTemplate = r"""
             <div class="customer-info">
                 <div style=" display: flex; justify-content: center">
                 <!-- <a style="justify-content: center; text-align: center; font-size: 14px; background-color: #4B154B; padding: 12px; border-radius: 8px; color: white;" href="{link}">Tham gia</a> -->
-                <img width="270", height="50" src="https://taxisaomai.vn/wp-content/uploads/2017/04/app-store-android-download.png">
-                <br>
-                <img width="270", height="50" src="https://giaohangtietkiem.vn/wp-content/uploads/2016/12/appstore.png">
+                <img width="", height="50" src="https://taxisaomai.vn/wp-content/uploads/2017/04/app-store-android-download.png">
+                <img width="", height="50" src="https://giaohangtietkiem.vn/wp-content/uploads/2016/12/appstore.png">
             </div>
-            </div>
+            
         </div>
 
 </body>
