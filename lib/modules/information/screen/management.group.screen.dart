@@ -39,15 +39,8 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
               actions: [
                 model.isAdmin
                     ? IconButton(
-                        onPressed: () {
-                          deleteWorkspace(model.nameCtl!.text, model);
-                        },
-                        icon: const Icon(Icons.delete))
-                    : Container(),
-                model.isAdmin
-                    ? IconButton(
                         onPressed: model.updateWorkspace,
-                        icon: const Icon(Icons.save))
+                        icon: const Icon(Icons.check))
                     : Container(),
               ],
             ),
@@ -153,7 +146,14 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                         workspace: model.workspace!,
                         model: model,
                       )
-                    : Container()
+                    : Container(),
+                model.isAdmin
+                    ? TextButton(
+                        onPressed: () {
+                          deleteWorkspace(model.nameCtl!.text, model);
+                        },
+                        child: Text('Xoá'))
+                    : Container(),
               ]),
             ),
           );

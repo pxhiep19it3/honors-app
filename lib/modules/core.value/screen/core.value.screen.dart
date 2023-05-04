@@ -63,6 +63,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                             shrinkWrap: true,
                             itemCount: model.listCore!.length,
                             itemBuilder: (BuildContext context, int index) {
+                              CoreValue coreValue = model.listCore![index];
                               return InkWell(
                                 onTap: () {
                                   model.setValueOnTap(
@@ -72,8 +73,16 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: CoreValueItem(
-                                    item: model.listCore![index],
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.black54,
+                                                width: 1))),
+                                    child: ListTile(
+                                      title: Text(coreValue.title ?? ""),
+                                      subtitle: Text(coreValue.content ?? ""),
+                                    ),
                                   ),
                                 ),
                               );

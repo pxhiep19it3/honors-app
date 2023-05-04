@@ -24,67 +24,66 @@ class HonorsItems extends StatelessWidget {
             children: <TextSpan>[
               TextSpan(
                   text: isHome!
-                      ? "${hornors!.userSet} đã tặng cho "
+                      ? "Bạn ${hornors!.userSet} đã tặng cho "
                       : isGet!
                           ? 'Bạn đã nhận được từ '
                           : 'Bạn đã tặng cho ',
                   style: const TextStyle(
                     color: AppColor.black,
-                    fontSize: 20,
+                    fontSize: 18,
                     backgroundColor: Colors.transparent,
                   )),
               TextSpan(
                   text:
                       isGet! ? hornors!.userSet ?? '' : hornors!.userGet ?? '',
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 2,
-                    wordSpacing: 2,
-                    backgroundColor: Color(0xffc6d4d9),
-                    color: Color(0xff25588a),
+                    backgroundColor: Colors.transparent,
+                    color: Color(0xff1B2553),
                   )),
               const TextSpan(
-                  text: '  ',
+                  text: '',
                   style: TextStyle(
                     fontSize: 22,
                     backgroundColor: Colors.transparent,
                   )),
               TextSpan(
-                  text: ' ${hornors!.score} điểm vinh danh ',
+                  text: ' ${hornors!.score} điểm vinh danh',
                   style: const TextStyle(
                       letterSpacing: 2,
-                      wordSpacing: 2,
-                      backgroundColor: AppColor.gray,
-                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      backgroundColor: Colors.transparent,
+                      fontSize: 18,
                       color: Colors.pink)),
               const TextSpan(
                   text: ' - nhóm giá trị ',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: AppColor.black,
                     backgroundColor: Colors.transparent,
                   )),
               TextSpan(
-                  text: ' ${hornors!.coreValue}, ',
+                  text: '${hornors!.coreValue} ',
                   style: const TextStyle(
                       backgroundColor: Colors.transparent,
-                      fontSize: 20,
-                      color: AppColor.black,
+                      fontSize: 18,
+                      color: Colors.pink,
                       fontWeight: FontWeight.bold)),
               const TextSpan(
-                  text: '\nvới nội dung:  ',
+                  text: ',với nội dung: ',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: AppColor.black,
                     backgroundColor: Colors.transparent,
                   )),
               TextSpan(
-                  text: '\n\t\t${hornors!.content}  ',
+                  text: '${hornors!.content}  ',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: AppColor.primary,
-                    letterSpacing: 2,
-                    wordSpacing: 2,
+                    fontWeight: FontWeight.bold,
                     backgroundColor: Colors.transparent,
                   )),
             ],
