@@ -5,6 +5,8 @@ import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/modules/core.value/screen/core.value.screen.dart';
 
 import '../../auth/screen/login.screen.dart';
+import '../../information/screen/policy.screen.dart';
+import '../../information/screen/privacy.screen.dart';
 
 class NavigationItems extends StatelessWidget {
   const NavigationItems({super.key});
@@ -45,7 +47,9 @@ class NavigationItems extends StatelessWidget {
     if (listTitle[index] == listTitle[0]) {
       coreValue(context);
     } else if (listTitle[index] == listTitle[1]) {
+      policy(context);
     } else if (listTitle[index] == listTitle[2]) {
+      privacy(context);
     } else if (listTitle[index] == listTitle[3]) {
       logout(context);
     }
@@ -69,4 +73,18 @@ class NavigationItems extends StatelessWidget {
     await googleSignIn.disconnect();
     await FirebaseAuth.instance.signOut();
   }
+
+   void policy(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PolicyScreen()),
+    );
+  }
+
+  void privacy(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const PrivacyScreen()));
+  }
+
+  
 }
