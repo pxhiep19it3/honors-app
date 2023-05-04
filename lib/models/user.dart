@@ -9,12 +9,13 @@ class Users {
     this.email,
     this.photoURL,
   });
+
   Map<String, String> toJson() {
     return {
-      'id': id!,
-      'displayName': displayName!,
-      'email': email!,
-      'photoURL': photoURL!,
+      'id': id ?? '',
+      'displayName': displayName ?? '',
+      'email': email ?? '',
+      'photoURL': photoURL ?? '',
     };
   }
 

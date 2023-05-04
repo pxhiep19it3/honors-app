@@ -39,11 +39,9 @@ class _ChartScreenState extends State<ChartScreen> {
       .split('/')
       .reversed
       .join('/');
-  RewardedAd? rewardedAd;
 
   @override
   void initState() {
-    initRewardedAd();
     init();
     initBannnerAd();
     setState(() {
@@ -177,41 +175,6 @@ class _ChartScreenState extends State<ChartScreen> {
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
-    });
-  }
-
-  void initRewardedAd() {
-    RewardedAd.load(
-        adUnitId: AdMobRepo.adUnitIdRewaredAd!,
-        request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
-          setState(() {
-            rewardedAd = ad;
-          });
-          setFullScreenContentCallBack();
-        }, onAdFailedToLoad: (erro) {
-          setState(() {
-            rewardedAd = null;
-          });
-        }));
-  }
-
-  void setFullScreenContentCallBack() {
-    if (rewardedAd == null) return;
-    rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdShowedFullScreenContent: (ad) {},
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-        });
-    rewardedAd != null ? showRewardedAd() : null;
-  }
-
-  void showRewardedAd() {
-    rewardedAd!.show(onUserEarnedReward: (ad, re) {
-      print(re.amount);
     });
   }
 
