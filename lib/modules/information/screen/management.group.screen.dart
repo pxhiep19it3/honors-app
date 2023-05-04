@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.icons.dart';
 import '../provider/management.provider.dart';
-import '../widget/add.user.dart';
+import 'add.user.screen.dart';
 import '../widget/delete.workspace.dart';
 import '../widget/member.item.dart';
 
@@ -180,7 +180,7 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AddUser(
+          builder: (context) => AddUserScreen(
             model: model,
           ),
         ));

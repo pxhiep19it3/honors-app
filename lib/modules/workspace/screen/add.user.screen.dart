@@ -98,8 +98,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             duration: const Duration(seconds: 2),
                             leftBarIndicatorColor: Colors.amber,
                             margin: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).size.height - 100,
+                                top: MediaQuery.of(context).size.height -
+                                    MediaQuery.of(context).size.height * 0.5,
                                 right: 20,
                                 left: 20),
                           ).show(context);

@@ -5,17 +5,17 @@ import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.icons.dart';
 import '../../../common/widgets/basic.button.dart';
 import '../../workspace/widget/text.input.dart';
-import 'area.user.dart';
+import '../widget/area.user.dart';
 
-class AddUser extends StatefulWidget {
-  const AddUser({super.key, required this.model});
+class AddUserScreen extends StatefulWidget {
+  const AddUserScreen({super.key, required this.model});
   final ManagementProvider model;
 
   @override
-  State<AddUser> createState() => _AddUserState();
+  State<AddUserScreen> createState() => _AddUserScreenState();
 }
 
-class _AddUserState extends State<AddUser> {
+class _AddUserScreenState extends State<AddUserScreen> {
   List<String> users = [];
   final form = GlobalKey<FormState>();
   @override
@@ -93,7 +93,8 @@ class _AddUserState extends State<AddUser> {
                           duration: const Duration(seconds: 2),
                           leftBarIndicatorColor: Colors.blue[300],
                           margin: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.height - 100,
+                              top: MediaQuery.of(context).size.height -
+                                  MediaQuery.of(context).size.height * 0.5,
                               right: 20,
                               left: 20),
                         ).show(context);

@@ -162,7 +162,8 @@ class _HornorsScreenState extends State<HornorsScreen> {
         duration: const Duration(seconds: 1),
         leftBarIndicatorColor: Colors.blue[300],
         margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height - 100,
+            top: MediaQuery.of(context).size.height -
+                MediaQuery.of(context).size.height * 0.5,
             right: 20,
             left: 20),
       ).show(context);
