@@ -13,10 +13,12 @@ class DeleteWorkspace extends StatelessWidget {
       {super.key,
       required this.workspace,
       required this.model,
-      this.isFirst = false});
+      this.isFirst = false,
+      this.notifyListener = false});
   final Workspace workspace;
   final WorkspaceProvider model;
   final bool isFirst;
+  final bool notifyListener;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class DeleteWorkspace extends StatelessWidget {
                 workspace.id ?? '',
                 workspace.members!.cast<String>(),
                 workspace.admin ?? '',
-                isCheck);
+                notifyListener);
             if (isFirst) {
               Navigator.of(context).pop();
             } else {
