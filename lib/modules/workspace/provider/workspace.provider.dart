@@ -111,7 +111,7 @@ class WorkspaceProvider extends ChangeNotifier {
     await _coreValueRepo.deleteAllCoreValue(id);
     listEmail.add(admin);
     await _inWorkspaceRepo.deleteAllWorkspaceID(listEmail, id);
-    !notifyListener ? notifyListeners() : null;
+    notifyListener ? notifyListeners() : null;
   }
 
   getEmailContent(String memberEmail, String nameWorkspace, String logined) {

@@ -80,7 +80,6 @@ class ManagementProvider extends ChangeNotifier {
     await _hornorsRepo.deleteHornors(workspaceID!);
     listEmail.add(adminCtl!.text);
     await _inWorkspaceRepo.deleteAllWorkspaceID(listEmail, workspaceID!);
-    notifyListeners();
   }
 
   transfeAdmin(String newAdmin) async {

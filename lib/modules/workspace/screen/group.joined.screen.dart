@@ -188,6 +188,7 @@ class _GroupJoinedState extends State<GroupJoined> {
           workspace: workspace,
           model: model,
           isFirst: true,
+          notifyListener: true,
         );
       },
     );

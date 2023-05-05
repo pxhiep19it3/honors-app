@@ -66,7 +66,7 @@ class _InformationScreenState extends State<InformationScreen> {
       body: Column(
         children: [
           Container(
-            height: height * 0.3,
+            height: height * 0.28,
             width: double.infinity,
             color: AppColor.primary,
             child: Column(
