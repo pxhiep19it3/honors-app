@@ -34,7 +34,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   @override
   void initState() {
     super.initState();
-    initBannnerAd();
+    initBannnerAd(); 
   }
 
   @override

@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 
 class TextInput extends StatelessWidget {
-  const TextInput({
-    super.key,
-    required this.controller,
-    this.label,
-    required this.width,
-    this.enabled,
-    this.onChange,
-  });
+  const TextInput(
+      {super.key,
+      required this.controller,
+      this.label,
+      required this.width,
+      this.enabled,
+      this.onChange,
+      this.optional = false});
   final TextEditingController controller;
   final String? label;
   final double? width;
   final bool? enabled;
   final Function(String)? onChange;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class TextInput extends StatelessWidget {
       width: width,
       child: TextFormField(
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (value == null || value.isEmpty && !optional) {
             return 'Bạn chưa nhập vào đây!';
           }
           return null;
@@ -35,6 +36,14 @@ class TextInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1.5, color: AppColor.primary),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1.5, color: AppColor.primary),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(width: 1.5, color: AppColor.primary),
             borderRadius: BorderRadius.circular(8),
           ),

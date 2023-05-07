@@ -72,7 +72,7 @@ class _InformationScreenState extends State<InformationScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 _photoURL != null
                     ? SizedBox(

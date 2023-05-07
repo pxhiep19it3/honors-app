@@ -31,6 +31,18 @@ class ManagementProvider extends ChangeNotifier {
   TextEditingController? _adminCtl = TextEditingController();
   TextEditingController? get adminCtl => _adminCtl;
 
+  TextEditingController? _numberStaffCtl = TextEditingController();
+  TextEditingController? get numberStaffCtl => _numberStaffCtl;
+
+  TextEditingController? _courseJoinedCtl = TextEditingController();
+  TextEditingController? get courseJoinedCtl => _courseJoinedCtl;
+
+  TextEditingController? _revenueCtl = TextEditingController();
+  TextEditingController? get revenueCtl => _revenueCtl;
+
+  TextEditingController? _phoneCtl = TextEditingController();
+  TextEditingController? get phoneCtl => _phoneCtl;
+
   final UserInWorkspaceRepo _inWorkspaceRepo = UserInWorkspaceRepo();
 
   String? nameWorkspace;
@@ -49,12 +61,22 @@ class ManagementProvider extends ChangeNotifier {
     nameWorkspace = prefs.getString('nameWorkspace');
     workspaceID = prefs.getString('workspaceID');
     _workspace = await _workspaceRepo.getWorkspace(workspaceID!);
+    setController(_workspace!);
+    emailLogin = prefs.getString('emailLogin');
+    emailLogin == _workspace!.admin ? _isAdmin = true : _isAdmin = false;
+    notifyListeners();
+  }
+
+  setController(Workspace wspace) {
     _nameCtl = TextEditingController(text: _workspace!.name);
     _addressCtl = TextEditingController(text: _workspace!.address);
     _careerCtl = TextEditingController(text: _workspace!.career);
     _adminCtl = TextEditingController(text: _workspace!.admin);
-    emailLogin = prefs.getString('emailLogin');
-    emailLogin == _workspace!.admin ? _isAdmin = true : _isAdmin = false;
+    _numberStaffCtl =
+        TextEditingController(text: _workspace!.numberStaff.toString());
+    _courseJoinedCtl = TextEditingController(text: _workspace!.courseJoined);
+    _revenueCtl = TextEditingController(text: _workspace!.revenue);
+    _phoneCtl = TextEditingController(text: _workspace!.numberPhone);
     notifyListeners();
   }
 
@@ -62,7 +84,14 @@ class ManagementProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nameWorkspace', nameCtl!.text);
     _workspaceRepo.updateWorkspace(
-        workspaceID!, _addressCtl!.text, _careerCtl!.text, nameCtl!.text);
+        workspaceID!,
+        _addressCtl!.text,
+        _careerCtl!.text,
+        nameCtl!.text,
+        _phoneCtl!.text,
+        _numberStaffCtl!.text,
+        _revenueCtl!.text,
+        _courseJoinedCtl!.text);
     init();
     notifyListeners();
   }

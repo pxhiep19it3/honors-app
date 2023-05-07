@@ -41,6 +41,10 @@ class WorkspaceRepo {
             career: doc['career'].toString(),
             admin: doc['admin'].toString(),
             workspaceID: doc['workspaceID'].toString(),
+            revenue: doc['revenue'].toString(),
+            numberPhone: doc['numberPhone'].toString(),
+            numberStaff: doc['numberStaff'].toString(),
+            courseJoined: doc['courseJoined'].toString(),
             members: doc['members']);
       }
     });
@@ -55,7 +59,17 @@ class WorkspaceRepo {
       'career': workspace.career,
       'admin': admin,
       'members': listMember,
-      'workspaceID': ''
+      'workspaceID': '',
+      'revenue':
+          workspace.revenueCtl.text.isNotEmpty ? workspace.revenueCtl.text : '',
+      'numberPhone':
+          workspace.phoneCtl.text,
+      'numberStaff': workspace.numberStaffCtl.text.isNotEmpty
+          ? workspace.numberStaffCtl.text
+          : '',
+      'courseJoined': workspace.courseJoinedCtl.text.isNotEmpty
+          ? workspace.courseJoinedCtl.text
+          : ''
     }));
     await workspaceFisebase.doc(docRef.id).update({'workspaceID': docRef.id});
     return docRef.id;
@@ -85,10 +99,24 @@ class WorkspaceRepo {
   }
 
   Future<void> updateWorkspace(
-      String id, String address, String career, String name) async {
-    await workspaceFisebase
-        .doc(id)
-        .update({'address': address, 'career': career, 'name': name});
+    String id,
+    String address,
+    String career,
+    String name,
+    String numberPhone,
+    String numberStaff,
+    String revenue,
+    String courseJoined,
+  ) async {
+    await workspaceFisebase.doc(id).update({
+      'address': address,
+      'career': career,
+      'name': name,
+      'numberPhone': numberPhone,
+      'numberStaff': numberStaff,
+      'revenue': revenue,
+      'courseJoined': courseJoined,
+    });
   }
 
   Future<void> transfeAdmin(String id, String newAdmin, String oldAdmin) async {
