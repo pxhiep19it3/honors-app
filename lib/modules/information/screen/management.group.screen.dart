@@ -50,82 +50,20 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                 ],
               ),
               body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: ListView(shrinkWrap: true, children: [
+                  item(model, 'Tên nhóm: ', model.nameCtl!, false),
+                  item(model, 'Địa chỉ: ', model.addressCtl!, false),
+                  item(model, 'Số điện thoại: ', model.phoneCtl!, false),
+                  item(model, 'Lĩnh vực: ', model.careerCtl!, false),
+                  item(model, 'Số nhân viên: ', model.numberStaffCtl!, true),
+                  item(model, 'Doanh thu:  ', model.revenueCtl!, true),
+                  item(model, 'Khoá học đã tham gia:  ', model.courseJoinedCtl!,
+                      true),
+                  item(model, 'Quản trị:', model.adminCtl!, true),
                   const SizedBox(
                     height: 20,
-                  ),
-                  const Text(
-                    'Tên nhóm: ',
-                    style: TextStyle(
-                        color: AppColor.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  BasicText(
-                      controller: model.nameCtl!,
-                      isContent: false,
-                      enabled: model.isAdmin ? true : false,
-                      isDetail: true),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'Địa chỉ: ',
-                    style: TextStyle(
-                        color: AppColor.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  BasicText(
-                      controller: model.addressCtl!,
-                      isContent: false,
-                      enabled: model.isAdmin ? true : false,
-                      isDetail: true),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'Lĩnh vực: ',
-                    style: TextStyle(
-                        color: AppColor.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  BasicText(
-                      controller: model.careerCtl!,
-                      isContent: false,
-                      enabled: model.isAdmin ? true : false,
-                      isDetail: true),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Quản trị: ',
-                    style: TextStyle(
-                        color: AppColor.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  BasicText(
-                      controller: model.adminCtl!,
-                      isContent: false,
-                      enabled: false,
-                      isDetail: true),
-                  const SizedBox(
-                    height: 40,
                   ),
                   model.isAdmin
                       ? BacsicButton(
@@ -142,6 +80,32 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
           );
         });
       },
+    );
+  }
+
+  Widget item(ManagementProvider model, String title,
+      TextEditingController controller, bool optional) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+              color: AppColor.black, fontWeight: FontWeight.bold, fontSize: 15),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        BasicText(
+            controller: controller,
+            isContent: false,
+            optional: optional,
+            enabled: model.isAdmin ? true : false,
+            isDetail: true),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 

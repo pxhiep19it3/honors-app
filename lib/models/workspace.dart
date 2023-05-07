@@ -5,6 +5,10 @@ class Workspace {
   String? career;
   String? admin;
   String? workspaceID;
+  String? revenue;
+  String? numberPhone;
+  String? numberStaff;
+  String? courseJoined;
   List? members;
   Workspace(
       {this.id,
@@ -13,5 +17,9 @@ class Workspace {
       this.career,
       this.admin,
       this.members,
-      this.workspaceID});
+      this.workspaceID,
+      this.revenue,
+      this.numberPhone,
+      this.numberStaff,
+      this.courseJoined});
 }

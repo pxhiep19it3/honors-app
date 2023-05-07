@@ -9,7 +9,6 @@ import 'package:honors_app/modules/core.value/screen/detail.value.screen.dart';
 import 'package:honors_app/modules/core.value/widget/add.core.value.dart';
 import 'package:honors_app/service/admob.repo.dart';
 import 'package:provider/provider.dart';
-import '../widget/core.value.item.dart';
 import '../widget/score.setting.dart';
 
 class CoreValueScreen extends StatefulWidget {
@@ -31,7 +30,7 @@ class _CoreValueScreenState extends State<CoreValueScreen> {
   void initState() {
     super.initState();
     provider.getCoreValue();
-    initRewardedAd();
+    // initRewardedAd();
   }
 
   @override

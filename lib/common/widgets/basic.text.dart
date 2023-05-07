@@ -10,7 +10,9 @@ class BasicText extends StatelessWidget {
       required this.isContent,
       this.keyboardType,
       this.isDetail,
-      this.height, this.onTap});
+      this.height,
+      this.optional = true,
+      this.onTap});
   final TextEditingController controller;
   final String? label;
   final bool? enabled;
@@ -19,12 +21,13 @@ class BasicText extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? isDetail;
   final VoidCallback? onTap;
+  final bool? optional;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: isContent! ? 9 : null,
       validator: (value) {
-        if (value == null || value.isEmpty) {
+        if (value == null || value.isEmpty && !optional!) {
           return 'Bạn chưa nhập vào đây!';
         }
         return null;

@@ -15,8 +15,21 @@ import '../../../service/user.in.workspace.repo.dart';
 class WorkspaceProvider extends ChangeNotifier {
   final TextEditingController _nameWorkspaceCtl = TextEditingController();
   TextEditingController get nameWorkspaceCtl => _nameWorkspaceCtl;
+
   final TextEditingController _addressCtl = TextEditingController();
   TextEditingController get addressCtl => _addressCtl;
+
+  final TextEditingController _phoneCtl = TextEditingController();
+  TextEditingController get phoneCtl => _phoneCtl;
+
+  final TextEditingController _numberStaffCtl = TextEditingController();
+  TextEditingController get numberStaffCtl => _numberStaffCtl;
+
+  final TextEditingController _courseJoinedCtl = TextEditingController();
+  TextEditingController get courseJoinedCtl => _courseJoinedCtl;
+
+  final TextEditingController _revenueCtl = TextEditingController();
+  TextEditingController get revenueCtl => _revenueCtl; 
 
   final WorkspaceRepo _workspaceRepo = WorkspaceRepo();
   final UserInWorkspaceRepo _inWorkspaceRepo = UserInWorkspaceRepo();
