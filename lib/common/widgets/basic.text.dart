@@ -11,7 +11,7 @@ class BasicText extends StatelessWidget {
       this.keyboardType,
       this.isDetail,
       this.height,
-      this.optional = true,
+      this.optional = false,
       this.onTap});
   final TextEditingController controller;
   final String? label;

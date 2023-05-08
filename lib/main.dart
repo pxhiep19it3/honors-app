@@ -3,15 +3,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:honors_app/modules/chart/provider/get.best.provider.dart';
-import 'package:honors_app/modules/chart/provider/set.best.provider.dart';
-import 'package:honors_app/modules/chart/provider/value.best.provider.dart';
 import 'package:honors_app/modules/home/provider/home.provider.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'modules/auth/screen/check.login.dart';
 import 'modules/information/provider/management.provider.dart';
+import 'modules/stats/provider/get.best.provider.dart';
+import 'modules/stats/provider/set.best.provider.dart';
+import 'modules/stats/provider/value.best.provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

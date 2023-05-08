@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
@@ -9,14 +8,12 @@ import '../../../common/values/app.colors.dart';
 import '../../../common/values/app.text.dart';
 import '../../../common/widgets/basic.button.dart';
 import '../../../service/admob.repo.dart';
-import '../../auth/screen/logineds.screen.dart';
 import '../widget/select.job.dart';
 import '../widget/text.input.dart';
 
 class CreateWorkspaceScreen extends StatefulWidget {
-  const CreateWorkspaceScreen({super.key, required this.admin, this.user});
+  const CreateWorkspaceScreen({super.key, required this.admin});
   final String admin;
-  final User? user;
   @override
   State<CreateWorkspaceScreen> createState() => _CreateWorkspaceScreenState();
 }
@@ -29,7 +26,7 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
   @override
   void initState() {
     super.initState();
-    // initInterstitialAd();
+    initInterstitialAd();
   }
 
   @override
@@ -48,14 +45,7 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoginedScreen(
-                                  user: widget.user!,
-                                )),
-                        (Route<dynamic> route) => false,
-                      );
+                      Navigator.pop(context);
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
               ),

@@ -103,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               drawer: DrawerHome(
                 nameWorkspace: workspaceName ?? '',
+                emailLogin: model.emailLogin,
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -215,14 +216,15 @@ class _HomeScreenState extends State<HomeScreen> {
             rewardedAd = ad;
           });
           setFullScreenContentCallBack();
-          rewardedAd!.show(
-              onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {});
+          rewardedAd != null
+              ? rewardedAd!.show(
+                  onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {})
+              : null;
         }, onAdFailedToLoad: (erro) {
           setState(() {
             rewardedAd = null;
           });
         }));
-    rewardedAd == null ? showRewardedAd() : null;
   }
 
   setFullScreenContentCallBack() {
@@ -241,9 +243,5 @@ class _HomeScreenState extends State<HomeScreen> {
           });
           ad.dispose();
         });
-  }
-
-  showRewardedAd() {
-    rewardedAd!.show(onUserEarnedReward: (ad, re) {});
   }
 }
