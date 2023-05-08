@@ -3,28 +3,28 @@ import 'package:honors_app/models/get.best.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/hornors.dart';
-import '../../../service/chart.repo.dart';
+import '../../../service/stats.repo.dart';
 
 class GetBestProvider extends ChangeNotifier {
-  final ChartRepo _bestRepo = ChartRepo();
-  List<String> listName = [];
-  List<Hornors> getHornors = [];
+  final StatsRepo _bestRepo = StatsRepo();
+  final List<String> _listName = [];
+  List<Hornors> _getHornors = [];
   final List<GetBest> _getBest = [];
   List<GetBest> get getBest => _getBest;
-  List<String> listName1 = [];
+  List<String> _listName1 = [];
 
   init(String range) async {
     final prefs = await SharedPreferences.getInstance();
     String workspaceID = prefs.getString('workspaceID')!;
-    getHornors =
+    _getHornors =
         await _bestRepo.getHornors(workspaceID, start(range), end(range));
-    if (getHornors.isNotEmpty) {
-      for (int i = 0; i < getHornors.length; i++) {
-        listName.add(getHornors[i].userGet.toString());
+    if (_getHornors.isNotEmpty) {
+      for (int i = 0; i < _getHornors.length; i++) {
+        _listName.add(_getHornors[i].userGet.toString());
       }
-      listName1 = listName.toSet().toList();
-      for (int i = 0; i < listName1.length; i++) {
-        countOccurrencesUsingLoop(listName, listName1[i]);
+      _listName1 = _listName.toSet().toList();
+      for (int i = 0; i < _listName1.length; i++) {
+        countOccurrencesUsingLoop(_listName, _listName1[i]);
       }
     }
     notifyListeners();

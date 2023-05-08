@@ -12,11 +12,13 @@ class NavigationItem extends StatelessWidget {
       'Thống kê giá trị cốt lõi',
       'Thống kê người vinh danh',
       'Thống kê người được vinh danh',
+      'Thống kê người được vinh danh theo giá trị'
     ];
     List listIcon = const [
       Icon(Icons.chrome_reader_mode, color: AppColor.secondary),
       Icon(Icons.accessibility_new, color: AppColor.secondary),
       Icon(Icons.insert_emoticon_sharp, color: AppColor.secondary),
+      Icon(Icons.streetview, color: AppColor.secondary),
     ];
     return Column(
       children: [
@@ -29,6 +31,9 @@ class NavigationItem extends StatelessWidget {
               fontSize: 25,
               color: AppColor.secondary,
               fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 25,
         ),
         ListView.builder(
           shrinkWrap: true,

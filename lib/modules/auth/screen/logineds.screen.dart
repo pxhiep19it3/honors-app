@@ -24,7 +24,7 @@ class _LoginedScreenState extends State<LoginedScreen> {
   @override
   void initState() {
     super.initState();
-    // initInterstitialAd();
+    initInterstitialAd();
   }
 
   @override
@@ -116,14 +116,12 @@ class _LoginedScreenState extends State<LoginedScreen> {
   }
 
   void create(BuildContext context, String admin) {
-    Navigator.pushAndRemoveUntil(
+    Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => CreateWorkspaceScreen(
                 admin: admin,
-                user: widget.user,
               )),
-      (Route<dynamic> route) => false,
     );
   }
 

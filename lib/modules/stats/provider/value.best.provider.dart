@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:honors_app/models/set.best.dart';
+import 'package:honors_app/models/value.best.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/hornors.dart';
-import '../../../service/chart.repo.dart';
+import '../../../service/stats.repo.dart';
 
-class SetBestProvider extends ChangeNotifier {
-  final ChartRepo _bestRepo = ChartRepo();
-  List<String> listName = [];
-  List<Hornors> getHornors = [];
-  final List<SetBest> _setBest = [];
-  List<SetBest> get setBest => _setBest;
-  List<String> listName1 = [];
+class ValueBestProvider extends ChangeNotifier {
+  final StatsRepo _bestRepo = StatsRepo();
+  final List<String> _listTitle1 = [];
+  List<Hornors> _getHornors = [];
+  final List<ValueBest> _valueBest = [];
+  List<ValueBest> get valueBest => _valueBest;
+  List<String> _listTitle11 = [];
 
   init(String range) async {
     final prefs = await SharedPreferences.getInstance();
     String workspaceID = prefs.getString('workspaceID')!;
-    getHornors =
+    _getHornors =
         await _bestRepo.getHornors(workspaceID, start(range), end(range));
-    if (getHornors.isNotEmpty) {
-      for (int i = 0; i < getHornors.length; i++) {
-        listName.add(getHornors[i].userSet.toString());
+    if (_getHornors.isNotEmpty) {
+      for (int i = 0; i < _getHornors.length; i++) {
+        _listTitle1.add(_getHornors[i].coreValue.toString());
       }
-      listName1 = listName.toSet().toList();
-      for (int i = 0; i < listName1.length; i++) {
-        countOccurrencesUsingLoop(listName, listName1[i]);
+      _listTitle11 = _listTitle1.toSet().toList();
+      for (int i = 0; i < _listTitle11.length; i++) {
+        countOccurrencesUsingLoop(_listTitle1, _listTitle11[i]);
       }
     }
     notifyListeners();
@@ -52,7 +52,7 @@ class SetBestProvider extends ChangeNotifier {
         count++;
       }
     }
-    _setBest.add(SetBest(name: element, total: count));
+    _valueBest.add(ValueBest(title: element, total: count));
     return count;
   }
 }

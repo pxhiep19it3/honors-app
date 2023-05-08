@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:honors_app/models/value.best.dart';
+import 'package:honors_app/models/set.best.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/hornors.dart';
-import '../../../service/chart.repo.dart';
+import '../../../service/stats.repo.dart';
 
-class ValueBestProvider extends ChangeNotifier {
-  final ChartRepo _bestRepo = ChartRepo();
-  List<String> listTitle = [];
+class SetBestProvider extends ChangeNotifier {
+  final StatsRepo _bestRepo = StatsRepo();
+  final List<String> _listName = [];
   List<Hornors> getHornors = [];
-  final List<ValueBest> _valueBest = [];
-  List<ValueBest> get valueBest => _valueBest;
-  List<String> listTitle1 = [];
+  final List<SetBest> _setBest = [];
+  List<SetBest> get setBest => _setBest;
+  List<String> _listName1 = [];
 
   init(String range) async {
     final prefs = await SharedPreferences.getInstance();
@@ -20,11 +20,11 @@ class ValueBestProvider extends ChangeNotifier {
         await _bestRepo.getHornors(workspaceID, start(range), end(range));
     if (getHornors.isNotEmpty) {
       for (int i = 0; i < getHornors.length; i++) {
-        listTitle.add(getHornors[i].coreValue.toString());
+        _listName.add(getHornors[i].userSet.toString());
       }
-      listTitle1 = listTitle.toSet().toList();
-      for (int i = 0; i < listTitle1.length; i++) {
-        countOccurrencesUsingLoop(listTitle, listTitle1[i]);
+      _listName1 = _listName.toSet().toList();
+      for (int i = 0; i < _listName1.length; i++) {
+        countOccurrencesUsingLoop(_listName, _listName1[i]);
       }
     }
     notifyListeners();
@@ -52,7 +52,7 @@ class ValueBestProvider extends ChangeNotifier {
         count++;
       }
     }
-    _valueBest.add(ValueBest(title: element, total: count));
+    _setBest.add(SetBest(name: element, total: count));
     return count;
   }
 }

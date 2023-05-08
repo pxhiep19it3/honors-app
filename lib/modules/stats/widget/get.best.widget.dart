@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:honors_app/models/set.best.dart';
-import 'package:honors_app/modules/chart/provider/set.best.provider.dart';
+import 'package:honors_app/models/get.best.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../common/values/app.colors.dart';
+import '../provider/get.best.provider.dart';
 
-class SetBestWidget extends StatefulWidget {
-  const SetBestWidget({
+class GetBestWidget extends StatefulWidget {
+  const GetBestWidget({
     super.key,
     required this.height,
     required this.range,
@@ -15,12 +15,12 @@ class SetBestWidget extends StatefulWidget {
   final double height;
   final String range;
   @override
-  State<SetBestWidget> createState() => _SetBestWidgetState();
+  State<GetBestWidget> createState() => _GetBestWidgetState();
 }
 
-class _SetBestWidgetState extends State<SetBestWidget> {
+class _GetBestWidgetState extends State<GetBestWidget> {
   final TooltipBehavior _tooltip = TooltipBehavior(enable: true);
-  SetBestProvider provider = SetBestProvider();
+  GetBestProvider provider = GetBestProvider();
 
   @override
   void initState() {
@@ -30,10 +30,10 @@ class _SetBestWidgetState extends State<SetBestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SetBestProvider>(
+    return ChangeNotifierProvider<GetBestProvider>(
       create: ((context) => provider),
       builder: ((context, child) {
-        return Consumer<SetBestProvider>(builder: (context, model, child) {
+        return Consumer<GetBestProvider>(builder: (context, model, child) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
@@ -41,28 +41,29 @@ class _SetBestWidgetState extends State<SetBestWidget> {
               child: Stack(
                 alignment: AlignmentDirectional.center,
                 children: [
-                  model.setBest.isEmpty
+                  model.getBest.isEmpty
                       ? const Text('Chưa có dữ liệu!')
                       : Container(),
                   SfCircularChart(
                       title: ChartTitle(
-                          text: 'Thống kê người vinh danh\n(${widget.range})',
+                          text:
+                              'Thống kê người được vinh danh\n(${widget.range})',
                           textStyle: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: AppColor.black)),
+                      tooltipBehavior: _tooltip,
                       legend: Legend(
                         textStyle: const TextStyle(fontSize: 20),
                         position: LegendPosition.bottom,
                         overflowMode: LegendItemOverflowMode.wrap,
                         isVisible: true,
                       ),
-                      tooltipBehavior: _tooltip,
                       series: <CircularSeries>[
-                        DoughnutSeries<SetBest, String>(
-                            dataSource: model.setBest,
-                            xValueMapper: (SetBest data, _) => data.name,
-                            yValueMapper: (SetBest data, _) => data.total,
+                        DoughnutSeries<GetBest, String>(
+                            dataSource: model.getBest,
+                            xValueMapper: (GetBest data, _) => data.name,
+                            yValueMapper: (GetBest data, _) => data.total,
                             dataLabelSettings: const DataLabelSettings(
                                 isVisible: true,
                                 textStyle: TextStyle(fontSize: 20)))

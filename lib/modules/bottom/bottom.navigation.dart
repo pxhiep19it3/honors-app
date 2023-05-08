@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
-import 'package:honors_app/modules/chart/screen/chart.screen.dart';
+import 'package:honors_app/modules/stats/screen/stats.screen.dart';
 
 import '../get.hornors/screen/get.hornors.screen.dart';
 import '../home/screen/home.screen.dart';
@@ -45,7 +45,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           }
         case 3:
           {
-            return const ChartScreen();
+            return const StatsScreen();
           }
         case 4:
           {

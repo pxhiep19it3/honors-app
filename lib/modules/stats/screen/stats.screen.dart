@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:honors_app/modules/chart/widget/value.best.widget.dart';
+import 'package:honors_app/modules/stats/widget/get.best.value.widget.dart';
+import 'package:honors_app/modules/stats/widget/value.best.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
@@ -10,14 +11,14 @@ import '../widget/navigator.dart';
 import '../widget/set.best.widget.dart';
 import '../widget/get.best.widget.dart';
 
-class ChartScreen extends StatefulWidget {
-  const ChartScreen({super.key});
+class StatsScreen extends StatefulWidget {
+  const StatsScreen({super.key});
 
   @override
-  State<ChartScreen> createState() => _ChartScreenState();
+  State<StatsScreen> createState() => _StatsScreenState();
 }
 
-class _ChartScreenState extends State<ChartScreen> {
+class _StatsScreenState extends State<StatsScreen> {
   int index = 0;
   String _range = '';
   BannerAd? bannerAd;
@@ -79,11 +80,13 @@ class _ChartScreenState extends State<ChartScreen> {
                     : const Icon(Icons.filter_alt))
           ],
         ),
-        drawer: Drawer(
-          backgroundColor: AppColor.primary,
-          child: NavigationItem(
-            nameWorkspace: nameWorkspace,
-            onTap: onTap,
+        drawer: SafeArea(
+          child: Drawer(
+            backgroundColor: AppColor.primary,
+            child: NavigationItem(
+              nameWorkspace: nameWorkspace,
+              onTap: onTap,
+            ),
           ),
         ),
         bottomNavigationBar: isAdLoad
@@ -123,10 +126,15 @@ class _ChartScreenState extends State<ChartScreen> {
                   height: height,
                   range: _range,
                 )
-              : GetBestWidget(
-                  height: height,
-                  range: _range,
-                );
+              : index == 2
+                  ? GetBestWidget(
+                      height: height,
+                      range: _range,
+                    )
+                  : GetBestValueWidget(
+                      height: height,
+                      range: _range,
+                    );
     }
   }
 
