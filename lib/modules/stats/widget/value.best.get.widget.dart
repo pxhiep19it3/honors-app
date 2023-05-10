@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:honors_app/models/get.best.value.dart';
+import 'package:honors_app/models/value.best.get.dart';
+import 'package:honors_app/modules/stats/provider/value.best.get.provider.dart';
 import 'package:honors_app/modules/stats/widget/select.value.widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../common/values/app.colors.dart';
-import '../provider/get.best.value.provider.dart';
 
-class GetBestValueWidget extends StatefulWidget {
-  const GetBestValueWidget({
+class ValueBestGetWidget extends StatefulWidget {
+  const ValueBestGetWidget({
     super.key,
     required this.height,
     required this.range,
@@ -16,12 +16,12 @@ class GetBestValueWidget extends StatefulWidget {
   final double height;
   final String range;
   @override
-  State<GetBestValueWidget> createState() => _GetBestValueWidgetState();
+  State<ValueBestGetWidget> createState() => _ValueBestGetWidgetState();
 }
 
-class _GetBestValueWidgetState extends State<GetBestValueWidget> {
+class _ValueBestGetWidgetState extends State<ValueBestGetWidget> {
   final TooltipBehavior _tooltip = TooltipBehavior(enable: true);
-  GetBestValueProvider provider = GetBestValueProvider();
+  ValueBestGetProvider provider = ValueBestGetProvider();
   @override
   void initState() {
     super.initState();
@@ -30,10 +30,10 @@ class _GetBestValueWidgetState extends State<GetBestValueWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<GetBestValueProvider>(
+    return ChangeNotifierProvider<ValueBestGetProvider>(
       create: ((context) => provider),
       builder: ((context, child) {
-        return Consumer<GetBestValueProvider>(builder: (context, model, child) {
+        return Consumer<ValueBestGetProvider>(builder: (context, model, child) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(
@@ -43,7 +43,7 @@ class _GetBestValueWidgetState extends State<GetBestValueWidget> {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
-                        'Thống kê người được vinh danh theo giá trị\n(${widget.range})',
+                        'Thống kê giá trị cốt lõi theo người được vinh danh\n(${widget.range})',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 22,
@@ -51,13 +51,16 @@ class _GetBestValueWidgetState extends State<GetBestValueWidget> {
                             color: AppColor.black)),
                   ),
                 ),
-                model.titleValue.isNotEmpty
+                model.name.isNotEmpty
                     ? SelectValue(
-                        coreValue: model.titleValue,
+                        coreValue: model.name,
                         setCoreValue: (String value) {
-                          model.setCoreValue(value, widget.range);
+                          model.setValue(value, widget.range);
                         })
                     : const SizedBox(),
+                const SizedBox(
+                  height: 20,
+                ),
                 model.getBest.isNotEmpty
                     ? SfCartesianChart(
                         primaryXAxis: CategoryAxis(),
@@ -73,13 +76,13 @@ class _GetBestValueWidgetState extends State<GetBestValueWidget> {
                           isVisible: true,
                         ),
                         series: <ChartSeries>[
-                            BarSeries<GetBestValue, String>(
+                            BarSeries<ValueBestGet, String>(
                                 color: AppColor.primary,
                                 dataSource: model.getBest,
                                 name: 'Biểu đồ',
-                                xValueMapper: (GetBestValue data, _) =>
+                                xValueMapper: (ValueBestGet data, _) =>
                                     data.name,
-                                yValueMapper: (GetBestValue data, _) =>
+                                yValueMapper: (ValueBestGet data, _) =>
                                     data.total,
                                 dataLabelSettings: const DataLabelSettings(
                                     isVisible: true,

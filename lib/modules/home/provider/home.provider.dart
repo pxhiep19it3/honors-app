@@ -7,9 +7,11 @@ import 'package:honors_app/service/hornors.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../service/notification.repo.dart';
+import '../../../service/user.repo.dart';
 
 class HomeProvider extends ChangeNotifier {
   final HornorsRepo _hornorsRepo = HornorsRepo();
+  final UserRepo _userRepo = UserRepo();
 
   List<Users> _listUser = [];
   List<Users> get listUser => _listUser;
@@ -58,8 +60,8 @@ class HomeProvider extends ChangeNotifier {
     _workspaceID = prefs.getString('workspaceID');
     _emailLogin = prefs.getString('emailLogin')!;
     _nameWorkspace = prefs.getString('nameWorkspace');
-    _admin = await _hornorsRepo.getAdmin(_workspaceID!);
-    _userTmp = await _hornorsRepo.getUser(_workspaceID!);
+    _admin = await _userRepo.getAdmin(_workspaceID!);
+    _userTmp = await _userRepo.getUserByWorkspaceID(_workspaceID!);
     _userTmp.add(_admin);
     _listUser = _userTmp;
     _listCoreValue = await _coreValueRepo.getCoreValue(_workspaceID!);
