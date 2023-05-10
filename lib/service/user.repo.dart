@@ -55,4 +55,64 @@ class UserRepo {
     String? token = await FirebaseMessaging.instance.getToken();
     return token!;
   }
+
+  Future<List<Users>> getUserByWorkspaceID(String workspaceID) async {
+    List user = [];
+    List<Users> getUser = [];
+    await FirebaseFirestore.instance
+        .collection('Workspace')
+        .where("workspaceID", isEqualTo: workspaceID)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        user = doc['members'];
+      }
+    });
+    for (int i = 0; i < user.length; i++) {
+      await FirebaseFirestore.instance
+          .collection('User')
+          .where('email', isEqualTo: user[i])
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          getUser.add(Users(
+            id: doc.id,
+            displayName: doc['displayName'].toString(),
+            email: doc['email'].toString(),
+            photoURL: doc['photoUrl'].toString(),
+          ));
+        }
+      });
+    }
+    return getUser;
+  }
+
+  Future<Users> getAdmin(String workspaceID) async {
+    String? admin;
+    Users getAdmin = Users();
+    await FirebaseFirestore.instance
+        .collection('Workspace')
+        .where("workspaceID", isEqualTo: workspaceID)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        admin = doc['admin'];
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('User')
+        .where('email', isEqualTo: admin)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        getAdmin = Users(
+          id: doc.id,
+          displayName: doc['displayName'].toString(),
+          email: doc['email'].toString(),
+          photoURL: doc['photoUrl'].toString(),
+        );
+      }
+    });
+    return getAdmin;
+  }
 }

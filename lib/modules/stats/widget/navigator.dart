@@ -12,13 +12,15 @@ class NavigationItem extends StatelessWidget {
       'Thống kê giá trị cốt lõi',
       'Thống kê người vinh danh',
       'Thống kê người được vinh danh',
-      'Thống kê người được vinh danh theo giá trị'
+      'Thống kê người được vinh danh theo giá trị',
+      'Thống kê giá trị cốt lõi theo người được vinh danh'
     ];
     List listIcon = const [
       Icon(Icons.chrome_reader_mode, color: AppColor.secondary),
       Icon(Icons.accessibility_new, color: AppColor.secondary),
       Icon(Icons.insert_emoticon_sharp, color: AppColor.secondary),
       Icon(Icons.streetview, color: AppColor.secondary),
+      Icon(Icons.device_hub, color: AppColor.secondary),
     ];
     return Column(
       children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:honors_app/modules/stats/widget/get.best.value.widget.dart';
+import 'package:honors_app/modules/stats/widget/value.best.get.widget.dart';
 import 'package:honors_app/modules/stats/widget/value.best.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -131,10 +132,15 @@ class _StatsScreenState extends State<StatsScreen> {
                       height: height,
                       range: _range,
                     )
-                  : GetBestValueWidget(
-                      height: height,
-                      range: _range,
-                    );
+                  : index == 3
+                      ? GetBestValueWidget(
+                          height: height,
+                          range: _range,
+                        )
+                      : ValueBestGetWidget(
+                          height: height,
+                          range: _range,
+                        );
     }
   }
 
