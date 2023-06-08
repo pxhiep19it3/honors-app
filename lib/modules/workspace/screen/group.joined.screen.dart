@@ -29,7 +29,7 @@ class _GroupJoinedState extends State<GroupJoined> {
   void initState() {
     super.initState();
     _provider.getWorkspace();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   @override

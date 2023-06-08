@@ -12,7 +12,7 @@ import 'modules/information/provider/management.provider.dart';
 import 'modules/stats/provider/get.best.provider.dart';
 import 'modules/stats/provider/set.best.provider.dart';
 import 'modules/stats/provider/value.best.provider.dart';
-
+ 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var dv = ['13B3C4E7640A4C8135687E60B1F5FEF0'];

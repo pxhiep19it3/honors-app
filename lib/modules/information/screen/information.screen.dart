@@ -26,7 +26,7 @@ class _InformationScreenState extends State<InformationScreen> {
   void initState() {
     super.initState();
     init();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   void init() async {

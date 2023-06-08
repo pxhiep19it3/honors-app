@@ -45,7 +45,7 @@ class _StatsScreenState extends State<StatsScreen> {
   @override
   void initState() {
     init();
-    initBannnerAd();
+    // initBannnerAd();
     setState(() {
       _range = '$start - $end';
     });

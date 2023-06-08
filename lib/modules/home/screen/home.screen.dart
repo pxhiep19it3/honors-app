@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // checkNewVersion();
     init();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   init() async {
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Future.delayed(Duration.zero, () {
             if (model.isAdMob) {
               model.setAdMob();
-              initRewardedAd();
+              // initRewardedAd();
             }
           });
           return Scaffold(
