@@ -10,7 +10,7 @@ import '../../information/screen/privacy.screen.dart';
 
 class NavigationItems extends StatelessWidget {
   const NavigationItems({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
     List<String> listTitle = [
@@ -63,7 +63,7 @@ class NavigationItems extends StatelessWidget {
                 isFirst: false, automaticallyImplyLeading: true)));
   }
 
-  void logout(BuildContext context) async {
+  Future logout(BuildContext context) async {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -74,7 +74,7 @@ class NavigationItems extends StatelessWidget {
     await FirebaseAuth.instance.signOut();
   }
 
-   void policy(BuildContext context) {
+  void policy(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const PolicyScreen()),
@@ -85,6 +85,4 @@ class NavigationItems extends StatelessWidget {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const PrivacyScreen()));
   }
-
-  
 }

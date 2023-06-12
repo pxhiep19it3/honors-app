@@ -46,28 +46,51 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 126,
                     height: 133,
                   ),
-                  const SizedBox(height: 40),
+                  // const SizedBox(height: 40),
+                  // const Text(
+                  //   AppText.nameApp,
+                  //   style: TextStyle(
+                  //       fontSize: 25,
+                  //       color: AppColor.secondary,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   const Text(
-                    AppText.nameApp,
+                    'Được bảo trợ bởi',
                     style: TextStyle(
                         fontSize: 25,
                         color: AppColor.secondary,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      AppText.desApp,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: AppColor.secondary,
-                          fontWeight: FontWeight.w100),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImage.logoDoit,
+                        height: 50,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Image.asset(
+                        AppImage.logoUdoo,
+                        height: 50,
+                      ),
+                    ],
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    AppImage.logoVKT,
+                    height: 50,
+                  ),
+
                   const Spacer(),
                   LoginButton(
                       onPressed: login, label: AppText.btLogin, width: width),

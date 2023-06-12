@@ -54,7 +54,7 @@ class _LandingScreenState extends State<LandingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 150,
+              height: 120,
             ),
             Image.asset(
               AppImage.logo,
@@ -70,7 +70,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Padding(
               padding: EdgeInsets.all(12.0),
