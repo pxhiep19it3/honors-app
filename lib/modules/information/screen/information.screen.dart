@@ -106,22 +106,10 @@ class _InformationScreenState extends State<InformationScreen> {
             ),
           ),
           Expanded(
-              child: ListView(
-            children: [
-              InformationItem(
-                emailLogin: _emailLogin ?? '',
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              const Center(
-                child: Text(
-                  'Phiên bản: 1.0.0',
-                  style: TextStyle(color: AppColor.black),
-                ),
-              ),
-            ],
-          )),
+            child: InformationItem(
+              emailLogin: _emailLogin ?? '',
+            ),
+          ),
         ],
       ),
     );
