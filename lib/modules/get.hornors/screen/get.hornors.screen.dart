@@ -27,7 +27,7 @@ class _GetHornorsScreenState extends State<GetHornorsScreen> {
   void initState() {
     super.initState();
     provider.init();
-    initBannnerAd();
+    // initBannnerAd();
   }
 
   @override

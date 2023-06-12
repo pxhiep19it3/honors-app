@@ -6,6 +6,7 @@ import 'package:honors_app/modules/information/screen/update.pro.screen.dart';
 
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
+import '../../set.hornors/screen/set.hornors.screen.dart';
 import '../screen/management.group.screen.dart';
 
 class InformationItem extends StatefulWidget {
@@ -22,6 +23,7 @@ class _InformationItemState extends State<InformationItem> {
     List<String> listTitle = [
       'Thông tin nhóm',
       'Thành viên nhóm',
+      'Lịch sử vinh danh',
       'Giá trị cốt lõi',
       'Chính sách',
       'Quyền riêng tư',
@@ -30,6 +32,7 @@ class _InformationItemState extends State<InformationItem> {
     List listIcon = const [
       Icon(Icons.info_rounded, color: AppColor.black),
       Icon(Icons.manage_accounts, color: AppColor.black),
+      Icon(Icons.insert_emoticon_sharp, color: AppColor.black),
       Icon(Icons.accessibility_new, color: AppColor.black),
       Icon(Icons.chrome_reader_mode, color: AppColor.black),
       Icon(Icons.security, color: AppColor.black),
@@ -69,14 +72,21 @@ class _InformationItemState extends State<InformationItem> {
     } else if (listTitle[index] == listTitle[1]) {
       memberGroup(context);
     } else if (listTitle[index] == listTitle[2]) {
-      coreValue(context);
+      setHornors(context);
     } else if (listTitle[index] == listTitle[3]) {
-      policy(context);
+      coreValue(context);
     } else if (listTitle[index] == listTitle[4]) {
+      policy(context);
+    } else if (listTitle[index] == listTitle[5]) {
       privacy(context);
     } else {
       // updatePro(context);
     }
+  }
+
+  void setHornors(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const SetHornorsScreen()));
   }
 
   void memberGroup(BuildContext context) {
