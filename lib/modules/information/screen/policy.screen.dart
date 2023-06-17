@@ -20,6 +20,12 @@ class PolicyScreen extends StatelessWidget {
                     backgroundColor: AppColor.primary,
                     centerTitle: true,
                     title: const Text('Chính sách'),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                   ),
                   body: InAppWebView(
                     initialUrlRequest: URLRequest(
@@ -37,5 +43,3 @@ class PolicyScreen extends StatelessWidget {
         });
   }
 }
-
-

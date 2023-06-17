@@ -27,10 +27,15 @@ class _AddUserScreenState extends State<AddUserScreen> {
       child: Scaffold(
         backgroundColor: AppColor.secondary,
         appBar: AppBar(
-          backgroundColor: AppColor.primary,
-          centerTitle: true,
-          title: const Text('Thêm thành viên'),
-        ),
+            backgroundColor: AppColor.primary,
+            centerTitle: true,
+            title: const Text('Thêm thành viên'),
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios))),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

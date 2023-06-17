@@ -39,6 +39,12 @@ class _ManagementGroupScreenState extends State<ManagementGroupScreen> {
                 backgroundColor: AppColor.primary,
                 centerTitle: true,
                 title: const Text('Thông tin nhóm'),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios)),
                 actions: [
                   model.isAdmin
                       ? IconButton(

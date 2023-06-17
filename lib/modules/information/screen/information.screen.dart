@@ -72,12 +72,12 @@ class _InformationScreenState extends State<InformationScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 _photoURL != null
                     ? SizedBox(
-                        height: 120,
-                        width: 120,
+                        height: 80,
+                        width: 80,
                         child: CircleAvatar(
                           radius: 110,
                           backgroundImage: NetworkImage(_photoURL!),
@@ -90,7 +90,7 @@ class _InformationScreenState extends State<InformationScreen> {
                 Text(
                   _userLogined!,
                   style: const TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       color: AppColor.secondary,
                       fontWeight: FontWeight.bold),
                 ),
@@ -98,7 +98,7 @@ class _InformationScreenState extends State<InformationScreen> {
                   _emailLogin!,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: AppColor.secondary,
                       fontWeight: FontWeight.w100),
                 ),

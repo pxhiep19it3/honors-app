@@ -17,6 +17,12 @@ class _UpdateProScreenState extends State<UpdateProScreen> {
         backgroundColor: AppColor.primary,
         centerTitle: true,
         title: const Text('Nâng cấp gói'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
     );
   }

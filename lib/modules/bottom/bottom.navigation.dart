@@ -3,6 +3,7 @@ import 'package:honors_app/common/values/app.colors.dart';
 import '../get.hornors/screen/get.hornors.screen.dart';
 import '../home/screen/home.screen.dart';
 import '../information/screen/information.screen.dart';
+import '../stats/screen/stats.screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -19,7 +20,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
       BottomNavigationBarItem(
           icon: Icon(Icons.favorite), label: 'Được vinh danh'),
-      // BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Thống kê'),
+      BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Thống kê'),
       BottomNavigationBarItem(
           icon: Icon(Icons.account_circle), label: 'Thông tin'),
     ];
@@ -35,11 +36,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
             return const GetHornorsScreen();
           }
 
-        // case 2:
-        //   {
-        //     return const StatsScreen();
-        //   }
         case 2:
+          {
+            return const StatsScreen();
+          }
+        case 3:
           {
             return const InformationScreen();
           }

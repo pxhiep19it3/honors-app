@@ -5,4 +5,5 @@ class AppImage {
   static const String logoDoit = '$path/logo-doit.png';
   static const String logoUdoo = '$path/logo-udoo.png';
   static const String logoVKT = '$path/logo-vungkiemtien.png';
+  static const String logoVKT2 = '$path/logo-vungkiemtien2.jpg';
 }
