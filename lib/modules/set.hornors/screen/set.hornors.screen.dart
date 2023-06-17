@@ -40,9 +40,14 @@ class _SetHornorsScreenState extends State<SetHornorsScreen> {
               backgroundColor: AppColor.secondary,
               appBar: AppBar(
                 backgroundColor: AppColor.primary,
-                automaticallyImplyLeading: true,
                 centerTitle: true,
                 title: const Text('Lịch sử vinh danh'),
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios)),
               ),
               bottomNavigationBar: isAdLoad
                   ? SizedBox(

@@ -37,6 +37,12 @@ class _MemberGroupScreenState extends State<MemberGroupScreen> {
                   backgroundColor: AppColor.primary,
                   centerTitle: true,
                   title: const Text('Thành viên nhóm'),
+                    automaticallyImplyLeading: false,
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
                   actions: [
                     IconButton(
                         onPressed: () {

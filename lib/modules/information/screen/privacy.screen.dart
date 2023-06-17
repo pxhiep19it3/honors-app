@@ -20,6 +20,12 @@ class PrivacyScreen extends StatelessWidget {
                     backgroundColor: AppColor.primary,
                     centerTitle: true,
                     title: const Text('Quyền riêng tư'),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                   ),
                   body: InAppWebView(
                     initialUrlRequest: URLRequest(

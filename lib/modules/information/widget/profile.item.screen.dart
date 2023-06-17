@@ -7,6 +7,7 @@ import 'package:honors_app/modules/information/screen/update.pro.screen.dart';
 import '../../../common/values/app.colors.dart';
 import '../../core.value/screen/core.value.screen.dart';
 import '../../set.hornors/screen/set.hornors.screen.dart';
+import '../../sponsors/sponsors.screen.dart';
 import '../screen/management.group.screen.dart';
 
 class InformationItem extends StatefulWidget {
@@ -25,17 +26,19 @@ class _InformationItemState extends State<InformationItem> {
       'Thành viên nhóm',
       'Lịch sử vinh danh',
       'Giá trị cốt lõi',
+      'Các nhà bảo trợ',
       'Chính sách',
       'Quyền riêng tư',
       // 'Nâng cấp gói'
     ];
     List listIcon = const [
-      Icon(Icons.info_rounded, color: AppColor.black),
-      Icon(Icons.manage_accounts, color: AppColor.black),
-      Icon(Icons.insert_emoticon_sharp, color: AppColor.black),
-      Icon(Icons.accessibility_new, color: AppColor.black),
-      Icon(Icons.chrome_reader_mode, color: AppColor.black),
-      Icon(Icons.security, color: AppColor.black),
+      Icon(Icons.info_rounded, color: AppColor.primary),
+      Icon(Icons.manage_accounts, color: AppColor.primary),
+      Icon(Icons.insert_emoticon_sharp, color: AppColor.primary),
+      Icon(Icons.accessibility_new, color: AppColor.primary),
+      Icon(Icons.beenhere, color: AppColor.primary),
+      Icon(Icons.chrome_reader_mode, color: AppColor.primary),
+      Icon(Icons.security, color: AppColor.primary),
       // Icon(Icons.cloud_upload, color: AppColor.black),
     ];
     return Padding(
@@ -56,7 +59,7 @@ class _InformationItemState extends State<InformationItem> {
                 leading: listIcon[index],
                 title: Text(
                   listTitle[index],
-                  style: const TextStyle(fontSize: 14, color: AppColor.black),
+                  style: const TextStyle(fontSize: 14, color: AppColor.primary),
                 ),
               ),
             ),
@@ -68,43 +71,46 @@ class _InformationItemState extends State<InformationItem> {
 
   void onTap(BuildContext context, List<String> listTitle, int index) {
     if (listTitle[index] == listTitle[0]) {
-      managerGroup(context);
-    } else if (listTitle[index] == listTitle[1]) {
-      memberGroup(context);
+      managerGroup();
+    }
+    if (listTitle[index] == listTitle[1]) {
+      memberGroup();
     } else if (listTitle[index] == listTitle[2]) {
-      setHornors(context);
+      setHornors();
     } else if (listTitle[index] == listTitle[3]) {
-      coreValue(context);
+      coreValue();
     } else if (listTitle[index] == listTitle[4]) {
-      policy(context);
+      sponsors();
     } else if (listTitle[index] == listTitle[5]) {
-      privacy(context);
+      policy();
+    } else if (listTitle[index] == listTitle[6]) {
+      privacy();
     } else {
       // updatePro(context);
     }
   }
 
-  void setHornors(BuildContext context) {
+  void setHornors() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const SetHornorsScreen()));
   }
 
-  void memberGroup(BuildContext context) {
+  void memberGroup() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const MemberGroupScreen()));
   }
 
-  void updatePro(BuildContext context) {
+  void updatePro() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const UpdateProScreen()));
   }
 
-  void managerGroup(BuildContext context) {
+  void managerGroup() {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const ManagementGroupScreen()));
   }
 
-  void coreValue(BuildContext context) {
+  void coreValue() {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -112,15 +118,20 @@ class _InformationItemState extends State<InformationItem> {
                 isFirst: false, automaticallyImplyLeading: true)));
   }
 
-  void policy(BuildContext context) {
+  void policy() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const PolicyScreen()),
     );
   }
 
-  void privacy(BuildContext context) {
+  void privacy() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const PrivacyScreen()));
+  }
+
+  void sponsors() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const SponsorsScreen()));
   }
 }
