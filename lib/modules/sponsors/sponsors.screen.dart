@@ -34,7 +34,7 @@ class SponsorsScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => const SponsorsItemScreen(
-                                title: 'CÔNG TY TNHH DOIT SOLUTIONS',
+                                title: 'DOIT SOLUTIONS',
                                 link: 'https://doitsolutions.vn/')));
                   },
                   child: Column(
@@ -67,8 +67,7 @@ class SponsorsScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => const SponsorsItemScreen(
-                                title: 'CÔNG TY TNHH UDOO',
-                                link: 'https://udoo.live/')));
+                                title: 'UDOO', link: 'https://udoo.live/')));
                   },
                   child: Column(
                     children: [
