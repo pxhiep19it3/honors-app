@@ -116,12 +116,14 @@ class _LoginedScreenState extends State<LoginedScreen> {
   }
 
   void create(BuildContext context, String admin) {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
           builder: (context) => CreateWorkspaceScreen(
                 admin: admin,
+                user: widget.user,
               )),
+      (Route<dynamic> route) => false,
     );
   }
 

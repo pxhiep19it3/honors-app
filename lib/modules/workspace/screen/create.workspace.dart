@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:honors_app/modules/auth/screen/logineds.screen.dart';
 import 'package:honors_app/modules/workspace/provider/workspace.provider.dart';
 import 'package:honors_app/modules/workspace/screen/other.information.screen.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +14,10 @@ import '../widget/select.job.dart';
 import '../widget/text.input.dart';
 
 class CreateWorkspaceScreen extends StatefulWidget {
-  const CreateWorkspaceScreen({super.key, required this.admin});
+  const CreateWorkspaceScreen(
+      {super.key, required this.admin, required this.user});
   final String admin;
+  final User user;
   @override
   State<CreateWorkspaceScreen> createState() => _CreateWorkspaceScreenState();
 }
@@ -37,6 +41,7 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
       builder: ((context, child) =>
           Consumer<WorkspaceProvider>(builder: (context, model, child) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               backgroundColor: AppColor.secondary,
               appBar: AppBar(
                 title: const Text(AppText.titleCreateWorkspace),
@@ -45,7 +50,13 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginedScreen(
+                                  user: widget.user,
+                                )),
+                      );
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
               ),

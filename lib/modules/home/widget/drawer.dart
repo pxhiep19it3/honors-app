@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honors_app/common/values/app.colors.dart';
 import 'package:honors_app/modules/home/widget/workspace.dart';
-import 'package:honors_app/modules/workspace/screen/create.workspace.dart';
 
 import '../../../common/values/app.text.dart';
 import 'navigation.dart';
@@ -26,31 +25,12 @@ class DrawerHome extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text(
-                        AppText.workspaces,
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: AppColor.secondary,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateWorkspaceScreen(
-                                          admin: emailLogin,
-                                        )));
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                            size: 28,
-                            color: AppColor.secondary,
-                          ))
-                    ],
+                  const Text(
+                    AppText.workspaces,
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: AppColor.secondary,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
                   Expanded(

@@ -17,12 +17,12 @@ class CheckLoginProvider extends ChangeNotifier {
   bool _isInWorkspace = false;
   bool get isInWorkspace => _isInWorkspace;
 
-  String? _emailLogin;
+  String? _emailLogin = '';
 
   List<Workspace> _listWorkspace = [];
   List<String> _workspaceIDs = [];
 
-  String _workspaceID = '';
+  String? _workspaceID = '';
 
   User? _user;
   User? get user => _user;
@@ -39,12 +39,17 @@ class CheckLoginProvider extends ChangeNotifier {
   getWorkspace() async {
     final prefs = await SharedPreferences.getInstance();
     _emailLogin = prefs.getString('emailLogin');
-    _workspaceID = prefs.getString('workspaceID')!;
-    _workspaceIDs = await _inWorkspaceRepo.getWorkspaceIDs(_emailLogin ?? '');
+    _workspaceID = prefs.getString('workspaceID');
+    _workspaceID != null
+        ? _workspaceIDs =
+            await _inWorkspaceRepo.getWorkspaceIDs(_emailLogin ?? '')
+        : null;
     _workspaceIDs.isNotEmpty
         ? _listWorkspace = await _workspaceRepo.getWorkspaces(_workspaceIDs)
         : null;
-    if (!_workspaceIDs.contains(_workspaceID) && _listWorkspace.isNotEmpty) {
+    if (_workspaceID != null &&
+        !_workspaceIDs.contains(_workspaceID) &&
+        _listWorkspace.isNotEmpty) {
       await prefs.setString('nameWorkspace', _listWorkspace[0].name ?? '');
       _isInWorkspace = true;
     } else if (!_workspaceIDs.contains(_workspaceID) &&
